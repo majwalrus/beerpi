@@ -21,6 +21,8 @@ Version History
 
 0.1a
 
+* probeclass.py completed for managing the temperature probes
+
 
 TODO:
 
