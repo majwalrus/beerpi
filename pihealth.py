@@ -11,7 +11,7 @@ class PiHealth:
 
     def getPiTemp(self):    # Uses vcgencmd to obtain the Pi's temperature
         self.piTemp=os.popen("vcgencmd measure_temp").readline()
-        self.piTemp=self.temp.replace("temp=","")
+        self.piTemp=self.piTemp.replace("temp=","")
         self.piTempStr=str(self.piTemp)
         
     def __init__(self):
