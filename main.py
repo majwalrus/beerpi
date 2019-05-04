@@ -8,7 +8,20 @@ from kivy.clock import Clock
 from kivy.graphics import *
 from kivy.uix.screenmanager import *
 from kivy.lang import Builder
+
 import os
+
+import pihealth
+import probeclass
+
+#
+# Global Variables
+# ==================
+# Used as globals as less overheads and in future will be updated by using multiple threads.
+
+
+glob_pihealth = pihealth.PiHealth()
+glob_beerProbes = probeclass.BeerProbes()
 
 
 class BeerRightBar:
@@ -36,12 +49,11 @@ class ConfigRightBar(Widget):
 
 
 class BeerStatus(Screen):
-    piTemp = PiTemp()
     piTempLabel = StringProperty()
 
     def update(self, dt):
-        self.piTemp.getPiTemp()
-        self.piTempLabel = self.piTemp.tempstr
+        glob_pihealth.getPiTemp()
+        self.piTempLabel = glob_pihealth.piTempStr
         pass
 
     def __init__(self, **kwargs):
@@ -51,21 +63,18 @@ class BeerStatus(Screen):
 
 
 class BeerHLT(Screen):
-    piTemp = PiTemp()
 
     def update(self, dt):
         pass
 
 
 class BeerBoil(Screen):
-    piTemp = PiTemp()
 
     def update(self, dt):
         pass
 
 
 class BeerConfig(Screen):
-    piTemp = PiTemp()
 
     def update(self, dt):
         pass
