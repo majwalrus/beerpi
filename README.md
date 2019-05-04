@@ -22,6 +22,7 @@ Version History
 0.1a
 
 * probeclass.py completed for managing the temperature probes
+* pihealth.py added, has temperature monitoring code for making sure the Raspberry Pi does not overheat
 
 
 TODO:
