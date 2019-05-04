@@ -1,0 +1,134 @@
+#:kivy 1.0.9
+#:import NoTransition kivy.uix.screenmanager.NoTransition
+
+BeerScreenManagement:
+	transition: NoTransition()
+	BeerStatus:
+		id:status
+#	BeerHLT:
+		id:hlt
+#	BeerBoil:
+		id:boil
+	BeerConfig:
+		id:config
+
+<DefaultRightBar>
+	canvas:
+		Color:
+			rgba: 0,0,0.2,1
+		Rectangle:
+			pos: self.width-60,0
+			size: 60,self.height
+	Label:
+		font_size: 15
+		center_x: root.width-30
+		top: root.top - 35
+		text: "STATUS"
+	Label:
+		font_size: 15
+		center_x: root.width-30
+		top: root.top - 155
+		text: "HLT"
+	Label:
+		font_size: 15
+		center_x: root.width-30
+		top: root.top - 280
+		text: "BOIL"
+	Label:
+		font_size: 15
+		center_x: root.width-30
+		top: root.top - 400
+		text: "CONFIG"
+
+
+<ConfigRightBar>
+	canvas:
+		Color:
+			rgba: 0.2,0.2,0,1
+		Rectangle:
+			pos: self.width-60,0
+			size: 60,self.height
+	Label:
+		font_size: 15
+		center_x: root.width-30
+		top: root.top - 35
+		text: "BACK"
+	Label:
+		font_size: 15
+		center_x: root.width-30
+		top: root.top - 155
+		text: "SENSOR"
+	Label:
+		font_size: 15
+		center_x: root.width-30
+		top: root.top - 280
+		text: "SSRs"
+	Label:
+		font_size: 15
+		center_x: root.width-30
+		top: root.top - 400
+		text: "TIMERS"
+
+<BeerStatus>
+	name: 'Status'
+	canvas:
+		Color:
+			rgba: 0.3,0,0,1
+		Rectangle:
+			pos: 80,self.height-220
+			size: 160,160
+		Rectangle:
+			pos: 340,self.height-220
+			size: 160,160
+		Rectangle:
+			pos: 250,self.height-480
+			size: 80,80
+		Color:
+			rgba: 0,0.3,0,1
+		Rectangle:
+			pos: 80,self.height-390
+			size: 160,160
+		Rectangle:
+			pos: 340,self.height-390
+			size: 160,160
+	FloatLayout:
+		Label:
+			pos: -30,230
+			text: "STATUS"
+			font_size: 25
+		Label:
+			pos: -160,200
+			text: "HLT"
+			font_size: 25
+		Label:
+			pos: 100,200
+			text: "BOIL"
+			font_size: 25
+		Button:
+			on_release: app.root.current='Config'
+			text: 'Goto Config Screen'
+			font_size: 15
+			size_hint:.25,.1
+		Label:
+			pos: -30,-140
+			font_size: 20
+			text: "PI"
+		Label:
+			pos: -30,-210
+			font_size: 20
+			text: root.piTempLabel
+
+<BeerHLT>
+	name: 'HLT'
+
+<BeerBoil>
+	name: 'Boil'
+
+<BeerConfig>
+	name: 'Config'
+	FloatLayout:
+		Button:
+			on_release: app.root.current='Status'
+			text: 'Goto Status Screen'
+			font_size: 15
+			size_hint:.25,.1
