@@ -13,6 +13,7 @@ class BeerTempProbe:
     devfolder =""
     datafile =""
     probeval=0
+    probevalstr=""
 
     def __init__(self, n, fld, fil):
         self.name=n
@@ -35,6 +36,7 @@ class BeerTempProbe:
             tempstr = lines[1][equals_pos+2:]
             tempc = float(tempstr) / 1000.0
             self.probeval=tempc
+            self.probevalstr=str(self.probeval)
             
 
 # Class BeerProbes
@@ -63,7 +65,14 @@ class BeerProbes:
         for tmp_probe in self.probeList:
             tmp_probe.updateProbe()
 
-    def returnProbeVal(self, probenum):
+    def returnStrProbeVal(self, probenum):
+        tx=0
+        for tmp_probe in self.probeList:
+            if probenum==tx:
+                return tmp_probe.probeval
+        return -1
+
+    def returnFloatProbeVal(self, probenum):
         tx=0
         for tmp_probe in self.probeList:
             if probenum==tx:

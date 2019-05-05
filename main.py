@@ -61,8 +61,8 @@ class BeerStatus(Screen):
 
     def update(self, dt):
         self.piTempLabel = glob_pihealth.piTempStr
-        self.hltTempLabel = glob_beerProbes.returnProbeVal(0)
-        self.boilTempLabel = glob_beerProbes.returnProbeVal(1)
+        self.hltTempLabel = glob_beerProbes.returnStrProbeVal(0)
+        self.boilTempLabel = glob_beerProbes.returnStrProbeVal(1)
         pass
 
     def __init__(self, **kwargs):
