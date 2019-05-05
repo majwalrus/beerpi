@@ -19,18 +19,33 @@ BeerScreenManagement:
 	#	Rectangle:
 	#		pos: self.width-60,0
 	#		size: 60,self.height
-	Label:
+	Button:
+		background_normal: ''
+		background_color: 0,0,0.2,1
+		on_release: app.root.current='Status'
 		font_size: 15
+		size: 60, 60
+		size_hint: None, None
 		center_x: root.width-30
 		top: root.top - 35
 		text: "STATUS"
-	Label:
+	Button:
+		background_normal: ''
+		background_color: 0,0,0.2,1
+		#on_release: app.root.current='Config'
 		font_size: 15
+		size: 60, 60
+		size_hint: None, None
 		center_x: root.width-30
 		top: root.top - 155
 		text: "HLT"
-	Label:
+	Button:
+		background_normal: ''
+		background_color: 0,0,0.2,1
+		#on_release: app.root.current='Config'
 		font_size: 15
+		size: 60, 60
+		size_hint: None, None
 		center_x: root.width-30
 		top: root.top - 280
 		text: "BOIL"
