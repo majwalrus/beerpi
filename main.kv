@@ -28,27 +28,27 @@ BeerScreenManagement:
 		size_hint: None, None
 		center_x: root.width-30
 		top: root.top
-		text: "STATUS"
-	Button:
-		background_normal: ''
-		background_color: 0.2,0.2,0,1
-		#on_release: app.root.current='Config'
-		font_size: 15
-		size: 60, 118
-		size_hint: None, None
-		center_x: root.width-30
-		top: root.top - 120
-		text: "HLT"
-	Button:
-		background_normal: ''
-		background_color: 0.2,0,0,1
-		#on_release: app.root.current='Config'
-		font_size: 15
-		size: 60, 118
-		size_hint: None, None
-		center_x: root.width-30
-		top: root.top - 240
-		text: "BOIL"
+		text: "MAIN"
+#	Button:
+#		background_normal: ''
+#		background_color: 0.2,0.2,0,1
+#		#on_release: app.root.current='Config'
+#		font_size: 15
+#		size: 60, 118
+#		size_hint: None, None
+#		center_x: root.width-30
+#		top: root.top - 120
+#		text: "HLT"
+#	Button:
+#		background_normal: ''
+#		background_color: 0.2,0,0,1
+#		#on_release: app.root.current='Config'
+#		font_size: 15
+#		size: 60, 118
+#		size_hint: None, None
+#		center_x: root.width-30
+#		top: root.top - 240
+#		text: "BOIL"
 	Button:
 		background_normal: ''
 		background_color: 0.1,0,0.2,1
@@ -87,7 +87,7 @@ BeerScreenManagement:
 		size_hint: None, None
 		center_x: root.width-30
 		top: root.top - 40
-		text: "EXIT"
+		text: "MAIN"
 	Button:
 		background_normal: ''
 		background_color: 0.2,0.2,0,1
@@ -154,21 +154,16 @@ BeerScreenManagement:
 			pos: 20,200
 			text: "BOIL"
 			font_size: 25
-		#Button:
-		#	on_release: app.root.current='Config'
-		#	text: 'Goto Config Screen'
-		#	font_size: 15
-		#	size_hint:.25,.1
 		Label:
-			pos: -120,-180
+			pos: -110,-180
 			font_size: 20
 			text: "PI"
 		Label:
-			pos: -120,-230
+			pos: -110,-230
 			font_size: 20
 			text: root.piTempLabel
 		Label:
-			pos: 15,105
+			pos: 20,105
 			font_size: 48
 			text: root.boilTempLabel
 		Label:
