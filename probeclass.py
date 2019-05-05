@@ -70,7 +70,8 @@ class BeerProbes:
         for tmp_probe in self.probeList:
             if probenum==tx:
                 return tmp_probe.probevalstr
-        return -1
+            #tx++
+        return "false"
 
     def returnFloatProbeVal(self, probenum):
         tx=0
