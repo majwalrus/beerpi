@@ -111,7 +111,7 @@ def tempProbeThread():
 
 if __name__ == '__main__':
     threadTemp = threading.Thread(target=tempProbeThread)
-    threadTemp.daemon=true
+    threadTemp.daemon=True
     threadTemp.start()
 
     SimpleApp().run()
