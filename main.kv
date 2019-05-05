@@ -62,12 +62,12 @@ BeerScreenManagement:
 
 
 <ConfigRightBar>
-	canvas:
-		Color:
-			rgba: 0.2,0.2,0,1
-		Rectangle:
-			pos: self.width-60,0
-			size: 60,self.height
+	#canvas:
+	#	Color:
+	#		rgba: 0.2,0.2,0,1
+	#	Rectangle:
+	#		pos: self.width-60,0
+	#		size: 60,self.height
 	Button:
 		background_normal: ''
 		background_color: 0,0,0.2,1
@@ -86,7 +86,7 @@ BeerScreenManagement:
 		size: 60, 118
 		size_hint: None, None
 		center_x: root.width-30
-		top: root.top - 155
+		top: root.top - 120
 		text: "SENSOR"
 	Button:
 		background_normal: ''
@@ -96,7 +96,7 @@ BeerScreenManagement:
 		size: 60, 118
 		size_hint: None, None
 		center_x: root.width-30
-		top: root.top - 280
+		top: root.top - 240
 		text: "SSRs"
 	Button:
 		background_normal: ''
@@ -106,7 +106,7 @@ BeerScreenManagement:
 		size: 60, 118
 		size_hint: None, None
 		center_x: root.width-30
-		top: root.top - 400
+		top: root.top - 360
 		text: "TIMERS"
 
 <BeerStatus>
