@@ -62,7 +62,14 @@ class BeerProbes:
     def updateProbes(self):
         for tmp_probe in self.probeList:
             tmp_probe.updateProbe()
-            
+
+    def returnProbeVal(self, probenum):
+        tx=0
+        for tmp_probe in self.probeList:
+            if probenum==tx:
+                return tmp_probe.probeval
+        return -1
+
     def readNamedProbe(self, probename):
         for tmp_probe in self.probeList:
             if tmp_probe.name==probename:
