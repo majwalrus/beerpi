@@ -24,7 +24,7 @@ BeerScreenManagement:
 		background_color: 0,0,0.2,1
 		on_release: app.root.current='Status'
 		font_size: 15
-		size: 60, 116
+		size: 60, 118
 		size_hint: None, None
 		center_x: root.width-30
 		top: root.top
@@ -34,7 +34,7 @@ BeerScreenManagement:
 		background_color: 0.2,0.2,0,1
 		#on_release: app.root.current='Config'
 		font_size: 15
-		size: 60, 116
+		size: 60, 118
 		size_hint: None, None
 		center_x: root.width-30
 		top: root.top - 120
@@ -44,7 +44,7 @@ BeerScreenManagement:
 		background_color: 0.2,0,0,1
 		#on_release: app.root.current='Config'
 		font_size: 15
-		size: 60, 116
+		size: 60, 118
 		size_hint: None, None
 		center_x: root.width-30
 		top: root.top - 240
@@ -54,7 +54,7 @@ BeerScreenManagement:
 		background_color: 0.1,0,0.2,1
 		on_release: app.root.current='Config'
 		font_size: 15
-		size: 60, 116
+		size: 60, 118
 		size_hint: None, None
 		center_x: root.width-30
 		top: root.top - 360
@@ -68,23 +68,43 @@ BeerScreenManagement:
 		Rectangle:
 			pos: self.width-60,0
 			size: 60,self.height
-	Label:
+	Button:
+		background_normal: ''
+		background_color: 0,0,0.2,1
+		on_release: app.root.current='Status'
 		font_size: 15
+		size: 60, 118
+		size_hint: None, None
 		center_x: root.width-30
-		top: root.top - 35
-		text: "BACK"
-	Label:
+		top: root.top - 0
+		text: "EXIT"
+	Button:
+		background_normal: ''
+		background_color: 0.2,0.2,0,1
+		#on_release: app.root.current='Status'
 		font_size: 15
+		size: 60, 118
+		size_hint: None, None
 		center_x: root.width-30
 		top: root.top - 155
 		text: "SENSOR"
-	Label:
+	Button:
+		background_normal: ''
+		background_color: 0.2,0,0,1
+		#on_release: app.root.current='Status'
 		font_size: 15
+		size: 60, 118
+		size_hint: None, None
 		center_x: root.width-30
 		top: root.top - 280
 		text: "SSRs"
-	Label:
+	Button:
+		background_normal: ''
+		background_color: 0,0.2,0.2,1
+		#on_release: app.root.current='Status'
 		font_size: 15
+		size: 60, 118
+		size_hint: None, None
 		center_x: root.width-30
 		top: root.top - 400
 		text: "TIMERS"
