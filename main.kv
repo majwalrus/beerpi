@@ -13,12 +13,12 @@ BeerScreenManagement:
 		id:config
 
 <DefaultRightBar>
-	canvas:
-		Color:
-			rgba: 0,0,0.2,1
-		Rectangle:
-			pos: self.width-60,0
-			size: 60,self.height
+	#canvas:
+	#	Color:
+	#		rgba: 0,0,0.2,1
+	#	Rectangle:
+	#		pos: self.width-60,0
+	#		size: 60,self.height
 	Label:
 		font_size: 15
 		center_x: root.width-30
@@ -39,7 +39,7 @@ BeerScreenManagement:
 		background_color: 0,0,0.2,1
 		on_release: app.root.current='Config'
 		font_size: 15
-		size: 60, 120
+		size: 60, 60
 		size_hint: None, None
 		center_x: root.width-30
 		top: root.top - 400
