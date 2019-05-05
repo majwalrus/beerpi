@@ -122,7 +122,7 @@ def piHealthThread():
 
 def tempProbeThread():
     while True:
-        time.sleep(2)
+        time.sleep(1)
         glob_beerProbes.updateProbes()
 
 #
