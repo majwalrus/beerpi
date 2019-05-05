@@ -131,7 +131,7 @@ BeerScreenManagement:
 			pos: 290,self.height-220
 			size: 160,160
 		Rectangle:
-			pos: 190,self.height-480
+			pos: 30,self.height-480
 			size: 80,40
 		Color:
 			rgba: 0,0.3,0,1
@@ -154,12 +154,23 @@ BeerScreenManagement:
 			pos: -30,200
 			text: "BOIL"
 			font_size: 25
+    	Button:
+	    	background_normal: ''
+		    background_color: 0,0.2,0.2,1
+		    #on_release: app.root.current='Status'
+		    font_size: 15
+		    size: 30, 150
+		    size_hint: None, None
+		    center_x: root.width-30
+		    top: root.top - 360
+		    text: "-"
+
 		Label:
-			pos: -160,-180
+			pos: -260,-180
 			font_size: 20
 			text: "PI"
 		Label:
-			pos: -160,-230
+			pos: -260,-230
 			font_size: 20
 			text: root.piTempLabel
 		Label:
