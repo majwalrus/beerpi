@@ -35,7 +35,7 @@ class BeerTempProbe:
         if equals_pos != -1:
             tempstr = lines[1][equals_pos+2:]
             tempc = float(tempstr) / 1000.0
-            self.probeval=tempc
+            self.probeval=round(tempc,1)
             self.probevalstr=str(self.probeval)
             
 
