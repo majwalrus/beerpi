@@ -68,15 +68,25 @@ BeerScreenManagement:
 	#	Rectangle:
 	#		pos: self.width-60,0
 	#		size: 60,self.height
+	Label:
+		background_normal: ''
+		background_color: 0.2,0.2,0.2,1
+		#on_release: app.root.current='Status'
+		font_size: 15
+		size: 60, 38
+		size_hint: None, None
+		center_x: root.width-30
+		top: root.top - 0
+		text: "CONFIG"
 	Button:
 		background_normal: ''
 		background_color: 0,0,0.2,1
 		on_release: app.root.current='Status'
 		font_size: 15
-		size: 60, 118
+		size: 60, 78
 		size_hint: None, None
 		center_x: root.width-30
-		top: root.top - 0
+		top: root.top - 40
 		text: "EXIT"
 	Button:
 		background_normal: ''
