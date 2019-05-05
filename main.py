@@ -56,9 +56,13 @@ class ConfigRightBar(Widget):
 
 class BeerStatus(Screen):
     piTempLabel = StringProperty()
+    hltTempLabel = StringProperty()
+    boilTempLabel = StringProperty()
 
     def update(self, dt):
         self.piTempLabel = glob_pihealth.piTempStr
+        self.hltTempLabel = glob_beerProbes[0].probeval
+        self.boilTempLabel = glob_beerProbes[1].probeval
         pass
 
     def __init__(self, **kwargs):

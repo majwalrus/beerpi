@@ -143,30 +143,34 @@ BeerScreenManagement:
 			size: 160,160
 	FloatLayout:
 		Label:
-			pos: -30,230
+			pos: -60,230
 			text: "STATUS"
 			font_size: 25
 		Label:
-			pos: -160,200
+			pos: -190,200
 			text: "HLT"
 			font_size: 25
 		Label:
-			pos: 100,200
+			pos: 70,200
 			text: "BOIL"
 			font_size: 25
-		Button:
-			on_release: app.root.current='Config'
-			text: 'Goto Config Screen'
-			font_size: 15
-			size_hint:.25,.1
+		#Button:
+		#	on_release: app.root.current='Config'
+		#	text: 'Goto Config Screen'
+		#	font_size: 15
+		#	size_hint:.25,.1
 		Label:
-			pos: -30,-140
+			pos: -60,-140
 			font_size: 20
 			text: "PI"
 		Label:
-			pos: -30,-210
+			pos: -60,-210
 			font_size: 20
 			text: root.piTempLabel
+		Label:
+			pos: 0,100
+			font_size: 20
+			text: root.boilTempLabel
 
 <BeerHLT>
 	name: 'HLT'
@@ -177,8 +181,8 @@ BeerScreenManagement:
 <BeerConfig>
 	name: 'Config'
 	FloatLayout:
-		Button:
-			on_release: app.root.current='Status'
-			text: 'Goto Status Screen'
-			font_size: 15
-			size_hint:.25,.1
+		#Button:
+		#	on_release: app.root.current='Status'
+		#	text: 'Goto Status Screen'
+		#	font_size: 15
+		#	size_hint:.25,.1
