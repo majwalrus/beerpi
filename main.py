@@ -111,7 +111,7 @@ class SimpleApp(App):
 #  These are used to do the intermittent monitoring and updating global values to reduce overhead of the
 #  main program calling slow processes all the time.
 
-def piHealthThread();
+def piHealthThread():
     while True:
         time.sleep(5)
         glob_pihealth.getPiTemp()
