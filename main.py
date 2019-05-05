@@ -130,9 +130,9 @@ if __name__ == '__main__':
     threadTemp.daemon=True
     threadTemp.start()
 
-    threadTemp = threading.Thread(target=piHealthThread())
-    threadTemp.daemon=True
-    threadTemp.start()
+    threadHealth = threading.Thread(target=piHealthThread)
+    threadHealth.daemon=True
+    threadHealth.start()
 
 
     SimpleApp().run()
