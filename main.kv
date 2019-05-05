@@ -162,15 +162,25 @@ BeerScreenManagement:
 		    size: 30, 150
 		    size_hint: None, None
 		    center_x: 15
-		    top: root.top - 260
+		    top: root.top - 220
 		    text: "-"
+    	Button:
+	    	background_normal: ''
+		    background_color: 0,0.2,0.2,1
+		    #on_release: app.root.current='Status'
+		    font_size: 15
+		    size: 30, 150
+		    size_hint: None, None
+		    center_x: 125
+		    top: root.top - 220
+		    text: "+"
 
 		Label:
-			pos: -310,-180
+			pos: -330,-180
 			font_size: 20
 			text: "PI"
 		Label:
-			pos: -310,-230
+			pos: -330,-230
 			font_size: 20
 			text: root.piTempLabel
 		Label:
