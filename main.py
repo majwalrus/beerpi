@@ -10,6 +10,8 @@ from kivy.uix.screenmanager import *
 from kivy.lang import Builder
 
 import os
+import threading
+import time
 
 import pihealth
 import probeclass
@@ -100,6 +102,16 @@ class SimpleApp(App):
         Clock.schedule_interval(self.update, 1)
         return self.screenmanager
 
+def tempProbeThread():
+    while True:
+        time.sleep(5)
+        glob_beerProbes.updateProbes()
+
+
 
 if __name__ == '__main__':
+    threadTemp = threading.Thread(target=tempProbeThread)
+    threadTemp.daemon=true
+    threadTemp.start()
+
     SimpleApp().run()
