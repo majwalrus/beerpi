@@ -26,6 +26,10 @@ glob_pihealth = pihealth.PiHealth()
 glob_beerProbes = probeclass.BeerProbes()
 
 
+#
+# KIVY
+#
+
 class BeerRightBar:
     def defaultBar(self, menuCanvas):
         pass
@@ -54,7 +58,6 @@ class BeerStatus(Screen):
     piTempLabel = StringProperty()
 
     def update(self, dt):
-        glob_pihealth.getPiTemp()
         self.piTempLabel = glob_pihealth.piTempStr
         pass
 
@@ -102,16 +105,34 @@ class SimpleApp(App):
         Clock.schedule_interval(self.update, 1)
         return self.screenmanager
 
+
+#
+# THREADS
+#  These are used to do the intermittent monitoring and updating global values to reduce overhead of the
+#  main program calling slow processes all the time.
+
+def piHealthThread();
+    while True:
+        time.sleep(5)
+        glob_pihealth.getPiTemp()
+
 def tempProbeThread():
     while True:
         time.sleep(5)
         glob_beerProbes.updateProbes()
 
-
+#
+# MAIN
+#
 
 if __name__ == '__main__':
     threadTemp = threading.Thread(target=tempProbeThread)
     threadTemp.daemon=True
     threadTemp.start()
+
+    threadTemp = threading.Thread(target=piHealthThread())
+    threadTemp.daemon=True
+    threadTemp.start()
+
 
     SimpleApp().run()
