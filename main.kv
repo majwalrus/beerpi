@@ -11,6 +11,9 @@ BeerScreenManagement:
 		id:boil
 	BeerConfig:
 		id:config
+    BeerSensors:
+        id:sensors
+
 
 <DefaultRightBar>
 	#canvas:
@@ -71,7 +74,6 @@ BeerScreenManagement:
 	Label:
 		background_normal: ''
 		background_color: 0.2,0.2,0.2,1
-		#on_release: app.root.current='Status'
 		font_size: 15
 		size: 60, 38
 		size_hint: None, None
@@ -206,3 +208,6 @@ BeerScreenManagement:
 		#	text: 'Goto Status Screen'
 		#	font_size: 15
 		#	size_hint:.25,.1
+
+<BeerSensors>
+    name: 'Sensors'

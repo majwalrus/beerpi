@@ -93,6 +93,15 @@ class BeerConfig(Screen):
         self.menu = ConfigRightBar()
         self.add_widget(self.menu)
 
+class BeerSensors(Screen):
+
+    def update(self,dt):
+        pass
+
+    def __init__(self, **kwargs):
+        super(BeerSensors,self).__init__(**kwargs)
+        self.menu = ConfigRightBar()
+        self.add_widget(self.menu)
 
 class BeerScreenManagement(ScreenManager):
     pass
@@ -122,8 +131,11 @@ def piHealthThread():
 
 def tempProbeThread():
     while True:
-        time.sleep(1)
         glob_beerProbes.updateProbes()
+
+def elementThread():
+    while True:
+        pass
 
 #
 # MAIN
