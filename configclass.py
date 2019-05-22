@@ -3,13 +3,14 @@ import os
 
 class BeerConfig:
 
+    configFile = './beer.ini'
+
     def __init__(self):
-        if not os.path.exists(self.configFile)
+        if not os.path.isfile(self.configFile)
             self.createDefaultFile()
 
 
 
-    configFile = './beer.ini'
     configParser = configparser.ConfigParser()
 
     def createDefaultFile(self):
