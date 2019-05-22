@@ -14,15 +14,15 @@ class BeerConfig:
     config = ConfigParser.ConfigParser()
 
     def createDefaultFile(self):
-        config.add_section("HLT")
-        config.set("Settings","targettemp","76")
-        config.set("Settings","tapertemp","75")
+        self.config.add_section("HLT")
+        self.config.set("Settings","targettemp","76")
+        self.config.set("Settings","tapertemp","75")
 
-        config.add_section("Boil")
-        config.set("Settings","targettemp","101")
-        config.set("Settings","tapertemp","99")
+        self.config.add_section("Boil")
+        self.config.set("Settings","targettemp","101")
+        self.config.set("Settings","tapertemp","99")
 
-        config.add_section("Probes")
+        self.config.add_section("Probes")
 
 
 
