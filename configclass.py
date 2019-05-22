@@ -36,7 +36,9 @@ class BeerConfig:
         self.config.read(self.configFile)
         valHLTTargetTemp=self.config.get("HLT","targettemp")
 
+        print("\n\rConfig File Dump\n\r")
         print(valHLTTargetTemp)
+        print("\n\rEnd Config File Dump\n\r\n\r")
 
 
 
