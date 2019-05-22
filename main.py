@@ -12,7 +12,7 @@ from kivy.lang import Builder
 import os
 import threading
 import time
-import configparser
+import ConfigParser
 
 
 import pihealth

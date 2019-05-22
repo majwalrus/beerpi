@@ -1,4 +1,4 @@
-import configparser
+import ConfigParser
 import os
 
 class BeerConfig:
