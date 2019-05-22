@@ -23,6 +23,12 @@ class BeerConfig:
         self.config.set("Boil","tapertemp","99")
 
         self.config.add_section("Probes")
+        self.config.set("Probes","hlt","")
+        self.config.set("Probes","boil","")
+
+        with open(self.configFile,"wb") as config_file:
+            self.config.write(config_file)
+
 
 
 
