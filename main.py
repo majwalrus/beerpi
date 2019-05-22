@@ -73,7 +73,7 @@ class BeerStatus(Screen):
         self.boilSetTempLabel = str(glob_config.valBoilTargetTemp)
         pass
 
-    def add(self):
+    def addhlt(self):
         print ("added to hlt temp")
 
     def __init__(self, **kwargs):
