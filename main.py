@@ -12,10 +12,12 @@ from kivy.lang import Builder
 import os
 import threading
 import time
+import configparser
+
 
 import pihealth
 import probeclass
-
+import configclass
 #
 # Global Variables
 # ==================
@@ -24,6 +26,7 @@ import probeclass
 
 glob_pihealth = pihealth.PiHealth()
 glob_beerProbes = probeclass.BeerProbes()
+glob_config = configclass.BeerConfig()
 
 
 #
@@ -118,6 +121,13 @@ class SimpleApp(App):
         Clock.schedule_interval(self.update, 1)
         return self.screenmanager
 
+#
+# STARTUP
+#  Loads the configuration files and sets the default data. If there is no config file it creates default values and
+#  then writes the default file.
+
+
+
 
 #
 # THREADS
@@ -139,7 +149,8 @@ def elementThread():
 
 #
 # MAIN
-#
+#  This is the main startup code. This will start the relevant threads, run the startup config code and
+#  then start the Kivy App.
 
 if __name__ == '__main__':
     threadTemp = threading.Thread(target=tempProbeThread)
