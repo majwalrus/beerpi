@@ -5,18 +5,17 @@ class BeerConfig:
 
     configFile = './beer.ini'
 
+    valHLTTargetTemp=0
+    valHLTTaperTemp=0
+    valBoilTargetTemp=0
+    valBoilTaperTemp=0
+    config = ConfigParser.ConfigParser()
+
     def __init__(self):
         if not os.path.isfile(self.configFile):
             self.createDefaultFile()
         else:
             self.loadConfigFile()
-
-    valHLTTargetTemp=0
-    valHLTTaperTemp=0
-    valBoilTargetTemp=0
-    valBoilTaperTemp=0
-
-    config = ConfigParser.ConfigParser()
 
     def createDefaultFile(self):
         self.config.add_section("HLT")
