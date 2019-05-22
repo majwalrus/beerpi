@@ -73,6 +73,9 @@ class BeerStatus(Screen):
         self.boilSetTempLabel = str(glob_config.valBoilTargetTemp)
         pass
 
+    def add(self):
+        print ("added to hlt temp")
+
     def __init__(self, **kwargs):
         super(BeerStatus, self).__init__(**kwargs)
         self.menu = DefaultRightBar()
