@@ -11,7 +11,7 @@ class BeerConfig:
 
 
 
-    configParser = ConfigParser.ConfigParser()
+    config = ConfigParser.ConfigParser()
 
     def createDefaultFile(self):
         config.add_section("HLT")
