@@ -36,6 +36,8 @@ class BeerConfig:
         self.config.read(self.configFile)
         valHLTTargetTemp=self.config.get("HLT","targettemp")
 
+        print(valHLTTargetTemp)
+
 
 
 
