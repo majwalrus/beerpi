@@ -76,6 +76,10 @@ class BeerStatus(Screen):
     def addhlt(self, *args):
         glob_config.valHLTTargetTemp = glob_config.valHLTTargetTemp+1
 
+    def subhlt(self, *args):
+        glob_config.valHLTTargetTemp = glob_config.valHLTTargetTemp-1
+
+
     def __init__(self, **kwargs):
         super(BeerStatus, self).__init__(**kwargs)
         self.menu = DefaultRightBar()
