@@ -8,6 +8,8 @@ class BeerConfig:
     def __init__(self):
         if not os.path.isfile(self.configFile):
             self.createDefaultFile()
+        else:
+            self.loadConfigFile()
 
     valHLTTargetTemp=0
     valHLTTaperTemp=0
