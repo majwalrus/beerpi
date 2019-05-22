@@ -61,11 +61,16 @@ class BeerStatus(Screen):
     piTempLabel = StringProperty()
     hltTempLabel = StringProperty()
     boilTempLabel = StringProperty()
+    hltSetTempLabel = StringProperty()
+    boilSetTempLabel = StringProperty()
 
     def update(self, dt):
         self.piTempLabel = glob_pihealth.piTempStr
         self.hltTempLabel = glob_beerProbes.returnStrProbeVal(0)
         self.boilTempLabel = glob_beerProbes.returnStrProbeVal(1)
+
+        self.hltSetTempLabel = glob_config.valHLTTargetTemp
+        self.boilSetTempLabel = glob_config.valBoilTargetTemp
         pass
 
     def __init__(self, **kwargs):

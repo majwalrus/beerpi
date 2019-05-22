@@ -9,7 +9,10 @@ class BeerConfig:
         if not os.path.isfile(self.configFile):
             self.createDefaultFile()
 
-
+    valHLTTargetTemp=0
+    valHLTTaperTemp=0
+    valBoilTargetTemp=0
+    valBoilTaperTemp=0
 
     config = ConfigParser.ConfigParser()
 
@@ -28,6 +31,10 @@ class BeerConfig:
 
         with open(self.configFile,"wb") as config_file:
             self.config.write(config_file)
+
+    def loadConfigFile(self):
+        self.config.read(self.configFile)
+        valHLTTargetTemp=self.config.get("HLT","targettemp")
 
 
 
