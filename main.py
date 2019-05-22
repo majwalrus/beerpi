@@ -74,7 +74,7 @@ class BeerStatus(Screen):
         pass
 
     def addhlt(self):
-        print ("added to hlt temp")
+        glob_config.valHLTTargetTemp=glob_config.valHLTTargetTemp+1
 
     def __init__(self, **kwargs):
         super(BeerStatus, self).__init__(**kwargs)
