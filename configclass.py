@@ -15,12 +15,12 @@ class BeerConfig:
 
     def createDefaultFile(self):
         self.config.add_section("HLT")
-        self.config.set("Settings","targettemp","76")
-        self.config.set("Settings","tapertemp","75")
+        self.config.set("HLT","targettemp","76")
+        self.config.set("HLT","tapertemp","75")
 
         self.config.add_section("Boil")
-        self.config.set("Settings","targettemp","101")
-        self.config.set("Settings","tapertemp","99")
+        self.config.set("Boil","targettemp","101")
+        self.config.set("Boil","tapertemp","99")
 
         self.config.add_section("Probes")
 
