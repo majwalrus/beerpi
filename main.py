@@ -69,8 +69,8 @@ class BeerStatus(Screen):
         self.hltTempLabel = glob_beerProbes.returnStrProbeVal(0)
         self.boilTempLabel = glob_beerProbes.returnStrProbeVal(1)
 
-        self.hltSetTempLabel = glob_config.valHLTTargetTemp
-        self.boilSetTempLabel = glob_config.valBoilTargetTemp
+        self.hltSetTempLabel = str(glob_config.valHLTTargetTemp)
+        self.boilSetTempLabel = str(glob_config.valBoilTargetTemp)
         pass
 
     def __init__(self, **kwargs):
