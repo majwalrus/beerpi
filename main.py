@@ -158,6 +158,9 @@ def elementThread():
 #  then start the Kivy App.
 
 if __name__ == '__main__':
+
+    print(glob_config.valHLTTargetTemp)
+
     threadTemp = threading.Thread(target=tempProbeThread)
     threadTemp.daemon=True
     threadTemp.start()
