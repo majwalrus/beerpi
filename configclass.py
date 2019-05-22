@@ -6,7 +6,7 @@ class BeerConfig:
     configFile = './beer.ini'
 
     def __init__(self):
-        if not os.path.isfile(self.configFile)
+        if not os.path.isfile(self.configFile):
             self.createDefaultFile()
 
 
