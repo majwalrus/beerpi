@@ -35,7 +35,8 @@ class BeerConfig:
 
     def loadConfigFile(self):
         self.config.read(self.configFile)
-        self.valHLTTargetTemp=self.config.get("HLT","targettemp")
+        self.valHLTTargetTemp=int(self.config.get("HLT","targettemp"))
+        self.valBoilTargetTemp=int(self.config.get("Boil","targettemp"))
 
         print("\n\rConfig File Dump\n\r")
         print(self.valHLTTargetTemp)
