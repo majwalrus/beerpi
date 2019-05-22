@@ -4,11 +4,11 @@ import os
 class BeerConfig:
 
     configFile = './beer.ini'
-
     valHLTTargetTemp=0
     valHLTTaperTemp=0
     valBoilTargetTemp=0
     valBoilTaperTemp=0
+
     config = ConfigParser.ConfigParser()
 
     def __init__(self):
@@ -35,10 +35,10 @@ class BeerConfig:
 
     def loadConfigFile(self):
         self.config.read(self.configFile)
-        valHLTTargetTemp=self.config.get("HLT","targettemp")
+        self.valHLTTargetTemp=self.config.get("HLT","targettemp")
 
         print("\n\rConfig File Dump\n\r")
-        print(valHLTTargetTemp)
+        print(self.valHLTTargetTemp)
         print("\n\rEnd Config File Dump\n\r\n\r")
 
 
