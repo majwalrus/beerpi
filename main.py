@@ -114,7 +114,8 @@ class BeerConfig(Screen):
 class BeerSensors(Screen):
 
     arr_LabelProbe=[]
-    arr_LabelAssign=[]
+    arr_LabelAssignHLT=[]
+    arr_LabelAssignBoil=[]
     arr_ButtonHLT=[]
     arr_ButtonBoil=[]
     tmp_LabelVal=StringProperty()
@@ -134,11 +135,12 @@ class BeerSensors(Screen):
         self.lab_boilProbe.text="Boil Probe : "+glob_config.sensorBoil
         num=0
         for tmp_probe in glob_beerProbes.probeList:
-            self.arr_LabelAssign[num].text = ""
+            self.arr_LabelAssignHLT[num].text = ""
+            self.arr_LabelAssignBoil[num].text = ""
             if tmp_probe.name==glob_config.sensorHLT:
-                self.arr_LabelAssign[num].text="HLT"
+                self.arr_LabelAssignHLT[num].text="HLT"
             if tmp_probe.name==glob_config.sensorBoil:
-                self.arr_LabelAssign[num].text="Boil"
+                self.arr_LabelAssignBoil[num].text="Boil"
             num+=1
 
         pass
@@ -168,9 +170,11 @@ class BeerSensors(Screen):
         num=0
         for tmp_probe in glob_beerProbes.probeList:
             self.arr_LabelProbe.append(Label(text=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr+" INIT", top=self.top + 90 - (num*40),x=self.x-250))
-            self.arr_LabelAssign.append(Label(text="None INIT", top=self.top + 90 - (num*40),x=self.x-80))
+            self.arr_LabelAssignHLT.append(Label(text="None INIT", top=self.top + 90 - (num*40),x=self.x-120))
+            self.arr_LabelAssignBoil.append(Label(text="None INIT", top=self.top + 90 - (num*40),x=self.x-90))
             self.add_widget(self.arr_LabelProbe[num])
-            self.add_widget(self.arr_LabelAssign[num])
+            self.add_widget(self.arr_LabelAssignHLT[num])
+            self.add_widget(self.arr_LabelAssignBoil[num])
             self.arr_ButtonHLT.append(Button(text="Set HLT", top=415 - (num*40), x=self.x+360, size=(65,30), size_hint=(None,None) ))
             self.arr_ButtonHLT[num].bind(on_press=partial(self.hltAssign,num))
             self.arr_ButtonBoil.append(Button(text="Set Boil", top=415 - (num*40), x=self.x+450, size=(65,30), size_hint=(None,None) ))
