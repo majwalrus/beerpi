@@ -77,7 +77,7 @@ class BeerStatus(Screen):
         glob_config.valHLTTargetTemp +=1
 
     def subhlt(self, *args):
-        glob_config.valHLTTargetTemp = glob_config.valHLTTargetTemp-1
+        glob_config.valHLTTargetTemp +=-1
 
 
     def __init__(self, **kwargs):
