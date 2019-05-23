@@ -31,11 +31,11 @@ Version History
 * pihealth.py added, has temperature monitoring code for making sure the Raspberry Pi does not overheat.
 * set desired HLT temperature.
 * configclass.py added, for loading and saving config files.
+* assign temperature probes easily in menu system
 
 TODO:
 
 * SOFTWARE complete GUI elements using Kivi
-* SOFTWARE assign temperature probes easily in menu system
 * SOFTWARE calibrate temperature probes to ensure accurate temperatures recorded
 * SOFTWARE record temperature calibration and load on startup
 * SOFTWARE create shutdown button and confirmation
