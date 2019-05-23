@@ -112,7 +112,7 @@ class BeerConfig(Screen):
 
 class BeerSensors(Screen):
 
-    arr_Label=[]
+    arr_LabelProbe=[]
     tmp_LabelVal=StringProperty()
     tmp_Label=Label()
 
@@ -120,7 +120,7 @@ class BeerSensors(Screen):
         num=0
         for tmp_probe in glob_beerProbes.probeList:
             self.tmp_LabelVal=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr
-            self.arr_Label[num].text=self.tmp_LabelVal
+            self.arr_LabelProbe[num].text=self.tmp_LabelVal
             num+=1
         pass
 
@@ -129,13 +129,13 @@ class BeerSensors(Screen):
         super(BeerSensors,self).__init__(**kwargs)
         self.menu = ConfigRightBar()
         self.add_widget(self.menu)
-        self.add_widget(Label(text="Sensors",top=self.top+220))
-        self.add_widget(Label(text="Total Beer Probes : "+str(glob_beerProbes.countProbes()),top=self.top+200))
+        self.add_widget(Label(text="Sensor Setup",top=self.top+220))
+        self.add_widget(Label(text="Total Temperature Probes : "+str(glob_beerProbes.countProbes()),top=self.top+190))
         num=0
         #self.probeLabelValue.clear()
         for tmp_probe in glob_beerProbes.probeList:
-            self.arr_Label.append(Label(text=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr+" INIT", top=self.top + 140 - (num*40),x=self.x-250))
-            self.add_widget(self.arr_Label[num])
+            self.arr_LabelProbe.append(Label(text=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr+" INIT", top=self.top + 140 - (num*40),x=self.x-250))
+            self.add_widget(self.arr_LabelProbe[num])
             num+=1
 
 
