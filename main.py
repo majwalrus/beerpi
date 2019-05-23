@@ -115,9 +115,9 @@ class BeerSensors(Screen):
     arr_LabelProbe=[]
     tmp_LabelVal=StringProperty()
     tmp_Label=Label()
+    lab_hltProbe=Label()
+    lab_boilProbe=Label()
 
-    lab_hltProbe=Label(text=glob_config.sensorHLT,top=self.top+160)
-    lab_boilProbe=Label(text=glob_config.sensorBoil,top=self.top+130)
 
     def update(self,dt):
         num=0
@@ -136,6 +136,10 @@ class BeerSensors(Screen):
         self.add_widget(self.menu)
         self.add_widget(Label(text="Sensor Setup",top=self.top+220))
         self.add_widget(Label(text="Total Temperature Probes : "+str(glob_beerProbes.countProbes()),top=self.top+190))
+
+        lab_hltProbe = Label(text=glob_config.sensorHLT, top=self.top + 160)
+        lab_boilProbe = Label(text=glob_config.sensorBoil, top=self.top + 130)
+
         self.add_widget(self.lab_hltProbe)
         self.add_widget(self.lab_boilProbe)
 
