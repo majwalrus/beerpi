@@ -55,12 +55,15 @@ class BeerConfig:
 
         self.valBoilTargetTemp=int(self.config.get("Boil","targettemp","101"))
 
-        self.sensorBoil=self.config.get("Sensors","boil","")
-        self.sensorHLT=self.config.get("Sensors","hlt","")
+        self.sensorBoil=self.getConfig("Sensors","boil","")
+        self.sensorHLT=self.getConfig("Sensors","hlt","")
 
 
         print("\n\rConfig File Dump\n\r")
         print(self.valHLTTargetTemp)
+        print(self.valBoilTargetTemp)
+        print(self.sensorHLT)
+        print(self.sensorBoil)
         print("\n\rEnd Config File Dump\n\r\n\r")
 
     def updateConfigFile(self):
