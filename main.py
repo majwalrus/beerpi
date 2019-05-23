@@ -115,6 +115,9 @@ class BeerSensors(Screen):
     def update(self,dt):
         pass
 
+    probeLabelValue=[]
+
+
     def __init__(self, **kwargs):
         super(BeerSensors,self).__init__(**kwargs)
         self.menu = ConfigRightBar()
@@ -123,7 +126,9 @@ class BeerSensors(Screen):
         self.add_widget(Label(text="Total Beer Probes : "+str(glob_beerProbes.countProbes()),top=self.top+200))
         num=1
         for  tmp_probe in glob_beerProbes.probeList:
-            self.add_widget(Label(text=str(tmp_probe.name), top=self.top + 160 - (num*30)))
+            tmp_LabelVal=str(tmp_probe.name)
+            self.probeLabelValue[num]=tmp_LabelVal
+            self.add_widget(Label(text=self.probeLabelValue[num], top=self.top + 160 - (num*30)))
             num+=1
 
 
