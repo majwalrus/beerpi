@@ -55,8 +55,10 @@ class BeerConfig:
 
         self.valBoilTargetTemp=int(self.config.get("Boil","targettemp","101"))
 
-        self.sensorBoil=self.getConfig("Sensors","boil","")
-        self.sensorHLT=self.getConfig("Sensors","hlt","")
+        if not self.sensorBoil=self.getConfig("Sensors","boil","")
+            self.sensorBoil=""
+        if not self.sensorHLT=self.getConfig("Sensors","hlt","")
+            self.sensorHLT=""
 
 
         print("\n\rConfig File Dump\n\r")
