@@ -160,7 +160,7 @@ class BeerSensors(Screen):
             self.arr_LabelAssign.append(Label(text="None INIT", top=self.top + 90 - (num*40),x=self.x-80))
             self.add_widget(self.arr_LabelProbe[num])
             self.add_widget(self.arr_LabelAssign[num])
-            self.arr_ButtonHLT.append(Button(text="Set HLT", top=400 - (num*40), x=self.x, size=(60,30), size_hint=(None,None) ))
+            self.arr_ButtonHLT.append(Button(text="Set HLT "+str(num), top=420 - (num*40), x=self.x, size=(60,30), size_hint=(None,None) ))
             self.add_widget(self.arr_ButtonHLT[num])
             num+=1
 
