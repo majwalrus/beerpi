@@ -15,53 +15,46 @@ class BeerConfig:
     config = ConfigParser.ConfigParser(allow_no_value=True)
 
     def __init__(self):
-        if not os.path.isfile(self.configFile):
-            self.createDefaultFile()
-        else:
-            self.loadConfigFile()
+        if not os.path.isfile(self.configFile):     # check config file exists
+            self.createDefaultFile()                # it doesn't, so write the default file and continue
+        self.loadConfigFile()                       # now read the config file
 
     def createDefaultFile(self):
-        self.config.add_section("DEFAULT")
+        self.config.add_section("DEFAULT")          # DEFAULT value section
         self.config.set("DEFAULT","mainpower","10")
         self.config.set("DEFAULT","taperpower","6")
         self.config.set("DEFAULT","overpower","0")
 
-        self.config.add_section("HLT")
+        self.config.add_section("HLT")              # HLT value section
         self.config.set("HLT","targettemp","76")
         self.config.set("HLT","tapertemp","75")
 
-        self.config.add_section("Boil")
+        self.config.add_section("Boil")             # Boil value section
         self.config.set("Boil","targettemp","101")
         self.config.set("Boil","tapertemp","99")
 
-        self.config.add_section("Sensors")
+        self.config.add_section("Sensors")          # Sensors  value section
         self.config.set("Sensors","hlt","")
         self.config.set("Sensors","boil","")
 
-        with open(self.configFile,"wb") as config_file:
+        with open(self.configFile,"wb") as config_file: # Now write the default value file
             self.config.write(config_file)
 
     def getConfig(self,section,value,fallback):
-        if not self.config.has_section(section):
-            return False
+        if not self.config.has_section(section):            # check section exists, this stops exception errors
+            self.config.add_section(section)                # it doesn't so add it for future reference
+            self.config.set(section,value,fallback)         # now add the value and fallback
+            return fallback                                 # return fallback
         else:
-            return self.config.get(section,value,fallback)
+            return self.config.get(section,value,fallback)  # section exists so attempt to get value, if not fallback
 
 
     def loadConfigFile(self):
         self.config.read(self.configFile)
-        #self.valHLTTargetTemp=int(self.config.get("HLT","targettemp"),"74")
         self.valHLTTargetTemp=int(self.getConfig("HLT","targettemp","74"))
-
-        self.valBoilTargetTemp=int(self.config.get("Boil","targettemp","101"))
-
+        self.valBoilTargetTemp=int(self.getConfig("Boil","targettemp","101"))
         self.sensorBoil=self.getConfig("Sensors","boil","")
-        if not self.sensorBoil:
-            self.sensorBoil=""
         self.sensorHLT=self.getConfig("Sensors","hlt","")
-        if not self.sensorHLT:
-            self.sensorHLT=""
-
 
         print("\n\rConfig File Dump\n\r")
         print(self.valHLTTargetTemp)
