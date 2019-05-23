@@ -139,6 +139,7 @@ class BeerSensors(Screen):
                 self.arr_LabelAssign[num].text="HLT"
             if tmp_probe.name==glob_config.sensorBoil:
                 self.arr_LabelAssign[num].text="Boil"
+            num+=1
 
         pass
 
