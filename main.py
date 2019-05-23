@@ -135,7 +135,6 @@ class BeerSensors(Screen):
         for tmp_probe in glob_beerProbes.probeList:
             self.tmp_LabelVal=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr+" WTF"
             self.probeLabelValue.append(self.tmp_LabelVal)
-            tmp_Label=
             self.add_widget(Label(text=self.probeLabelValue[num], top=self.top + 160 - (num*30),x=self.x-220))
             num+=1
 
