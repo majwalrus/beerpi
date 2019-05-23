@@ -86,6 +86,20 @@ class BeerProbes:
                 return tmp_probe.probeval
         return -1
 
+    def getProbeNumber(self, probename):
+        tx=0
+        for tmp_probe in self.probeList:
+            if tmp_probe.name==probename:
+                return tx
+            tx+=1
+        return False
+
+    def returnStrProbeValFromName(self,probename):
+        probenum=self.getProbeNumber(probename)
+        if not probenum:
+            return "false"
+        return self.returnStrProbeVal(probenum)
+
     def readNamedProbe(self, probename):
         for tmp_probe in self.probeList:
             if tmp_probe.name==probename:
