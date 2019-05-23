@@ -53,7 +53,7 @@ class BeerConfig:
         #self.valHLTTargetTemp=int(self.config.get("HLT","targettemp"),"74")
         self.valHLTTargetTemp=int(self.getConfig("HLT","targettemp","74"))
 
-        self.valBoilTargetTemp=int(self.config.get("Boil","targettemp"),"101")
+        self.valBoilTargetTemp=int(self.config.get("Boil","targettemp","101"))
 
         self.sensorBoil=self.config.get("Sensors","boil","")
         self.sensorHLT=self.config.get("Sensors","hlt","")
