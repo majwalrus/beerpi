@@ -96,7 +96,7 @@ class BeerProbes:
 
     def returnStrProbeValFromName(self,probename):
         probenum=self.getProbeNumber(probename)
-        if probenum=-99:
+        if probenum==-99:
             return "false"
         return self.returnStrProbeVal(probenum)
 
