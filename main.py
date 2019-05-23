@@ -124,6 +124,7 @@ class BeerSensors(Screen):
             self.probeLabelValue[num]=self.tmp_LabelVal
             num+=1
         print("testing update")
+        pass
 
 
     def __init__(self, **kwargs):
