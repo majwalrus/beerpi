@@ -4,8 +4,10 @@ Display and control application for Raspberry PI for brewing (hopefully) better 
 The aim of this project is to help automate some of my homebrewing process. Specifically
 the Hot Liquor Tank (HLT) and the boil kettle.
 
-Both have 5.5kW elements, and anynone that does homebrewing will know that tight
-temperature control of the HLT water is important for the mash and sparging processes.
+In my setup both have 5.5kW elements, and anyone that does homebrewing will know that tight
+temperature control of the HLT water is important for the mash and sparging processes. This
+program could be used for most setups, and indeed as the SSRs I used to control the elements
+are rated up to 40A potentially much larger elements that I have in my setup.
 
 In addition bringing a kettle to the boil with a 5.5kW element is faster and therefore
 better, however it is overkill for maintaining the boil and could do with being controlled
@@ -15,7 +17,7 @@ lead to better beer.
 
 Also its a good excuse to mess around with a Pi.
 
-Current Version 0.01a
+Current Version 0.1a
 
 Version History
 
