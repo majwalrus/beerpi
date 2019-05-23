@@ -121,7 +121,7 @@ class BeerSensors(Screen):
         for tmp_probe in glob_beerProbes.probeList:
             self.tmp_LabelVal=str(tmp_probe.name)+" T: "+glob_beerProbes.returnStrProbeVal(num)
             print(self.tmp_LabelVal)
-            self.probeLabelValue[num]=self.tmp_LabelVal
+            self.arr_Label[num].text=self.tmp_LabelVal
             num+=1
         print("testing update")
         pass
