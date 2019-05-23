@@ -116,7 +116,7 @@ class BeerSensors(Screen):
         pass
 
     probeLabelValue=[]
-
+    tmp_LabelVal=StringProperty()
 
     def __init__(self, **kwargs):
         super(BeerSensors,self).__init__(**kwargs)
@@ -125,9 +125,10 @@ class BeerSensors(Screen):
         self.add_widget(Label(text="Sensors",top=self.top+220))
         self.add_widget(Label(text="Total Beer Probes : "+str(glob_beerProbes.countProbes()),top=self.top+200))
         num=1
+        self.probeLabelValue.clear()
         for  tmp_probe in glob_beerProbes.probeList:
             tmp_LabelVal=str(tmp_probe.name)
-            self.probeLabelValue[num]=tmp_LabelVal
+            self.probeLabelValue.append(tmp_LabelVal)
             self.add_widget(Label(text=self.probeLabelValue[num], top=self.top + 160 - (num*30)))
             num+=1
 
