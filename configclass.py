@@ -20,7 +20,7 @@ class BeerConfig:
         self.loadConfigFile()                       # now read the config file
 
     def createDefaultFile(self):
-        self.config.add_section("DEFAULT")          # DEFAULT value section
+        #self.config.add_section("DEFAULT")          # DEFAULT value section
         self.config.set("DEFAULT","mainpower","10")
         self.config.set("DEFAULT","taperpower","6")
         self.config.set("DEFAULT","overpower","0")
