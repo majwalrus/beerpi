@@ -125,7 +125,7 @@ class BeerSensors(Screen):
         self.add_widget(Label(text="Sensors",top=self.top+220))
         self.add_widget(Label(text="Total Beer Probes : "+str(glob_beerProbes.countProbes()),top=self.top+200))
         num=1
-        self.probeLabelValue.clear()
+        #self.probeLabelValue.clear()
         for  tmp_probe in glob_beerProbes.probeList:
             tmp_LabelVal=str(tmp_probe.name)
             self.probeLabelValue.append(tmp_LabelVal)
