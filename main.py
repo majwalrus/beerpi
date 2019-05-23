@@ -125,8 +125,8 @@ class BeerSensors(Screen):
             self.tmp_LabelVal=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr
             self.arr_LabelProbe[num].text=self.tmp_LabelVal
             num+=1
-        self.lab_hltProbe.text=glob_config.sensorHLT
-        self.lab_boilProbe.text=glob_config.sensorBoil
+        self.lab_hltProbe.text="HLT Probe : "+glob_config.sensorHLT
+        self.lab_boilProbe.text="Boil Probe : "+glob_config.sensorBoil
         pass
 
 
@@ -137,8 +137,8 @@ class BeerSensors(Screen):
         self.add_widget(Label(text="Sensor Setup",top=self.top+220))
         self.add_widget(Label(text="Total Temperature Probes : "+str(glob_beerProbes.countProbes()),top=self.top+190))
 
-        lab_hltProbe = Label(text=glob_config.sensorHLT, top=self.top + 160)
-        lab_boilProbe = Label(text=glob_config.sensorBoil, top=self.top + 130)
+        self.lab_hltProbe = Label(text="HLT Probe : "+glob_config.sensorHLT, top=self.top + 160)
+        self.lab_boilProbe = Label(text="Boil Probe : "+glob_config.sensorBoil, top=self.top + 130)
 
         self.add_widget(self.lab_hltProbe)
         self.add_widget(self.lab_boilProbe)
@@ -147,7 +147,7 @@ class BeerSensors(Screen):
         num=0
         #self.probeLabelValue.clear()
         for tmp_probe in glob_beerProbes.probeList:
-            self.arr_LabelProbe.append(Label(text=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr+" INIT", top=self.top + 120 - (num*40),x=self.x-250))
+            self.arr_LabelProbe.append(Label(text=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr+" INIT", top=self.top + 90 - (num*40),x=self.x-250))
             self.add_widget(self.arr_LabelProbe[num])
             num+=1
 
