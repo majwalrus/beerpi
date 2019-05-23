@@ -147,10 +147,12 @@ class BeerSensors(Screen):
 
     def hltAssign(self,num, *args):
         glob_config.sensorHLT=glob_beerProbes.probeList[num].name
+        glob_config.updateConfigFile()
         pass
 
     def boilAssign(self,num, *args):
         glob_config.sensorBoil=glob_beerProbes.probeList[num].name
+        glob_config.updateConfigFile()
         pass
 
     def __init__(self, **kwargs):
@@ -163,15 +165,15 @@ class BeerSensors(Screen):
         self.lab_hltProbe = Label(text="HLT Probe : "+glob_config.sensorHLT, top=self.top + 160)
         self.lab_boilProbe = Label(text="Boil Probe : "+glob_config.sensorBoil, top=self.top + 130)
 
-        self.add_widget(self.lab_hltProbe)
-        self.add_widget(self.lab_boilProbe)
+        #self.add_widget(self.lab_hltProbe)
+        #self.add_widget(self.lab_boilProbe)
 
 
         num=0
         for tmp_probe in glob_beerProbes.probeList:
             self.arr_LabelProbe.append(Label(text=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr+" INIT", top=self.top + 90 - (num*40),x=self.x-250))
             self.arr_LabelAssignHLT.append(Label(text="None INIT", top=self.top + 90 - (num*40),x=self.x-120))
-            self.arr_LabelAssignBoil.append(Label(text="None INIT", top=self.top + 90 - (num*40),x=self.x-90))
+            self.arr_LabelAssignBoil.append(Label(text="None INIT", top=self.top + 90 - (num*40),x=self.x-80))
             self.add_widget(self.arr_LabelProbe[num])
             self.add_widget(self.arr_LabelAssignHLT[num])
             self.add_widget(self.arr_LabelAssignBoil[num])
