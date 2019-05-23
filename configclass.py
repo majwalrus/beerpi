@@ -68,6 +68,9 @@ class BeerConfig:
         print("\n\rEnd Config File Dump\n\r\n\r")
 
     def updateConfigFile(self):
+        self.config.set("Sensors","hlt",self.sensorHLT)
+        self.config.set("Sensors","boil",self.sensorBoil)
+
         with open(self.configFile,"wb") as config_file:
             self.config.write(config_file)
 
