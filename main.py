@@ -122,6 +122,7 @@ class BeerSensors(Screen):
             self.tmp_LabelVal=str(tmp_probe.name)+" T: "+glob_beerProbes.returnStrProbeVal(num)
             self.probeLabelValue[num]=self.tmp_LabelVal
             num+=1
+        print("testing update")
 
 
     def __init__(self, **kwargs):
