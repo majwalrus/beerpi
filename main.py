@@ -163,7 +163,7 @@ class BeerSensors(Screen):
             self.add_widget(self.arr_LabelProbe[num])
             self.add_widget(self.arr_LabelAssign[num])
             self.arr_ButtonHLT.append(Button(text="Set HLT", top=415 - (num*40), x=self.x+330, size=(65,30), size_hint=(None,None) ))
-            self.arr_ButtonHLT[num].bind(on_release=partial(self.hltAssign,num=num))
+            self.arr_ButtonHLT[num].bind(on_press=partial(self.hltAssign,num))
             self.arr_ButtonBoil.append(Button(text="Set Boil", top=415 - (num*40), x=self.x+450, size=(65,30), size_hint=(None,None) ))
             self.add_widget(self.arr_ButtonHLT[num])
             self.add_widget(self.arr_ButtonBoil[num])
