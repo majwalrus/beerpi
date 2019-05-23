@@ -57,6 +57,12 @@ class BeerProbes:
             tmp_probe = BeerTempProbe(w1_dev[len(self.w1_devdir):],w1_dev,w1_dev+'/w1_slave')
             self.probeList.append(tmp_probe)
 
+    def countProbes(self):
+        tx=0
+        for tmp_probe in self.probeList:
+            tx+=1
+        return tx
+
     def dumpData(self):
         for tmp_probe in self.probeList:
             print ("Name: " + tmp_probe.name + " Folder: " + tmp_probe.devfolder + " DataFile: " + tmp_probe.datafile + " Temp: " + str(tmp_probe.probeval))
