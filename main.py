@@ -134,7 +134,7 @@ class BeerSensors(Screen):
         self.lab_boilProbe.text="Boil Probe : "+glob_config.sensorBoil
         pass
 
-    def hltAssign(self,num):
+    def hltAssign(self,num,**kwargs):
         print(str(num))
         pass
 
