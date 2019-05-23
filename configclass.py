@@ -49,7 +49,8 @@ class BeerConfig:
             if not self.has_option(secction,value):         # check value exists
                 self.config.set(section, value, fallback)   # it doesn't so add it and set it to fallback
                 return fallback
-            return self.config.get(section,value,fallback)  # section exists so attempt to get value, if not fallback
+            else:
+                return self.config.get(section,value,fallback)  # section exists so attempt to get value, if not fallback
 
 
     def loadConfigFile(self):
