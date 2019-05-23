@@ -130,8 +130,8 @@ class BeerSensors(Screen):
         self.add_widget(Label(text="Total Beer Probes : "+str(glob_beerProbes.countProbes()),top=self.top+200))
         num=0
         #self.probeLabelValue.clear()
-        for  tmp_probe in glob_beerProbes.probeList:
-            tmp_LabelVal=str(tmp_probe.name)+" T: "+glob_beerProbes.returnStrProbeVal(num)
+        for tmp_probe in glob_beerProbes.probeList:
+            tmp_LabelVal=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr+" WTF"
             self.probeLabelValue.append(tmp_LabelVal)
             self.add_widget(Label(text=self.probeLabelValue[num], top=self.top + 160 - (num*30),x=self.x-220))
             num+=1
