@@ -134,11 +134,12 @@ class BeerSensors(Screen):
         self.lab_boilProbe.text="Boil Probe : "+glob_config.sensorBoil
         pass
 
-    def hltAssign(self,num,*args):
-        print(str(num))
+    def hltAssign(self,num, *args):
+        glob_config.sensorHLT=glob_beerProbes.probeList[num].name
         pass
 
-    def boilAssign(self,num):
+    def boilAssign(self,num, *args):
+        glob_config.sensorBoil=glob_beerProbes.probeList[num].name
         pass
 
     def __init__(self, **kwargs):
@@ -165,6 +166,7 @@ class BeerSensors(Screen):
             self.arr_ButtonHLT.append(Button(text="Set HLT", top=415 - (num*40), x=self.x+330, size=(65,30), size_hint=(None,None) ))
             self.arr_ButtonHLT[num].bind(on_press=partial(self.hltAssign,num))
             self.arr_ButtonBoil.append(Button(text="Set Boil", top=415 - (num*40), x=self.x+450, size=(65,30), size_hint=(None,None) ))
+            self.arr_ButtonBoil[num].bind(on_press=partial(self.boilAssign,num))
             self.add_widget(self.arr_ButtonHLT[num])
             self.add_widget(self.arr_ButtonBoil[num])
             num+=1
