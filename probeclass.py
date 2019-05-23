@@ -92,11 +92,11 @@ class BeerProbes:
             if tmp_probe.name==probename:
                 return tx
             tx+=1
-        return False
+        return -99
 
     def returnStrProbeValFromName(self,probename):
         probenum=self.getProbeNumber(probename)
-        if not probenum:
+        if probenum=-99:
             return "false"
         return self.returnStrProbeVal(probenum)
 
