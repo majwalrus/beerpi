@@ -113,13 +113,14 @@ class BeerConfig(Screen):
 class BeerSensors(Screen):
 
     probeLabelValue=[]
+    arr_Label=[]
     tmp_LabelVal=StringProperty()
-
+    tmp_Label=Label()
     def update(self,dt):
         num=0
         for tmp_probe in glob_beerProbes.probeList:
-            tmp_LabelVal=str(tmp_probe.name)+" T: "+glob_beerProbes.returnStrProbeVal(num)
-            self.probeLabelValue[num]=tmp_LabelVal
+            self.tmp_LabelVal=str(tmp_probe.name)+" T: "+glob_beerProbes.returnStrProbeVal(num)
+            self.probeLabelValue[num]=self.tmp_LabelVal
             num+=1
 
 
@@ -132,8 +133,9 @@ class BeerSensors(Screen):
         num=0
         #self.probeLabelValue.clear()
         for tmp_probe in glob_beerProbes.probeList:
-            tmp_LabelVal=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr+" WTF"
-            self.probeLabelValue.append(tmp_LabelVal)
+            self.tmp_LabelVal=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr+" WTF"
+            self.probeLabelValue.append(self.tmp_LabelVal)
+            tmp_Label=
             self.add_widget(Label(text=self.probeLabelValue[num], top=self.top + 160 - (num*30),x=self.x-220))
             num+=1
 
