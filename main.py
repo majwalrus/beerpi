@@ -113,6 +113,7 @@ class BeerConfig(Screen):
 class BeerSensors(Screen):
 
     arr_LabelProbe=[]
+    arr_LabelAssign=[]
     tmp_LabelVal=StringProperty()
     tmp_Label=Label()
     lab_hltProbe=Label()
@@ -148,7 +149,9 @@ class BeerSensors(Screen):
         #self.probeLabelValue.clear()
         for tmp_probe in glob_beerProbes.probeList:
             self.arr_LabelProbe.append(Label(text=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr+" INIT", top=self.top + 90 - (num*40),x=self.x-250))
+            self.arr_LabelAssign.append(Label(text="None INIT", top=self.top + 90 - (num*40),x=self.x-40))
             self.add_widget(self.arr_LabelProbe[num])
+            self.add_widget(self.arr_LabelAssign[num])
             num+=1
 
 
