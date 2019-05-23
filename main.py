@@ -112,6 +112,9 @@ class BeerConfig(Screen):
 
 class BeerSensors(Screen):
 
+    probeLabelValue=[]
+    tmp_LabelVal=StringProperty()
+
     def update(self,dt):
         num=0
         for tmp_probe in glob_beerProbes.probeList:
@@ -119,8 +122,6 @@ class BeerSensors(Screen):
             self.probeLabelValue[num]=tmp_LabelVal
             num+=1
 
-    probeLabelValue=[]
-    tmp_LabelVal=StringProperty()
 
     def __init__(self, **kwargs):
         super(BeerSensors,self).__init__(**kwargs)
