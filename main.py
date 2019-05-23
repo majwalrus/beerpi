@@ -75,9 +75,11 @@ class BeerStatus(Screen):
 
     def addhlt(self, *args):
         glob_config.valHLTTargetTemp +=1
+        glob_config.valHLTTaperTemp +=1
 
     def subhlt(self, *args):
         glob_config.valHLTTargetTemp +=-1
+        glob_config.valHLTTaperTemp +=-1
 
 
     def __init__(self, **kwargs):
@@ -118,6 +120,7 @@ class BeerSensors(Screen):
         self.menu = ConfigRightBar()
         self.add_widget(self.menu)
         self.add_widget(Label(text="Sensors",top=self.top+220))
+        self.add_widget(Label(text="Total Beer Probes :"+str(glob_beerProbes.countProbes()),top=top.self.top-200))
 
 
 class BeerScreenManagement(ScreenManager):
