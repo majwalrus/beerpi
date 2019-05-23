@@ -124,6 +124,7 @@ class BeerSensors(Screen):
         num=1
         for  tmp_probe in glob_beerProbes.probeList:
             self.add_widget(Label(text=str(tmp_probe.name), top=self.top + 160 - (num*30)))
+            num+=1
 
 
 class BeerScreenManagement(ScreenManager):
