@@ -55,9 +55,9 @@ class BeerConfig:
 
         self.valBoilTargetTemp=int(self.config.get("Boil","targettemp","101"))
 
-        if not self.sensorBoil=self.getConfig("Sensors","boil","")
+        if not self.sensorBoil=self.getConfig("Sensors","boil",""):
             self.sensorBoil=""
-        if not self.sensorHLT=self.getConfig("Sensors","hlt","")
+        if not self.sensorHLT=self.getConfig("Sensors","hlt",""):
             self.sensorHLT=""
 
 
