@@ -21,7 +21,7 @@ import configclass
 #
 # Global Variables
 # ==================
-# Used as globals as less overheads and in future will be updated by using multiple threads.
+# Used as globals as less overheads and in will be updated by using multiple threads.
 
 
 glob_pihealth = pihealth.PiHealth()
@@ -117,6 +117,8 @@ class BeerSensors(Screen):
         super(BeerSensors,self).__init__(**kwargs)
         self.menu = ConfigRightBar()
         self.add_widget(self.menu)
+        self.add_widget(Label("Sensors"))
+
 
 class BeerScreenManagement(ScreenManager):
     pass
@@ -132,14 +134,6 @@ class SimpleApp(App):
     def build(self):
         Clock.schedule_interval(self.update, 1)
         return self.screenmanager
-
-#
-# STARTUP
-#  Loads the configuration files and sets the default data. If there is no config file it creates default values and
-#  then writes the default file.
-
-
-
 
 #
 # THREADS

@@ -46,7 +46,7 @@ class BeerConfig:
             self.config.set(section,value,fallback)         # now add the value and fallback
             return fallback                                 # return fallback
         else:
-            if not self.config.has_option(section,value):         # check value exists
+            if not self.config.has_option(section,value):   # check value exists
                 self.config.set(section, value, fallback)   # it doesn't so add it and set it to fallback
                 return fallback
             else:

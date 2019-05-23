@@ -10,6 +10,8 @@ class ElementControlClass:
     targetTemp = 76
     taperTemp = 75
 
+    name = ""
+
     def __init__(self):
         pass
 
