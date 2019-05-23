@@ -114,7 +114,7 @@ class BeerSensors(Screen):
 
     def update(self,dt):
         num=0
-        for  tmp_probe in glob_beerProbes.probeList:
+        for tmp_probe in glob_beerProbes.probeList:
             tmp_LabelVal=str(tmp_probe.name)+" T: "+glob_beerProbes.returnStrProbeVal(num)
             self.probeLabelValue[num]=tmp_LabelVal
             num+=1
@@ -147,6 +147,9 @@ class SimpleApp(App):
     def update(self, dt):
         statusscreen = self.screenmanager.get_screen('Status')
         statusscreen.update(dt)
+
+        sensorscreen = self.screenmanager.get_screen('Sensors')
+        sensorscreen.update(dt)
 
     def build(self):
         Clock.schedule_interval(self.update, 1)
