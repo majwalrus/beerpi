@@ -117,7 +117,7 @@ class BeerSensors(Screen):
         super(BeerSensors,self).__init__(**kwargs)
         self.menu = ConfigRightBar()
         self.add_widget(self.menu)
-        self.add_widget(Label(text="Sensors",top=self.top))
+        self.add_widget(Label(text="Sensors",top=self.top-100))
 
 
 class BeerScreenManagement(ScreenManager):
