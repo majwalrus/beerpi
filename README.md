@@ -15,6 +15,10 @@ at that stage to have a nice rolling boil using less electricity (so less £/$),
 scorching and also less boil off so again more control over the process. This will hopefully
 lead to better beer.
 
+Note: this is developed to work using Kivy on the offical Raspberry Pi 7" touchscreen. If you
+wish to alter the code for a different screen you will need to adjust the .kv file and also
+the dynamically created widgets with main.py.
+
 Also its a good excuse to mess around with a Pi.
 
 Current Version 0.1a
