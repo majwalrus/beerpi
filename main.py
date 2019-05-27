@@ -19,16 +19,18 @@ import ConfigParser
 import pihealth
 import probeclass
 import configclass
+import elementclass
 #
 # Global Variables
 # ==================
 # Used as globals as less overheads and in will be updated by using multiple threads.
 
+glob_config = configclass.BeerConfig() # must be defined first, as values in here used in other declarations.
 
 glob_pihealth = pihealth.PiHealth()
 glob_beerProbes = probeclass.BeerProbes()
-glob_config = configclass.BeerConfig()
-
+glob_hltElement = elementclass.ElementControlClass(glob_config.gpioHLT)
+glob_boilElement = elementclass.ElementControlClass(glob_config.gpioBoil)
 
 #
 # KIVY

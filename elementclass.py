@@ -1,6 +1,7 @@
 import time
 import glob
 import os
+import RPi.GPIO as GPIO
 
 class ElementControlClass:
     mainPower = 10  # The intensity of the element when under taperTemp
@@ -10,9 +11,18 @@ class ElementControlClass:
     targetTemp = 76
     taperTemp = 75
 
+    elementGPIO = 0
+
     name = ""
 
-    def __init__(self):
+    def __init__(self,gpio):
+        if gpio==0:
+            return False
+
+        self.elementGPIO=gpio
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+        GPIO.setup(int(self.elementGPIO),GPIO_OUT)
         pass
 
     def setTaperPower(self,pow):

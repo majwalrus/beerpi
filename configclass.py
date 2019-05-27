@@ -11,6 +11,8 @@ class BeerConfig:
 
     sensorHLT=""
     sensorBoil=""
+    gpioHLT=""
+    gpioBoil=""
 
     config = ConfigParser.ConfigParser(allow_no_value=True)
 
@@ -28,10 +30,12 @@ class BeerConfig:
         self.config.add_section("HLT")              # HLT value section
         self.config.set("HLT","targettemp","76")
         self.config.set("HLT","tapertemp","75")
+        self.config.set("HLT","hltgpio","6")
 
         self.config.add_section("Boil")             # Boil value section
         self.config.set("Boil","targettemp","101")
-        self.config.set("Boil","tapertemp","99")
+        self.config.set("Boil","tapertemp","98")
+        self.config.set("HLT","boilgpio","5")
 
         self.config.add_section("Sensors")          # Sensors  value section
         self.config.set("Sensors","hlt","")
@@ -59,6 +63,8 @@ class BeerConfig:
         self.valBoilTargetTemp=int(self.getConfig("Boil","targettemp","101"))
         self.sensorBoil=self.getConfig("Sensors","boil","")
         self.sensorHLT=self.getConfig("Sensors","hlt","")
+        self.gpioHLT=self.getConfig("HLT","hltgpio","6")
+        self.gpioBoil=self.getConfig("Boil","boilgpio","5")
 
         print("\n\rConfig File Dump\n\r")
         print(self.valHLTTargetTemp)
