@@ -252,7 +252,7 @@ def elementThreadControl(): #   Actions element class
         print "Check Element Thread\n\r"
         checkElementData()
         if not glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="false":
-            glob_htlElement.elementControl(int(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)),timer)
+            glob_hltElement.elementControl(int(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)),timer)
         #if not glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)=="false":
         #    glob_BoilElement.elementControl(int(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)),timer)
         time.sleep(1)
