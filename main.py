@@ -164,7 +164,7 @@ class BeerSensors(Screen):
 
 
     def update(self,dt):
-        '''
+
         num=0
         for tmp_probe in glob_beerProbes.probeList:
             self.tmp_LabelVal=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr
@@ -181,7 +181,7 @@ class BeerSensors(Screen):
             if tmp_probe.name==glob_config.sensorBoil:
                 self.arr_LabelAssignBoil[num].text="Boil"
             num+=1
-        '''
+
         pass
 
     def hltAssign(self,num, *args):
