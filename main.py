@@ -225,6 +225,12 @@ def checkElementData():
     glob_boilElement.setTargetTemp(glob_config.valBoilTargetTemp)
     glob_boilElement.setTaperTemp(glob_config.valBoilTaperTemp)
 
+    print "HLT:\n\r"
+    glob_hltElement.dumpData()
+    print "Boil:\n\r"
+    glob_BoilElement.dumpData()
+
+
 
 #
 # THREADS
