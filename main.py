@@ -228,7 +228,7 @@ def checkElementData():
     print "HLT:\n\r"
     glob_hltElement.dumpData()
     print "Boil:\n\r"
-    glob_BoilElement.dumpData()
+    glob_boilElement.dumpData()
 
 
 
