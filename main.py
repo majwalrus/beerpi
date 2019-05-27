@@ -212,7 +212,8 @@ class SimpleApp(App):
 #
 
 def checkElementData():
-    pass
+    glob_htlElement.setMainPower(glob_config.valHLTMainPower)
+
 
 #
 # THREADS
