@@ -1,15 +1,20 @@
 import time
 import glob
 import os
-import DS18B20
+#import DS18B20
+
+# In this file there are two methods of controlling the temperature probes. There is the original OS method, and
+# an alternative using a custom import library from https://github.com/danjperron/BitBangingDS18B20. Unfortunately
+# the latter although perhaps less tempremental at picking up the probes, has a big CPU overhead when checking values
+# making Kivy fairly unresponsive.
 
 # Class BeerTempProbe
 #  This handles an individual probe
 
 
-class BeerTempProbeBB:
-    name = ""
-    probeval = 0
+class BeerTempProbeBB:      #   Alternate class to use bitbanging module for getting temp data.
+    name = ""               #   Somewhat of a failed idea as too much CPU overhead when being used making the
+    probeval = 0            #   kivy side of things somewhat unresponsive.
     probevalstr = ""
 
     def __init__(self, name):
@@ -183,9 +188,9 @@ class BeerProbesOS:
                 return tmp_probe.probeval
         return -1
 '''
-demonstration code
+# demonstration code
 
-bp = BeerProbes()
+bp = BeerProbesOS()
 
 bp.updateProbes()
 bp.dumpData()

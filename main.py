@@ -127,19 +127,19 @@ class BeerStatus(Screen):
         self.add_widget(self.menu)
 
 
-class BeerHLT(Screen):
+class BeerHLT(Screen):      # # Placeholder, may be used in the future but after changes to the status screen maybe not
 
     def update(self, dt):
         pass
 
 
-class BeerBoil(Screen):
+class BeerBoil(Screen):     # Placeholder, may be used in the future but after changes to the status screen maybe not
 
     def update(self, dt):
         pass
 
 
-class BeerConfig(Screen):
+class BeerConfig(Screen):   # Main config screen, very little on it but does have the config menu to the right
 
     def update(self, dt):
         pass
@@ -149,8 +149,8 @@ class BeerConfig(Screen):
         self.menu = ConfigRightBar()
         self.add_widget(self.menu)
 
-class BeerSensors(Screen):
-
+class BeerSensors(Screen):  # The config screen for the temperature probes, this needs to dynamically create labels and
+                            # and buttons allowing the user to select which probe is in the relevant kettle / RIMS etc.
     arr_LabelProbe=[]
     arr_LabelAssignHLT=[]
     arr_LabelAssignBoil=[]
@@ -159,14 +159,14 @@ class BeerSensors(Screen):
     tmp_LabelVal=StringProperty()
     tmp_Label=Label()
     tmp_Button=Button()
-    lab_hltProbe=Label()
-    lab_boilProbe=Label()
+    #lab_hltProbe=Label()   # Old code for debugging purposes
+    #lab_boilProbe=Label()
 
 
     def update(self,dt):
 
         num=0
-        for tmp_probe in glob_beerProbes.probeList:
+        for tmp_probe in glob_beerProbes.probeList:     # Updates the array of Kivy labels to have the correct info
             self.tmp_LabelVal=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr
             self.arr_LabelProbe[num].text=self.tmp_LabelVal
             num+=1
@@ -182,40 +182,39 @@ class BeerSensors(Screen):
                 self.arr_LabelAssignBoil[num].text="Boil"
             num+=1
 
-        pass
-
-    def hltAssign(self,num, *args):
+    def hltAssign(self,num, *args): # function that is called when an HLT select button is pressed
         glob_config.sensorHLT=glob_beerProbes.probeList[num].name
         glob_config.updateConfigFile()
         pass
 
-    def boilAssign(self,num, *args):
+    def boilAssign(self,num, *args):    # function that is called when a boil select button is pressed
         glob_config.sensorBoil=glob_beerProbes.probeList[num].name
         glob_config.updateConfigFile()
         pass
 
     def __init__(self, **kwargs):
         super(BeerSensors,self).__init__(**kwargs)
-        self.menu = ConfigRightBar()
+        self.menu = ConfigRightBar()            # Ensure the config menu is displayed
         self.add_widget(self.menu)
         self.add_widget(Label(text="Sensor Setup",top=self.top+220))
         self.add_widget(Label(text="Total Temperature Probes : "+str(glob_beerProbes.countProbes()),top=self.top+190))
 
-        self.lab_hltProbe = Label(text="HLT Probe : "+glob_config.sensorHLT, top=self.top + 160)
-        self.lab_boilProbe = Label(text="Boil Probe : "+glob_config.sensorBoil, top=self.top + 130)
-
+        #self.lab_hltProbe = Label(text="HLT Probe : "+glob_config.sensorHLT, top=self.top + 160)
+        #self.lab_boilProbe = Label(text="Boil Probe : "+glob_config.sensorBoil, top=self.top + 130)
         #self.add_widget(self.lab_hltProbe)
-        #self.add_widget(self.lab_boilProbe)
-
+        #self.add_widget(self.lab_boilProbe)    # Old code which was for debugging the selected probe info
 
         num=0
-        for tmp_probe in glob_beerProbes.probeList:
+        for tmp_probe in glob_beerProbes.probeList:     # Create an array of labels for all the probes found
             self.arr_LabelProbe.append(Label(text=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr+" INIT", top=self.top + 90 - (num*40),x=self.x-250))
             self.arr_LabelAssignHLT.append(Label(text="None INIT", top=self.top + 90 - (num*40),x=self.x-120))
             self.arr_LabelAssignBoil.append(Label(text="None INIT", top=self.top + 90 - (num*40),x=self.x-80))
-            self.add_widget(self.arr_LabelProbe[num])
+
+            self.add_widget(self.arr_LabelProbe[num])   # Now display the labels
             self.add_widget(self.arr_LabelAssignHLT[num])
             self.add_widget(self.arr_LabelAssignBoil[num])
+
+            # Create the HLT and Boil selection buttons
             self.arr_ButtonHLT.append(Button(text="Set HLT", top=415 - (num*40), x=self.x+360, size=(65,30), size_hint=(None,None) ))
             self.arr_ButtonHLT[num].bind(on_press=partial(self.hltAssign,num))
             self.arr_ButtonBoil.append(Button(text="Set Boil", top=415 - (num*40), x=self.x+450, size=(65,30), size_hint=(None,None) ))
@@ -229,10 +228,10 @@ class BeerScreenManagement(ScreenManager):
     pass
 
 
-class SimpleApp(App):
+class SimpleApp(App):   # The app class for the kivy side of the project
     screenmanager = Builder.load_file("main.kv")
 
-    def update(self, dt):
+    def update(self, dt):   # Update, and make sure passes on to the various Kivy screens so they get updated.
         statusscreen = self.screenmanager.get_screen('Status')
         statusscreen.update(dt)
 
@@ -248,7 +247,7 @@ class SimpleApp(App):
 #
 #
 
-def checkElementData():
+def checkElementData(): # This ensures that the element classes have the correct data in case of changes
     glob_hltElement.setMainPower(glob_config.valHLTMainPower)
     glob_hltElement.setTaperPower(glob_config.valHLTTaperPower)
     glob_hltElement.setOverPower(glob_config.valHLTOverPower)
@@ -276,33 +275,28 @@ def checkElementData():
 
 def piHealthThread():
     while True:
-        time.sleep(5)
-        glob_pihealth.getPiTemp()
+        time.sleep(5)                   # this observes the temperature of the Pi and may monitor CPU usage
+        glob_pihealth.getPiTemp()       # in the future, and indeed may even control a cooling fan.
 
-def tempProbeThread():
-    while True:
-        #print("Calling updateProbes")
+def tempProbeThread():                  # this updates and caches the data from the temperature probes in the global
+    while True:                         # values which the rest of the project uses.
         glob_beerProbes.updateProbes()
-        #time.sleep(0.5)
 
 
-def elementThreadControl(): #   Actions element class
-    timer=1
-    while True:
-        #print "\nCheck Element Thread\n"
+def elementThreadControl():             # This controls the elements, it has 10 cycles of which the SSR controlling
+    timer=1                             # the relevant element will be feathered if necessary, so if set at 50%
+    while True:                         # it will be switched off and on every second.
         checkElementData()
-        if glob_config.boolHLTElementOn:
+        if glob_config.boolHLTElementOn:            # Is the HLT element control switched on
             if not (glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="" or glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="false"):
-                #print glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)+" : "+str(timer)+"\n"
                 glob_hltElement.elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)))
-        else:
+        else:                                       # No its not, so make sure the element is off
             glob_hltElement.switchOff()
 
-        if glob_config.boolBoilElementOn:
+        if glob_config.boolBoilElementOn:           # Is the Boil element control switched on
             if not (glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)=="" or glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)=="false"):
-                #print glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)+" : "+str(timer)+"\n"
                 glob_boilElement.elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)))
-        else:
+        else:                                       # No its not, so make sure the element is off
             glob_boilElement.switchOff()
         time.sleep(1)
         timer+=1
@@ -314,9 +308,6 @@ def elementThreadControl(): #   Actions element class
 #  then start the Kivy App.
 
 if __name__ == '__main__':
-
-    #print(glob_config.valHLTTargetTemp)
-
     threadTemp = threading.Thread(target=tempProbeThread)
     threadTemp.daemon=True
     threadTemp.start()
