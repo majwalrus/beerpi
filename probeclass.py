@@ -7,7 +7,7 @@ import DS18B20
 #  This handles an individual probe
 
 
-class BeerTempProbe:
+class BeerTempProbeBB:
     name = ""
     probeval = 0
     probevalstr = ""
@@ -59,14 +59,14 @@ class BeerTempProbeOS:
 #   This class handles all of the 1wire probes, and is used to update them and get the
 #   values from the individual probes by passing their device name.
 
-class BeerProbes:
+class BeerProbesBB:
     probeList = []
     #w1_devdir = '/sys/bus/w1/devices/'
     sensorlist = DS18B20.scan(4)
 
     def __init__(self):
         for w1_dev in self.sensorlist:
-            tmp_probe = BeerTempProbe(w1_dev)
+            tmp_probe = BeerTempProbeBB(w1_dev)
             self.probeList.append(tmp_probe)
 
     def countProbes(self):

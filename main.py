@@ -28,7 +28,7 @@ import elementclass
 glob_config = configclass.BeerConfig() # must be defined first, as values in here used in other declarations.
 
 glob_pihealth = pihealth.PiHealth()
-glob_beerProbes = probeclass.BeerProbes()
+glob_beerProbes = probeclass.BeerProbesOS()
 glob_hltElement = elementclass.ElementControlClass(int(glob_config.gpioHLT))
 glob_boilElement = elementclass.ElementControlClass(int(glob_config.gpioBoil))
 
