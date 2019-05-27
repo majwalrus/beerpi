@@ -225,10 +225,10 @@ def checkElementData():
     glob_boilElement.setTargetTemp(glob_config.valBoilTargetTemp)
     glob_boilElement.setTaperTemp(glob_config.valBoilTaperTemp)
 
-    print "HLT:\n\r"
-    glob_hltElement.dumpData()
-    print "Boil:\n\r"
-    glob_boilElement.dumpData()
+    #print "HLT:\n\r"
+    #glob_hltElement.dumpData()
+    #print "Boil:\n\r"
+    #glob_boilElement.dumpData()
 
 
 
@@ -251,8 +251,8 @@ def elementThreadControl(): #   Actions element class
     while True:
         print "Check Element Thread\n\r"
         checkElementData()
-        #if not glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="false":
-        #    glob_htlElement.elementControl(int(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)),timer)
+        if not glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="false":
+            glob_htlElement.elementControl(int(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)),timer)
         #if not glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)=="false":
         #    glob_BoilElement.elementControl(int(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)),timer)
         time.sleep(1)
