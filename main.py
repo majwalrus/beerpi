@@ -78,11 +78,11 @@ class BeerStatus(Screen):
 
     def addhlt(self, *args):
         glob_config.valHLTTargetTemp +=1
-        glob_config.valHLTTaperTemp +=1
+        glob_config.valHLTTaperTemp=glob_config.valHLTTargetTemp-1
 
     def subhlt(self, *args):
         glob_config.valHLTTargetTemp +=-1
-        glob_config.valHLTTaperTemp +=-1
+        glob_config.valHLTTaperTemp=glob_config.valHLTTargetTemp-1
 
 
     def __init__(self, **kwargs):
@@ -206,6 +206,14 @@ class SimpleApp(App):
         Clock.schedule_interval(self.update, 1)
         return self.screenmanager
 
+
+#
+#
+#
+
+def checkElementData():
+
+
 #
 # THREADS
 #  These are used to do the intermittent monitoring and updating global values to reduce overhead of the
@@ -220,13 +228,12 @@ def tempProbeThread():
     while True:
         glob_beerProbes.updateProbes()
 
-def elementThreadConfig():  #   Ensures element class has up to date information
-    while True:
-        pass
-
 def elementThreadControl(): #   Actions element class
+    time=1
     while True:
+
         time.sleep(1)
+        time+=1
 #
 # MAIN
 #  This is the main startup code. This will start the relevant threads, run the startup config code and
@@ -243,10 +250,6 @@ if __name__ == '__main__':
     threadHealth = threading.Thread(target=piHealthThread)
     threadHealth.daemon=True
     threadHealth.start()
-
-    #threadHealth = threading.Thread(target=elementThreadConfig)
-    #threadHealth.daemon=True
-    #threadHealth.start()
 
     threadHealth = threading.Thread(target=elementThreadControl)
     threadHealth.daemon=True

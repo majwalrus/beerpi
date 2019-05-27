@@ -9,6 +9,15 @@ class BeerConfig:
     valBoilTargetTemp=0
     valBoilTaperTemp=0
 
+
+    valHLTMainPower=0
+    valBoilMainPower=0
+    valHLTTaperPower=0
+    valBoilTaperPower=0
+    valHLTOverPower=0
+    valBoilOverPower=0
+
+
     sensorHLT=""
     sensorBoil=""
     gpioHLT=""
@@ -59,12 +68,21 @@ class BeerConfig:
 
     def loadConfigFile(self):
         self.config.read(self.configFile)
-        self.valHLTTargetTemp=int(self.getConfig("HLT","targettemp","74"))
+        self.valHLTTargetTemp=int(self.getConfig("HLT","targettemp","76"))
+        self.valHLTTaperTemp=int(self.getConfig("HLT","tapertemp","75"))
         self.valBoilTargetTemp=int(self.getConfig("Boil","targettemp","101"))
+        self.valBoilTaperTemp=int(self.getConfig("Boil","tapertemp","98"))
         self.sensorBoil=self.getConfig("Sensors","boil","")
         self.sensorHLT=self.getConfig("Sensors","hlt","")
         self.gpioHLT=self.getConfig("HLT","hltgpio","6")
         self.gpioBoil=self.getConfig("Boil","boilgpio","5")
+
+        self.valHLTMainPower = self.getConfig("HLT","mainpower","10")
+        self.valBoilMainPower = self.getConfig("Boil","mainpower","10")
+        self.valHLTTaperPower = self.getConfig("HLT","taperpower","10")
+        self.valBoilTaperPower = self.getConfig("Boil","taperpower","10")
+        self.valHLTOverPower = self.getConfig("HLT","overpower","10")
+        self.valBoilOverPower = self.getConfig("Boil","overpower","10")
 
         print("\n\rConfig File Dump\n\r")
         print(self.valHLTTargetTemp)
