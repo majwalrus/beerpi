@@ -254,8 +254,8 @@ def elementThreadControl(): #   Actions element class
         if not (glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="" or glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="false"):
             print glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)+" : "+str(timer)+"\n"
             glob_hltElement.elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)))
-        #if not (glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)=="" or glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)=="false"):
-        #    glob_BoilElement.elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)))
+        if not (glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)=="" or glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)=="false"):
+            glob_BoilElement.elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)))
         time.sleep(1)
         timer+=1
         if timer>10:
