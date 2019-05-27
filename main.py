@@ -76,6 +76,17 @@ class BeerStatus(Screen):
         self.boilSetTempLabel = str(glob_config.valBoilTargetTemp)
         pass
 
+    def setHLTElement(self,status):
+        if status:
+            glob_config.boolHLTElementOn=True
+            self.ids['hltelementbutton'].text="ELEMENT OFF"
+            self.ids['hltelementbutton'].background_color = 0.3, 0.1, 0.1, 1
+        else:
+            glob_config.boolHLTElementOn=False
+            self.ids['hltelementbutton'].text = "ELEMENT ON"
+            self.ids['hltelementbutton'].background_color = 0.1, 0.1, 0.2, 1
+
+
     def addhlt(self, *args):
         glob_config.valHLTTargetTemp +=1
         glob_config.valHLTTaperTemp=glob_config.valHLTTargetTemp-1
@@ -86,13 +97,9 @@ class BeerStatus(Screen):
 
     def toggleHLTElement(self, *args):
         if glob_config.boolHLTElementOn:
-            glob_config.boolHLTElementOn=False
-            self.ids['hltelementbutton'].text="ELEMENT OFF"
-            self.ids['hltelementbutton'].background_color = 0.1, 0.1, 0.2, 1
+            setHLTElement(False)
         else:
-            glob_config.boolHLTElementOn=True
-            self.ids['hltelementbutton'].text = "ELEMENT ON"
-            self.ids['hltelementbutton'].background_color = 0.3, 0.1, 0.1, 1
+            setHLTElement(True)
         pass
 
     def toggleBoilElement(self, *args):
