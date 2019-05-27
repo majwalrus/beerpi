@@ -232,9 +232,11 @@ def tempProbeThread():
 def elementThreadControl(): #   Actions element class
     time=1
     while True:
-
+        CheckElementData()
         time.sleep(1)
         time+=1
+        if time>10:
+            time=1
 #
 # MAIN
 #  This is the main startup code. This will start the relevant threads, run the startup config code and
