@@ -79,7 +79,9 @@ class BeerProbes:
             print ("Name: " + tmp_probe.name + " Temp: " + str(tmp_probe.probeval))
 
     def updateProbes(self):
+        print("In Update Probes ...")
         for tmp_probe in self.probeList:
+            print ("in probelist .... "+tmp_probe.name+" ... ")
             tmp_probe.updateProbe()
 
     def returnStrProbeVal(self, probenum):

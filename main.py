@@ -281,6 +281,7 @@ def piHealthThread():
 
 def tempProbeThread():
     while True:
+        print("Calling updateProbes")
         #glob_beerProbes.updateProbes()
         time.sleep(1)
 
