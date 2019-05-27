@@ -88,9 +88,11 @@ class BeerStatus(Screen):
         if glob_config.boolHLTElementOn:
             glob_config.boolHLTElementOn=False
             self.ids['hltelementbutton'].text="ELEMENT OFF"
+            self.ids['hltelementbutton'].background_color = 0.1, 0.1, 0.2, 1
         else:
             glob_config.boolHLTElementOn=True
             self.ids['hltelementbutton'].text = "ELEMENT ON"
+            self.ids['hltelementbutton'].background_color = 0.2, 0.1, 0.1, 1
         pass
 
     def toggleBoilElement(self, *args):
