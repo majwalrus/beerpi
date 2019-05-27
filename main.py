@@ -281,7 +281,9 @@ def piHealthThread():
 
 def tempProbeThread():
     while True:
-        glob_beerProbes.updateProbes()
+        #glob_beerProbes.updateProbes()
+        time.sleep(1)
+
 
 def elementThreadControl(): #   Actions element class
     timer=1
