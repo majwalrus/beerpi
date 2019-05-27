@@ -92,10 +92,10 @@ class ElementControlClass:
             return True
         if pow==6 and not (time==2 or time==5 or time==7 or time==10):
             return True
-        if pow==7 and not (time==4 or time==7 or time==10)
+        if pow==7 and not (time==4 or time==7 or time==10):
             return True
-        if pow==8 and not (time==5 or time==10)
+        if pow==8 and not (time==5 or time==10):
             return True
-        if pow==9 and not time==10
+        if pow==9 and not time==10:
             return True
         return False
