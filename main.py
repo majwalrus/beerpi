@@ -74,17 +74,29 @@ class BeerStatus(Screen):
 
         self.hltSetTempLabel = str(glob_config.valHLTTargetTemp)
         self.boilSetTempLabel = str(glob_config.valBoilTargetTemp)
+        self.setHLTElement(glob_config.boolHLTElementOn)
+        self.setBoilElement(glob_config.boolBoilElementOn)
         pass
 
     def setHLTElement(self,status):
         if status:
             glob_config.boolHLTElementOn=True
-            self.ids['hltelementbutton'].text="ELEMENT OFF"
+            self.ids['hltelementbutton'].text="ELEMENT ON"
             self.ids['hltelementbutton'].background_color = 0.3, 0.1, 0.1, 1
         else:
             glob_config.boolHLTElementOn=False
-            self.ids['hltelementbutton'].text = "ELEMENT ON"
+            self.ids['hltelementbutton'].text = "ELEMENT OFF"
             self.ids['hltelementbutton'].background_color = 0.1, 0.1, 0.2, 1
+
+    def setBoilElement(self,status):
+        if status:
+            glob_config.boolBoilElementOn=True
+            self.ids['boilelementbutton'].text="ELEMENT ON"
+            self.ids['boilelementbutton'].background_color = 0.3, 0.1, 0.1, 1
+        else:
+            glob_config.boolBoilElementOn=False
+            self.ids['boilelementbutton'].text = "ELEMENT OFF"
+            self.ids['boilelementbutton'].background_color = 0.1, 0.1, 0.2, 1
 
 
     def addhlt(self, *args):
