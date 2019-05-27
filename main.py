@@ -314,9 +314,9 @@ if __name__ == '__main__':
 
     #print(glob_config.valHLTTargetTemp)
 
-    #threadTemp = threading.Thread(target=tempProbeThread)
-    #threadTemp.daemon=True
-    #threadTemp.start()
+    threadTemp = threading.Thread(target=tempProbeThread)
+    threadTemp.daemon=True
+    threadTemp.start()
 
     #threadHealth = threading.Thread(target=piHealthThread)
     #threadHealth.daemon=True
