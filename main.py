@@ -244,6 +244,10 @@ def elementThreadControl(): #   Actions element class
     time=1
     while True:
         CheckElementData()
+        if not glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)==False:
+            glob_htlElement.elementControl(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT),time)
+        if not glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)==False:
+            glob_BoilElement.elementControl(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil),time)
         time.sleep(1)
         time+=1
         if time>10:

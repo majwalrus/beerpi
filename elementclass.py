@@ -65,6 +65,15 @@ class ElementControlClass:
         self.taperTemp=temp
         return True
 
+    def elementControl(self,time,temp):
+        power=self.returnPower(temp)
+        elementstate=self.returnPowerState(time,power)
+        if elementstate:
+            GPIO.output(int(self.elementGPIO),GPIO.HIGH)
+        else:
+            GPIO.output(int(self.elementGPIO),GPIO.LOW)
+
+
     def returnPower(self,temp):
         if temp<self.targetTemp and temp<self.taperTemp:
             return self.mainPower
