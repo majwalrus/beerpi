@@ -247,18 +247,18 @@ def tempProbeThread():
         glob_beerProbes.updateProbes()
 
 def elementThreadControl(): #   Actions element class
-    time=1
+    timer=1
     while True:
         print "Check Element Thread\n\r"
         #CheckElementData()
         #if not glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="false":
-        #    glob_htlElement.elementControl(int(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)),time)
+        #    glob_htlElement.elementControl(int(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)),timer)
         #if not glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)=="false":
-        #    glob_BoilElement.elementControl(int(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)),time)
-        time.sleep(1)
-        time+=1
-        if time>10:
-            time=1
+        #    glob_BoilElement.elementControl(int(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)),timer)
+        timer.sleep(1)
+        timer+=1
+        if timer>10:
+            timer=1
 #
 # MAIN
 #  This is the main startup code. This will start the relevant threads, run the startup config code and
