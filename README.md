@@ -32,15 +32,15 @@ Version History
 * set desired HLT temperature.
 * configclass.py added, for loading and saving config files.
 * assign temperature probes easily in menu system
+* completed elementclass and added SSR control based on taper and target temperatures
 
 TODO:
 
-* SOFTWARE complete GUI elements using Kivi
 * SOFTWARE calibrate temperature probes to ensure accurate temperatures recorded
 * SOFTWARE record temperature calibration and load on startup
 * SOFTWARE create shutdown button and confirmation
+* SOFTWARE allow for manipulation of taper temperatures on boil and HLT
 
-* SOFTWARE control SSRs and switch elements off and on
-* SOFTWARE switch off SSR if greater than desired HLT temperature
-* SOFTWARE feather SSR as approaching HLT temperature
-* SOFTWARE feather SSR at boil temperature
+POSSIBLE FUTURE EXPANSIONS:
+
+* add further probe and SSR for controlling RIMS system
