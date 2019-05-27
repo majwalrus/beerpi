@@ -88,7 +88,7 @@ class BeerStatus(Screen):
         if glob_config.boolHLTElementOn:
             glob_config.boolHLTElementOn=False
             self.ids['hltelementbutton'].text="ELEMENT OFF"
-        else
+        else:
             glob_config.boolHLTElementOn=True
             self.ids['hltelementbutton'].text = "ELEMENT ON"
         pass
