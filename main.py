@@ -84,6 +84,17 @@ class BeerStatus(Screen):
         glob_config.valHLTTargetTemp +=-1
         glob_config.valHLTTaperTemp=glob_config.valHLTTargetTemp-1
 
+    def toggleHLTElement(self, *args):
+        if glob_config.boolHLTElementOn:
+            glob_config.boolHLTElementOn=False
+            self.ids['hltelementbutton'].text="ELEMENT OFF"
+        else
+            glob_config.boolHLTElementOn=True
+            self.ids['hltelementbutton'].text = "ELEMENT ON"
+        pass
+
+    def toggleBoilElement(self, *args):
+        pass
 
     def __init__(self, **kwargs):
         super(BeerStatus, self).__init__(**kwargs)

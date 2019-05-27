@@ -9,6 +9,8 @@ class BeerConfig:
     valBoilTargetTemp=0
     valBoilTaperTemp=0
 
+    boolHLTElementOn=False
+    boolBoilElementOn=False
 
     valHLTMainPower=0
     valBoilMainPower=0
