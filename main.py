@@ -212,15 +212,15 @@ class SimpleApp(App):
 #
 
 def checkElementData():
-    glob_htlElement.setMainPower(glob_config.valHLTMainPower)
-    glob_htlElement.setTaperPower(glob_config.valHLTTaperPower)
-    glob_htlElement.setOverPower(glob_config.valHLTOverPower)
+    glob_hltElement.setMainPower(glob_config.valHLTMainPower)
+    glob_hltElement.setTaperPower(glob_config.valHLTTaperPower)
+    glob_hltElement.setOverPower(glob_config.valHLTOverPower)
     glob_boilElement.setMainPower(glob_config.valBoilMainPower)
     glob_boilElement.setTaperPower(glob_config.valBoilTaperPower)
     glob_boilElement.setOverPower(glob_config.valBoilOverPower)
 
-    glob_htlElement.setTargetTemp(glob_config.valHLTTargetTemp)
-    glob_htlElement.setTaperTemp(glob_config.valHLTTaperTemp)
+    glob_hltElement.setTargetTemp(glob_config.valHLTTargetTemp)
+    glob_hltElement.setTaperTemp(glob_config.valHLTTaperTemp)
 
     glob_boilElement.setTargetTemp(glob_config.valBoilTargetTemp)
     glob_boilElement.setTaperTemp(glob_config.valBoilTaperTemp)
