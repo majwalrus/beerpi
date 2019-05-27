@@ -261,10 +261,10 @@ def checkElementData():
     glob_boilElement.setTargetTemp(glob_config.valBoilTargetTemp)
     glob_boilElement.setTaperTemp(glob_config.valBoilTaperTemp)
 
-    print "HLT:\n"
-    glob_hltElement.dumpData()
-    print "Boil:\n"
-    glob_boilElement.dumpData()
+    #print "HLT:\n"
+    #glob_hltElement.dumpData()
+    #print "Boil:\n"
+    #glob_boilElement.dumpData()
 
 
 
@@ -285,18 +285,18 @@ def tempProbeThread():
 def elementThreadControl(): #   Actions element class
     timer=1
     while True:
-        print "\nCheck Element Thread\n"
+        #print "\nCheck Element Thread\n"
         checkElementData()
         if glob_config.boolHLTElementOn:
             if not (glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="" or glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="false"):
-                print glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)+" : "+str(timer)+"\n"
+                #print glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)+" : "+str(timer)+"\n"
                 glob_hltElement.elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)))
         else:
             glob_hltElement.switchOff()
 
         if glob_config.boolBoilElementOn:
             if not (glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)=="" or glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)=="false"):
-                print glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)+" : "+str(timer)+"\n"
+                #print glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)+" : "+str(timer)+"\n"
                 glob_boilElement.elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)))
         else:
             glob_boilElement.switchOff()
