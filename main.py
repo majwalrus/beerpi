@@ -226,7 +226,7 @@ def elementThreadConfig():  #   Ensures element class has up to date information
 
 def elementThreadControl(): #   Actions element class
     while True:
-        pass
+        time.sleep(1)
 #
 # MAIN
 #  This is the main startup code. This will start the relevant threads, run the startup config code and
@@ -248,8 +248,8 @@ if __name__ == '__main__':
     #threadHealth.daemon=True
     #threadHealth.start()
 
-    #threadHealth = threading.Thread(target=elementThreadControl)
-    #threadHealth.daemon=True
-    #threadHealth.start()
+    threadHealth = threading.Thread(target=elementThreadControl)
+    threadHealth.daemon=True
+    threadHealth.start()
 
     SimpleApp().run()
