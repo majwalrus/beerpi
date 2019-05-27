@@ -112,7 +112,7 @@ class ElementControlClass:
         return False
 
     def dumpData(self):
-        print "GPIO: "+self.elementGPIO+"\n\r"
+        print "GPIO: "+str(self.elementGPIO)+"\n\r"
         print "Main Power: "+str(self.mainPower)+"\n\r"
         print "Taper Power: "+str(self.taperPower)+"\n\r"
         print "Over Power: "+str(self.overPower)+"\n\r"
