@@ -52,7 +52,7 @@ class ElementControlClass:
     def setTargetTemp(self,temp):
         if temp>105:
             return False
-        if temp<0
+        if temp<0:
             return False
         self.targetTemp=temp
         return True
@@ -60,7 +60,7 @@ class ElementControlClass:
     def setTaperTemp(self,temp):
         if temp>105:
             return False
-        if temp<0
+        if temp<0:
             return False
         self.taperTemp=temp
         return True
