@@ -287,12 +287,19 @@ def elementThreadControl(): #   Actions element class
     while True:
         print "\nCheck Element Thread\n"
         checkElementData()
-        if not (glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="" or glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="false"):
-            print glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)+" : "+str(timer)+"\n"
-            glob_hltElement.elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)))
-        if not (glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)=="" or glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)=="false"):
-            print glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)+" : "+str(timer)+"\n"
-            glob_boilElement.elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)))
+        if glob_config.boolHLTElementOn:
+            if not (glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="" or glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="false"):
+                print glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)+" : "+str(timer)+"\n"
+                glob_hltElement.elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)))
+        else:
+            glob_hltElement.switchOff()
+
+        if glob_config.boolBoilElementOn:
+            if not (glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)=="" or glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)=="false"):
+                print glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)+" : "+str(timer)+"\n"
+                glob_boilElement.elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)))
+        else:
+            glob_boilElement.switchOff()
         time.sleep(1)
         timer+=1
         if timer>10:

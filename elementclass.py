@@ -27,6 +27,12 @@ class ElementControlClass:
 
         pass
 
+    def switchOn(self):
+        GPIO.output(int(self.elementGPIO), GPIO.HIGH)
+
+    def switchOff(self):
+        GPIO.output(int(self.elementGPIO), GPIO.LOW)
+
     def setTaperPower(self,pow):
         if pow>10:
             return False
@@ -71,9 +77,9 @@ class ElementControlClass:
         power=self.returnPower(temp)
         elementstate=self.returnPowerState(time,power)
         if elementstate:
-            GPIO.output(int(self.elementGPIO),GPIO.HIGH)
+            self.switchOn()
         else:
-            GPIO.output(int(self.elementGPIO),GPIO.LOW)
+            self.switchOff()
 
 
     def returnPower(self,temp):
