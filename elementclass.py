@@ -23,6 +23,8 @@ class ElementControlClass:
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
         GPIO.setup(int(self.elementGPIO),GPIO.OUT)
+        GPIO.output(int(self.elementGPIO),GPIO.LOW)
+
         pass
 
     def setTaperPower(self,pow):
