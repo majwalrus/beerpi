@@ -281,7 +281,7 @@ def piHealthThread():
 
 def tempProbeThread():
     while True:
-        print("Calling updateProbes")
+        #print("Calling updateProbes")
         glob_beerProbes.updateProbes()
         #time.sleep(0.5)
 
@@ -321,12 +321,12 @@ if __name__ == '__main__':
     threadTemp.daemon=True
     threadTemp.start()
 
-    #threadHealth = threading.Thread(target=piHealthThread)
-    #threadHealth.daemon=True
-    #threadHealth.start()
+    threadHealth = threading.Thread(target=piHealthThread)
+    threadHealth.daemon=True
+    threadHealth.start()
 
-    #threadHealth = threading.Thread(target=elementThreadControl)
-    #threadHealth.daemon=True
-    #threadHealth.start()
+    threadHealth = threading.Thread(target=elementThreadControl)
+    threadHealth.daemon=True
+    threadHealth.start()
 
     SimpleApp().run()
