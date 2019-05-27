@@ -213,6 +213,8 @@ class SimpleApp(App):
 
 def checkElementData():
     glob_htlElement.setMainPower(glob_config.valHLTMainPower)
+    glob_htlElement.setTaperPower(glob_config.valHLTTaperPower)
+    glob_htlElement.setOverPower(glob_config.valHLTOverPower)
 
 
 #
