@@ -220,10 +220,13 @@ def tempProbeThread():
     while True:
         glob_beerProbes.updateProbes()
 
-def elementThread():
+def elementThreadConfig():  #   Ensures element class has up to date information
     while True:
         pass
 
+def elementThreadControl(): #   Actions element class
+    while True:
+        pass
 #
 # MAIN
 #  This is the main startup code. This will start the relevant threads, run the startup config code and
@@ -241,5 +244,12 @@ if __name__ == '__main__':
     threadHealth.daemon=True
     threadHealth.start()
 
+    threadHealth = threading.Thread(target=elementThreadConfig)
+    threadHealth.daemon=True
+    threadHealth.start()
+
+    threadHealth = threading.Thread(target=elementThreadControl)
+    threadHealth.daemon=True
+    threadHealth.start()
 
     SimpleApp().run()
