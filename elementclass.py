@@ -108,3 +108,11 @@ class ElementControlClass:
         if pow==9 and not time==10:
             return True
         return False
+
+    def dumpData(self):
+        print "GPIO: "+self.elementGPIO+"\n\r"
+        print "Main Power: "+str(self.mainPower)+"\n\r"
+        print "Taper Power: "+str(self.taperPower)+"\n\r"
+        print "Over Power: "+str(self.overPower)+"\n\r"
+        print "Target Temp: "+str(self.targetTemp)+"\n\r"
+        print "Taper Temp: "+str(self.taperTemp)+"\n\r"
