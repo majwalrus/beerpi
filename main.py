@@ -28,9 +28,9 @@ import elementclass
 glob_config = configclass.BeerConfig() # must be defined first, as values in here used in other declarations.
 
 glob_pihealth = pihealth.PiHealth()
-glob_beerProbes = probeclass.BeerProbes()
-glob_hltElement = elementclass.ElementControlClass(int(glob_config.gpioHLT))
-glob_boilElement = elementclass.ElementControlClass(int(glob_config.gpioBoil))
+#glob_beerProbes = probeclass.BeerProbes()
+#glob_hltElement = elementclass.ElementControlClass(int(glob_config.gpioHLT))
+#glob_boilElement = elementclass.ElementControlClass(int(glob_config.gpioBoil))
 
 #
 # KIVY
@@ -164,6 +164,7 @@ class BeerSensors(Screen):
 
 
     def update(self,dt):
+        '''
         num=0
         for tmp_probe in glob_beerProbes.probeList:
             self.tmp_LabelVal=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr
@@ -180,7 +181,7 @@ class BeerSensors(Screen):
             if tmp_probe.name==glob_config.sensorBoil:
                 self.arr_LabelAssignBoil[num].text="Boil"
             num+=1
-
+        '''
         pass
 
     def hltAssign(self,num, *args):
@@ -311,7 +312,7 @@ def elementThreadControl(): #   Actions element class
 
 if __name__ == '__main__':
 
-    print(glob_config.valHLTTargetTemp)
+    #print(glob_config.valHLTTargetTemp)
 
     #threadTemp = threading.Thread(target=tempProbeThread)
     #threadTemp.daemon=True
