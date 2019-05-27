@@ -244,9 +244,9 @@ if __name__ == '__main__':
     threadHealth.daemon=True
     threadHealth.start()
 
-    threadHealth = threading.Thread(target=elementThreadConfig)
-    threadHealth.daemon=True
-    threadHealth.start()
+    #threadHealth = threading.Thread(target=elementThreadConfig)
+    #threadHealth.daemon=True
+    #threadHealth.start()
 
     threadHealth = threading.Thread(target=elementThreadControl)
     threadHealth.daemon=True
