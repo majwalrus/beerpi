@@ -16,7 +16,7 @@ class BeerTempProbe:
         self.name = name
 
     def readRaw(self):
-        DS18B20.read(True,4,self.name)
+        return DS18B20.read(True,4,self.name)
 
     def updateProbe(self):
         self.probeval = self.readRaw()
@@ -128,7 +128,7 @@ class BeerProbesOS:
         w1_devfolders=glob.glob(self.w1_devdir+'28*')
 
         for w1_dev in w1_devfolders:
-            tmp_probe = BeerTempProbe(w1_dev[len(self.w1_devdir):],w1_dev,w1_dev+'/w1_slave')
+            tmp_probe = BeerTempProbeOS(w1_dev[len(self.w1_devdir):],w1_dev,w1_dev+'/w1_slave')
             self.probeList.append(tmp_probe)
 
     def countProbes(self):
