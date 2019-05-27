@@ -77,12 +77,12 @@ class BeerConfig:
         self.gpioHLT=self.getConfig("HLT","hltgpio","6")
         self.gpioBoil=self.getConfig("Boil","boilgpio","5")
 
-        self.valHLTMainPower = self.getConfig("HLT","mainpower","10")
-        self.valBoilMainPower = self.getConfig("Boil","mainpower","10")
-        self.valHLTTaperPower = self.getConfig("HLT","taperpower","10")
-        self.valBoilTaperPower = self.getConfig("Boil","taperpower","10")
-        self.valHLTOverPower = self.getConfig("HLT","overpower","10")
-        self.valBoilOverPower = self.getConfig("Boil","overpower","10")
+        self.valHLTMainPower = int(self.getConfig("HLT","mainpower","10"))
+        self.valBoilMainPower = int(self.getConfig("Boil","mainpower","10"))
+        self.valHLTTaperPower = int(self.getConfig("HLT","taperpower","10"))
+        self.valBoilTaperPower = int(self.getConfig("Boil","taperpower","10"))
+        self.valHLTOverPower = int(self.getConfig("HLT","overpower","10"))
+        self.valBoilOverPower = int(self.getConfig("Boil","overpower","10"))
 
         print("\n\rConfig File Dump\n\r")
         print(self.valHLTTargetTemp)
