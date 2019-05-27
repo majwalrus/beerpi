@@ -248,8 +248,8 @@ if __name__ == '__main__':
     #threadHealth.daemon=True
     #threadHealth.start()
 
-    threadHealth = threading.Thread(target=elementThreadControl)
-    threadHealth.daemon=True
-    threadHealth.start()
+    #threadHealth = threading.Thread(target=elementThreadControl)
+    #threadHealth.daemon=True
+    #threadHealth.start()
 
     SimpleApp().run()
