@@ -1,14 +1,29 @@
 import time
 import glob
 import os
+import DS18B20
 
 # Class BeerTempProbe
 #  This handles an individual probe
 
 
-
-
 class BeerTempProbe:
+    name = ""
+    probeval = 0
+    probevalstr = ""
+
+    def __init__(self, name):
+        self.name = name
+
+    def readRaw(self):
+        DS18B20.read(True,4,self.name)
+
+    def updateProbe(self):
+        self.probeval = self.readRaw()
+        self.probevalstr = str(self.probeval)
+
+
+class BeerTempProbeOS:
     name =""
     devfolder =""
     datafile =""
@@ -44,6 +59,65 @@ class BeerTempProbe:
 #   values from the individual probes by passing their device name.
 
 class BeerProbes:
+    probeList = []
+    #w1_devdir = '/sys/bus/w1/devices/'
+    sensorlist = DS18B20.scan(4)
+
+    def __init__(self):
+        for w1_dev in self.sensorlist:
+            tmp_probe = BeerTempProbe(w1_dev)
+            self.probeList.append(tmp_probe)
+
+    def countProbes(self):
+        tx=0
+        for tmp_probe in self.probeList:
+            tx+=1
+        return tx
+
+    def dumpData(self):
+        for tmp_probe in self.probeList:
+            print ("Name: " + tmp_probe.name + " Temp: " + str(tmp_probe.probeval))
+
+    def updateProbes(self):
+        for tmp_probe in self.probeList:
+            tmp_probe.updateProbe()
+
+    def returnStrProbeVal(self, probenum):
+        tx=0
+        for tmp_probe in self.probeList:
+            if probenum==tx:
+                return tmp_probe.probevalstr
+            tx+=1
+        return "false"
+
+    def returnFloatProbeVal(self, probenum):
+        tx=0
+        for tmp_probe in self.probeList:
+            if probenum==tx:
+                return tmp_probe.probeval
+        return -1
+
+    def getProbeNumber(self, probename):
+        tx=0
+        for tmp_probe in self.probeList:
+            if tmp_probe.name==probename:
+                return tx
+            tx+=1
+        return -99
+
+    def returnStrProbeValFromName(self,probename):
+        probenum=self.getProbeNumber(probename)
+        if probenum==-99:
+            return "false"
+        return self.returnStrProbeVal(probenum)
+
+    def readNamedProbe(self, probename):
+        for tmp_probe in self.probeList:
+            if tmp_probe.name==probename:
+                return tmp_probe.probeval
+        return -1
+
+class BeerProbesOS:
     probeList = []
     w1_devdir = '/sys/bus/w1/devices/'
 
@@ -105,7 +179,6 @@ class BeerProbes:
             if tmp_probe.name==probename:
                 return tmp_probe.probeval
         return -1
-
 '''
 demonstration code
 
