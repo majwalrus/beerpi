@@ -97,9 +97,9 @@ class BeerStatus(Screen):
 
     def toggleHLTElement(self, *args):
         if glob_config.boolHLTElementOn:
-            setHLTElement(False)
+            self.setHLTElement(False)
         else:
-            setHLTElement(True)
+            self.setHLTElement(True)
         pass
 
     def toggleBoilElement(self, *args):
