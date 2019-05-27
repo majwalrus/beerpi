@@ -283,7 +283,7 @@ def tempProbeThread():
     while True:
         print("Calling updateProbes")
         glob_beerProbes.updateProbes()
-        time.sleep(0.5)
+        #time.sleep(0.5)
 
 
 def elementThreadControl(): #   Actions element class

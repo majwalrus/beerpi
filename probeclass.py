@@ -16,7 +16,7 @@ class BeerTempProbe:
         self.name = name
 
     def readRaw(self):
-        return DS18B20.read(False,4,self.name)
+        return DS18B20.read(True,4,self.name)
 
     def updateProbe(self):
         print ("In update Probe ...")
