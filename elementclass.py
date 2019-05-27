@@ -64,3 +64,28 @@ class ElementControlClass:
             return self.taperPower
         return 0
 
+    def returnPowerState(self,time,pow):
+        if pow>10 or time>10 or pow<1 or time<1:
+            return False
+        if pow>0 and time==1:   # if cycle 1 and if power is more than 1 then element must be on
+            return True
+        if pow==10:             # if power is at max then element must be on
+            return True
+
+        if pow==2 and (time==6):
+            return True
+        if pow==3 and (time==5 or time==8):
+            return True
+        if pow==4 and (time==4 or time==6 or time==9):
+            return True
+        if pow==5 and (time==3 or time==5 or time==7 or time==9):
+            return True
+        if pow==6 and not (time==2 or time==5 or time==7 or time==10):
+            return True
+        if pow==7 and not (time==4 or time==7 or time==10)
+            return True
+        if pow==8 and not (time==5 or time==10)
+            return True
+        if pow==9 and not time==10
+            return True
+        return False
