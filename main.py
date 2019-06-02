@@ -140,7 +140,7 @@ class BeerOff(Screen):     # Power off screen
 
     def __init__(self, **kwargs):
         super(BeerOff, self).__init__(**kwargs)
-        self.menu = ConfigRightBar()
+        self.menu = DefaultRightBar()
         self.add_widget(self.menu)
 
 class BeerConfig(Screen):   # Main config screen, very little on it but does have the config menu to the right
