@@ -1,3 +1,7 @@
+import os
+os.environ['KIVY_GL_BACKEND'] = 'gl'
+
+
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
@@ -10,7 +14,7 @@ from kivy.uix.screenmanager import *
 from kivy.lang import Builder
 from functools import partial
 
-import os
+
 import threading
 import time
 import ConfigParser
