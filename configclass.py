@@ -40,7 +40,7 @@ class BeerConfig:
 
         self.config.add_section("HLT")              # HLT value section
         self.config.set("HLT","targettemp","76")
-        self.config.set("HLT","tapertemp","74")
+        self.config.set("HLT","tapertemp","73")
         self.config.set("HLT","hltgpio","6")
 
         self.config.add_section("Boil")             # Boil value section
