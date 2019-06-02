@@ -170,8 +170,8 @@ class BeerSensors(Screen):  # The config screen for the temperature probes, this
             self.tmp_LabelVal=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr
             self.arr_LabelProbe[num].text=self.tmp_LabelVal
             num+=1
-        self.lab_hltProbe.text="HLT Probe : "+glob_config.sensorHLT
-        self.lab_boilProbe.text="Boil Probe : "+glob_config.sensorBoil
+        #self.lab_hltProbe.text="HLT Probe : "+glob_config.sensorHLT
+        #self.lab_boilProbe.text="Boil Probe : "+glob_config.sensorBoil
         num=0
         for tmp_probe in glob_beerProbes.probeList:
             self.arr_LabelAssignHLT[num].text = ""
