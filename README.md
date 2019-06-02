@@ -33,12 +33,13 @@ Version History
 * configclass.py added, for loading and saving config files.
 * assign temperature probes easily in menu system
 * completed elementclass and added SSR control based on taper and target temperatures
+* added shutdown button and confirmation
+* some tinkering with default settings to allow for thermowell lag
 
 TODO:
 
 * SOFTWARE calibrate temperature probes to ensure accurate temperatures recorded
 * SOFTWARE record temperature calibration and load on startup
-* SOFTWARE create shutdown button and confirmation
 * SOFTWARE allow for manipulation of taper temperatures on boil and HLT
 
 POSSIBLE FUTURE EXPANSIONS:
