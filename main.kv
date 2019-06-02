@@ -237,7 +237,7 @@ BeerScreenManagement:
     	Button:
 	    	background_normal: ''
 		    background_color: 0.3,0.1,0.1,1
-		    #on_release: root.toggleHLTElement()
+		    on_release: root.confirmShutdown()
 		    font_size: 20
 		    size: 150, 70
 		    size_hint: None, None
@@ -248,7 +248,7 @@ BeerScreenManagement:
     	Button:
 	    	background_normal: ''
 		    background_color: 0.1,0.1,0.2,1
-		    #on_release: root.toggleBoilElement()
+		    on_release: app.root.current='Status'
 		    font_size: 20
 		    size: 150, 70
 		    size_hint: None, None
