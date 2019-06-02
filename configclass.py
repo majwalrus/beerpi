@@ -40,8 +40,9 @@ class BeerConfig:
 
         self.config.add_section("HLT")              # HLT value section
         self.config.set("HLT","targettemp","76")
-        self.config.set("HLT","tapertemp","73")
+        self.config.set("HLT","tapertemp","72")
         self.config.set("HLT","hltgpio","6")
+        self.config.set("HLT","taperpower","5")
 
         self.config.add_section("Boil")             # Boil value section
         self.config.set("Boil","targettemp","101")
@@ -81,8 +82,8 @@ class BeerConfig:
 
         self.valHLTMainPower = int(self.getConfig("HLT","mainpower","10"))
         self.valBoilMainPower = int(self.getConfig("Boil","mainpower","10"))
-        self.valHLTTaperPower = int(self.getConfig("HLT","taperpower","10"))
-        self.valBoilTaperPower = int(self.getConfig("Boil","taperpower","10"))
+        self.valHLTTaperPower = int(self.getConfig("HLT","taperpower","5"))
+        self.valBoilTaperPower = int(self.getConfig("Boil","taperpower","6"))
         self.valHLTOverPower = int(self.getConfig("HLT","overpower","10"))
         self.valBoilOverPower = int(self.getConfig("Boil","overpower","10"))
 
