@@ -1,5 +1,5 @@
 import os
-os.environ['KIVY_GL_BACKEND'] = 'gl'
+os.environ['KIVY_GL_BACKEND'] = 'gl'    #   to get around the dreaded segmentation fault
 
 
 from kivy.app import App
