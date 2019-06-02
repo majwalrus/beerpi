@@ -230,14 +230,18 @@ BeerScreenManagement:
 <BeerOff>
 	name: 'PowerOff'
 	FloatLayout:
+	    Label:
+	        pos:0,0
+	        font_size: 20
+	        text: "Confirm Shutdown BeerPi?"
     	Button:
 	    	background_normal: ''
 		    background_color: 0.3,0.1,0.1,1
 		    #on_release: root.toggleHLTElement()
 		    font_size: 20
-		    size: 140, 70
+		    size: 150, 70
 		    size_hint: None, None
-		    center_x: 170
+		    center_x: 200
 		    top: root.top-230
 		    text: "YES"
 		    id: shutdownbutton
@@ -246,9 +250,9 @@ BeerScreenManagement:
 		    background_color: 0.1,0.1,0.2,1
 		    #on_release: root.toggleBoilElement()
 		    font_size: 20
-		    size: 140, 70
+		    size: 150, 70
 		    size_hint: None, None
-		    center_x: 430
+		    center_x: 460
 		    top: root.top-230
 		    text: "NO"
 		    id: cancelshutdownbutton
