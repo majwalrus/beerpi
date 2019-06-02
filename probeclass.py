@@ -1,9 +1,8 @@
 import time
 import glob
 import os
-#import DS18B20
 
-# In this file there are two methods of controlling the temperature probes. There is the original OS method, and
+# In this file there were two methods of controlling the temperature probes. There is the original OS method, and
 # an alternative using a custom import library from https://github.com/danjperron/BitBangingDS18B20. Unfortunately
 # the latter although perhaps less tempremental at picking up the probes, has a big CPU overhead when checking values
 # making Kivy fairly unresponsive.
@@ -11,22 +10,6 @@ import os
 # Class BeerTempProbe
 #  This handles an individual probe
 
-
-class BeerTempProbeBB:      #   Alternate class to use bitbanging module for getting temp data.
-    name = ""               #   Somewhat of a failed idea as too much CPU overhead when being used making the
-    probeval = 0            #   kivy side of things somewhat unresponsive.
-    probevalstr = ""
-
-    def __init__(self, name):
-        self.name = name
-
-    def readRaw(self):
-        return DS18B20.read(True,4,self.name)
-
-    def updateProbe(self):
-        print ("In update Probe ...")
-        self.probeval = self.readRaw()
-        self.probevalstr = str(self.probeval)
 
 
 class BeerTempProbeOS:
@@ -64,66 +47,6 @@ class BeerTempProbeOS:
 #   This class handles all of the 1wire probes, and is used to update them and get the
 #   values from the individual probes by passing their device name.
 
-class BeerProbesBB:
-    probeList = []
-    #w1_devdir = '/sys/bus/w1/devices/'
-    sensorlist = DS18B20.scan(4)
-
-    def __init__(self):
-        for w1_dev in self.sensorlist:
-            tmp_probe = BeerTempProbeBB(w1_dev)
-            self.probeList.append(tmp_probe)
-
-    def countProbes(self):
-        tx=0
-        for tmp_probe in self.probeList:
-            tx+=1
-        return tx
-
-    def dumpData(self):
-        for tmp_probe in self.probeList:
-            print ("Name: " + tmp_probe.name + " Temp: " + str(tmp_probe.probeval))
-
-    def updateProbes(self):
-        print("In Update Probes ...")
-        for tmp_probe in self.probeList:
-            print ("in probelist .... "+tmp_probe.name+" ... ")
-            tmp_probe.updateProbe()
-
-    def returnStrProbeVal(self, probenum):
-        tx=0
-        for tmp_probe in self.probeList:
-            if probenum==tx:
-                return tmp_probe.probevalstr
-            tx+=1
-        return "false"
-
-    def returnFloatProbeVal(self, probenum):
-        tx=0
-        for tmp_probe in self.probeList:
-            if probenum==tx:
-                return tmp_probe.probeval
-        return -1
-
-    def getProbeNumber(self, probename):
-        tx=0
-        for tmp_probe in self.probeList:
-            if tmp_probe.name==probename:
-                return tx
-            tx+=1
-        return -99
-
-    def returnStrProbeValFromName(self,probename):
-        probenum=self.getProbeNumber(probename)
-        if probenum==-99:
-            return "false"
-        return self.returnStrProbeVal(probenum)
-
-    def readNamedProbe(self, probename):
-        for tmp_probe in self.probeList:
-            if tmp_probe.name==probename:
-                return tmp_probe.probeval
-        return -1
 
 class BeerProbesOS:
     probeList = []
