@@ -144,6 +144,11 @@ class BeerOff(Screen):     # Power off screen
         self.add_widget(self.menu)
 
     def confirmShutdown(self, *args): # function that is called when YES is clicked on shutdown screen
+        glob_hltElement.switchOff()     #   ensure elements are off for safety reasons
+        glob_boilElement.switchOff()
+        from subprocess import call
+        call("sudo poweroff", shell=True)   # shutdown the Pi
+
         pass
 
 
