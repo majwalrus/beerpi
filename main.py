@@ -143,7 +143,7 @@ class BeerOff(Screen):     # Power off screen
         self.menu = DefaultRightBar()
         self.add_widget(self.menu)
 
-    def confirmShutdown(self,num, *args): # function that is called when YES is clicked on shutdown screen
+    def confirmShutdown(self, *args): # function that is called when YES is clicked on shutdown screen
         pass
 
 
