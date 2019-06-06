@@ -30,10 +30,17 @@ class ElementControlClass:
 
         pass
 
+    def checkGPIOValid(selfs):
+        if gpio<0:
+            return False    #   more detailed checking at a later date
+        return True
+
     def switchOn(self):
+        if not self.checkGPIOValid() return False
         GPIO.output(int(self.elementGPIO), GPIO.HIGH)
 
     def switchOff(self):
+        if not self.checkGPIOValid() return False
         GPIO.output(int(self.elementGPIO), GPIO.LOW)
 
     def setTaperPower(self,pow):
@@ -94,8 +101,8 @@ class ElementControlClass:
             return self.taperPower
         return 0
 
-    def returnPowerState(self,time,pow):
-        if pow>10 or time>10 or pow<1 or time<1:
+    def returnPowerState(self,time,pow):                #   there are simpler ways to code this, but this provides
+        if pow>10 or time>10 or pow<1 or time<1:        #   the smoothest power curve I could think off currently.
             return False
         if pow>0 and time==1:   # if cycle 1 and if power is more than 1 then element must be on
             return True

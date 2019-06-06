@@ -41,8 +41,6 @@ class ValElement:
 
 class BeerConfig:
 
-    listElement=["HLT","Boil"]
-
     configFile = './beer.ini'
     valHLTTargetTemp=0
     valHLTTaperTemp=0
@@ -94,7 +92,7 @@ class BeerConfig:
 
         self.config.add_section("Sensors")          # Sensors  value section
 
-        for tempElement in self.listElement:
+        for tempElement in LIST_ELEMENTS:
             self.config.set("Sensors",tempElement,"")
 
 #        self.config.set("Sensors","boil","")
@@ -119,7 +117,7 @@ class BeerConfig:
     def loadConfigFile(self):
         self.config.read(self.configFile)
 
-        for tempElement in self.listElement:
+        for tempElement in LIST_ELEMENTS:
             tMainPower=int(self.getConfig(tempElement,"mainpower","10"))
             tTaperPower=int(self.getConfig(tempElement,"taperpower","6"))
             tOverPower=int(self.getConfig(tempElement,"overpower","2"))
