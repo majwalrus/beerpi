@@ -163,9 +163,9 @@ class BeerCalibrate(Screen):
                     self.labelSensorAssign=LIST_ELEMENTS[elementID]
 
             parent.add_widget(Label(text=self.labelSensorName, top=parent.top + 90 - (num*40),x=parent.x-250))
-            #Label(text=self.labelSensorAssign, top=self.top + 90 - (num*40),x=self.x-120)
-            #Label(text=self.labelSensorIce, top=self.top + 90 - (num*40),x=self.x)
-            #Label(text=self.labelSensorBoil, top=self.top + 90 - (num*40),x=self.x+120)
+            parent.add_widget(Label(text=self.labelSensorAssign, top=parent.top + 90 - (num*40),x=parent.x-120))
+            parent.add_widget(Label(text=self.labelSensorIce, top=parent.top + 90 - (num*40),x=parent.x))
+            parent.add_widget(Label(text=self.labelSensorBoil, top=parent.top + 90 - (num*40),x=parent.x+120))
 
 
         def dumpData(self):
@@ -191,7 +191,7 @@ class BeerCalibrate(Screen):
         for tmp_probe in glob_beerProbes.probeList:     # Updates the array of Kivy labels to have the correct info
             logging.info("tmp_probe name: %s" % (tmp_probe.name))
             self.listSensorRow.append(self.SensorRow(tmp_probe.name,num,self))
-            logging.info("Sensor Row Class Vals : %s" % (self.listSensorRow[num].dumpData()))
+            logging.info("Sensor Row Class Vals : %s" % (self.listSensorRow[num]))
 
 
             #self.add_widget(self.arr_LabelProbe[num])  # Now display the labels
