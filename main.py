@@ -158,7 +158,7 @@ class BeerCalibrate(Screen):      # # Placeholder, may be used in the future but
 
             for elementID in LIST_ELEMENTS_ID:
                 if name==glob_config.valElement[elementID].sensorName:
-                    self.labelSensorAssign.text=LIST_ELEMENTS[elementID]
+                    self.labelSensorAssign=LIST_ELEMENTS[elementID]
 
 
         def dumpData(self):
