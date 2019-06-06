@@ -82,23 +82,17 @@ class BeerStatus(Screen):
 
     def update(self, dt):
         self.piTempLabel = glob_pihealth.piTempStr
-        #self.hltTempLabel = glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)
-        for elementID in LIST_ELEMENTS_ID:
+
+        for elementID in LIST_ELEMENTS_ID:  #   Update actual temperature labels
             self.tempLabel[elementID] = glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[elementID].sensorName)
 
-        #self.boilTempLabel = glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)
-        #self.boilTempLabel = glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[DEF_BOIL].sensorName)
-
-        #self.hltSetTempLabel = str(glob_config.valHLTTargetTemp)
-        #self.boilSetTempLabel = str(glob_config.valBoilTargetTemp)
-        tid=0
-        for elementID in LIST_ELEMENTS_ID:
+        for elementID in LIST_ELEMENTS_ID:  #   Update target temperature labels
             self.settempLabel[elementID]=str(glob_config.valElement[elementID].targetTemp)
 
 
-
-        self.setHLTElement(glob_config.boolHLTElementOn)
-        self.setBoilElement(glob_config.boolBoilElementOn)
+        #   Update the element control buttons
+        self.setHLTElement(glob_config.valElement[DEF_HLT].elementOn)
+        self.setBoilElement(glob_config.valElement[DEF_BOIL].elementOn)
         pass
 
     def setHLTElement(self,status):
@@ -123,12 +117,16 @@ class BeerStatus(Screen):
 
 
     def addhlt(self, *args):
-        glob_config.valHLTTargetTemp +=1
-        glob_config.valHLTTaperTemp=glob_config.valHLTTargetTemp-1
+        #glob_config.valHLTTargetTemp +=1
+        #glob_config.valHLTTaperTemp=glob_config.valHLTTargetTemp-1
+        glob_config.valElement[DEF_HLT].targetTemp +=1
+        glob_config.valElement[DEF_HLT].taperTemp +=1
 
     def subhlt(self, *args):
-        glob_config.valHLTTargetTemp +=-1
-        glob_config.valHLTTaperTemp=glob_config.valHLTTargetTemp-1
+        #glob_config.valHLTTargetTemp +=-1
+        #glob_config.valHLTTaperTemp=glob_config.valHLTTargetTemp-1
+        glob_config.valElement[DEF_HLT].targetTemp -=1
+        glob_config.valElement[DEF_HLT].taperTemp -=1
 
     def toggleHLTElement(self, *args):
         if glob_config.boolHLTElementOn:
