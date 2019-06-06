@@ -157,7 +157,7 @@ class BeerCalibrate(Screen):      # # Placeholder, may be used in the future but
             self.labelSensorName=name
 
         def dumpData(self):
-            strdump="SensorName = %s, SensorAssign = %s, SensorIce = %s, SensorBoil = %s" % (self.labelSensorName.text,self.labelSensorAssign.text,self.labelSensorIce.text,self.labelSensorBoil.text)
+            strdump="SensorName = %s, SensorAssign = %s, SensorIce = %s, SensorBoil = %s" % (self.labelSensorName,self.labelSensorAssign,self.labelSensorIce,self.labelSensorBoil)
             return strdump
 
         def __str__(self):
