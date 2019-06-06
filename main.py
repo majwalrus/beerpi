@@ -180,8 +180,6 @@ class BeerSensors(Screen):  # The config screen for the temperature probes, this
     tmp_LabelVal=StringProperty()
     tmp_Label=Label()
     tmp_Button=Button()
-    #lab_hltProbe=Label()   # Old code for debugging purposes
-    #lab_boilProbe=Label()
 
 
     def update(self,dt):
@@ -191,8 +189,6 @@ class BeerSensors(Screen):  # The config screen for the temperature probes, this
             self.tmp_LabelVal=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr
             self.arr_LabelProbe[num].text=self.tmp_LabelVal
             num+=1
-        #self.lab_hltProbe.text="HLT Probe : "+glob_config.sensorHLT
-        #self.lab_boilProbe.text="Boil Probe : "+glob_config.sensorBoil
         num=0
         for tmp_probe in glob_beerProbes.probeList:
             self.arr_LabelAssignHLT[num].text = ""
@@ -200,7 +196,6 @@ class BeerSensors(Screen):  # The config screen for the temperature probes, this
             if tmp_probe.name==glob_config.valElement[DEF_HLT].sensorName:
                 self.arr_LabelAssignHLT[num].text="HLT"
             if tmp_probe.name==glob_config.valElement[DEF_BOIL].sensorName:
-#            if tmp_probe.name==glob_config.sensorBoil:
                 self.arr_LabelAssignBoil[num].text="Boil"
             num+=1
 
@@ -210,7 +205,6 @@ class BeerSensors(Screen):  # The config screen for the temperature probes, this
         pass
 
     def boilAssign(self,num, *args):    # function that is called when a boil select button is pressed
-        #glob_config.sensorBoil=glob_beerProbes.probeList[num].name
         glob_config.valElement[DEF_BOIL].sensorName=glob_beerProbes.probeList[num].name
         glob_config.updateConfigFile()
         pass
@@ -222,10 +216,6 @@ class BeerSensors(Screen):  # The config screen for the temperature probes, this
         self.add_widget(Label(text="Sensor Setup",top=self.top+220))
         self.add_widget(Label(text="Total Temperature Probes : "+str(glob_beerProbes.countProbes()),top=self.top+190))
 
-        #self.lab_hltProbe = Label(text="HLT Probe : "+glob_config.sensorHLT, top=self.top + 160)
-        #self.lab_boilProbe = Label(text="Boil Probe : "+glob_config.sensorBoil, top=self.top + 130)
-        #self.add_widget(self.lab_hltProbe)
-        #self.add_widget(self.lab_boilProbe)    # Old code which was for debugging the selected probe info
 
         num=0
         for tmp_probe in glob_beerProbes.probeList:     # Create an array of labels for all the probes found
@@ -273,18 +263,25 @@ class SimpleApp(App):   # The app class for the kivy side of the project
 def checkElementData(): # This ensures that the element classes have the correct data in case of changes
 
 
-    glob_element[DEF_HLT].setMainPower(glob_config.valHLTMainPower)
-    glob_element[DEF_HLT].setTaperPower(glob_config.valHLTTaperPower)
-    glob_element[DEF_HLT].setOverPower(glob_config.valHLTOverPower)
-    glob_element[DEF_BOIL].setMainPower(glob_config.valBoilMainPower)
-    glob_element[DEF_BOIL].setTaperPower(glob_config.valBoilTaperPower)
-    glob_element[DEF_BOIL].setOverPower(glob_config.valBoilOverPower)
+    for elementID in LIST_ELEMENTS_ID:
+        glob_element[elementID].setMainPower(glob_config.valElement[elementID].mainPower)
+        glob_element[elementID].setTaperPower(glob_config.valElement[elementID].taperPower)
+        glob_element[elementID].setOverPower(glob_config.valElement[elementID].overPower)
+        glob_element[elementID].setTargetTemp(glob_config.valElement[elementID].targetTemp)
+        glob_element[elementID].setTaperTemp(glob_config.valElement[elementID].taperTemp)
 
-    glob_element[DEF_HLT].setTargetTemp(glob_config.valHLTTargetTemp)
-    glob_element[DEF_HLT].setTaperTemp(glob_config.valHLTTaperTemp)
+    #glob_element[DEF_HLT].setMainPower(glob_config.valHLTMainPower)
+    #glob_element[DEF_HLT].setTaperPower(glob_config.valHLTTaperPower)
+    #glob_element[DEF_HLT].setOverPower(glob_config.valHLTOverPower)
+    #glob_element[DEF_BOIL].setMainPower(glob_config.valBoilMainPower)
+    #glob_element[DEF_BOIL].setTaperPower(glob_config.valBoilTaperPower)
+    #glob_element[DEF_BOIL].setOverPower(glob_config.valBoilOverPower)
 
-    glob_element[DEF_BOIL].setTargetTemp(glob_config.valBoilTargetTemp)
-    glob_element[DEF_BOIL].setTaperTemp(glob_config.valBoilTaperTemp)
+    #glob_element[DEF_HLT].setTargetTemp(glob_config.valHLTTargetTemp)
+    #glob_element[DEF_HLT].setTaperTemp(glob_config.valHLTTaperTemp)
+
+    #glob_element[DEF_BOIL].setTargetTemp(glob_config.valBoilTargetTemp)
+    #glob_element[DEF_BOIL].setTaperTemp(glob_config.valBoilTaperTemp)
 
 
 
@@ -307,17 +304,28 @@ def elementThreadControl():             # This controls the elements, it has 10 
     timer=1                             # the relevant element will be feathered if necessary, so if set at 50%
     while True:                         # it will be switched off and on every second.
         checkElementData()
-        if glob_config.boolHLTElementOn:            # Is the HLT element control switched on
-            if not (glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="" or glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="false"):
-                glob_element[DEF_HLT].elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)))
-        else:                                       # No its not, so make sure the element is off
-            glob_element[DEF_HLT].switchOff()
 
-        if glob_config.boolBoilElementOn:           # Is the Boil element control switched on
-            if not (glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)=="" or glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)=="false"):
-                glob_element[DEF_BOIL].elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)))
-        else:                                       # No its not, so make sure the element is off
-            glob_element[DEF_BOIL].switchOff()
+        for elementID in LIST_ELEMENTS_ID:                  #   Check each element in turn
+            if glob_config.valElement[elementID].elementOn: #   Is the element switch on?
+                                                            #   Is the sensor data valid?
+                if not (glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[elementID].sensorName)=="" or glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[elementID].sensorName)=="false"):
+                                                            #   Yes, so send timer info onto element control
+                    glob_element[elementID].elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[elementID].sensorName)))
+                else:                                       #   No, make sure switch off
+                    glob_element[elementID].switchOff()
+
+        #if glob_config.boolHLTElementOn:            # Is the HLT element control switched on
+        #    if not (glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="" or glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="false"):
+        #        glob_element[DEF_HLT].elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)))
+        #else:                                       # No its not, so make sure the element is off
+        #    glob_element[DEF_HLT].switchOff()
+
+        #if glob_config.boolBoilElementOn:           # Is the Boil element control switched on
+        #    if not (glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)=="" or glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)=="false"):
+        #        glob_element[DEF_BOIL].elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)))
+        #else:                                       # No its not, so make sure the element is off
+        #    glob_element[DEF_BOIL].switchOff()
+
         time.sleep(0.5)
         timer+=1
         if timer>10:

@@ -7,16 +7,11 @@ class ValElement:
     mainPower=0
     taperPower=0
     overPower=0
-
     targetTemp=0
     taperTemp=0
-
     sensorName=""
-
     gpio=0
-
     elementOn=0
-
 
     def __init__(self,mainpower,taperpower,overpower,elementon,targettemp,tapertemp,sensorname,tgpio):
         self.mainPower=mainpower
