@@ -91,7 +91,7 @@ class BeerStatus(Screen):
 
         for elementID in LIST_ELEMENTS_ID:  #   Update actual temperature labels
             self.tempLabel[elementID] = glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[elementID].sensorName)
-            logging.info("Temp Label %s updated to %s" % (elementID, glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[elementID].sensorName))
+            logging.info("Temp Label %s updated to %s" % (elementID, glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[elementID].sensorName)))
         for elementID in LIST_ELEMENTS_ID:  #   Update target temperature labels
             self.settempLabel[elementID]=str(glob_config.valElement[elementID].targetTemp)
             logging.info("Temp Label %s updated to %s" % (elementID, glob_config.valElement[elementID].targetTemp))
