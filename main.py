@@ -153,7 +153,7 @@ class BeerCalibrate(Screen):
         labelSensorIce=StringProperty()
         labelSensorBoil=StringProperty()
 
-        def __init__(self,name):
+        def __init__(self,name,num):
             self.labelSensorName=name
             self.labelSensorAssign=""
             self.labelSensorIce="0.0"
@@ -161,6 +161,11 @@ class BeerCalibrate(Screen):
             for elementID in LIST_ELEMENTS_ID:
                 if name==glob_config.valElement[elementID].sensorName:
                     self.labelSensorAssign=LIST_ELEMENTS[elementID]
+
+            Label(text=self.labelSensorName, top=self.top + 90 - (num*40),x=self.x-250)
+            Label(text=self.labelSensorAssign, top=self.top + 90 - (num*40),x=self.x-120)
+            Label(text=self.labelSensorIce, top=self.top + 90 - (num*40),x=self.x)
+            Label(text=self.labelSensorBoil, top=self.top + 90 - (num*40),x=self.x+120)
 
 
         def dumpData(self):
@@ -185,11 +190,13 @@ class BeerCalibrate(Screen):
         num=0
         for tmp_probe in glob_beerProbes.probeList:     # Updates the array of Kivy labels to have the correct info
             logging.info("tmp_probe name: %s" % (tmp_probe.name))
-            self.listSensorRow.append(self.SensorRow(tmp_probe.name))
+            self.listSensorRow.append(self.SensorRow(tmp_probe.name,num))
             logging.info("Sensor Row Class Vals : %s" % (self.listSensorRow[num].dumpData()))
-            #self.tmp_LabelVal=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr
-            #self.arr_LabelProbe[num].text=self.tmp_LabelVal
+
+
+            #self.add_widget(self.arr_LabelProbe[num])  # Now display the labels
             num+=1
+
 
 
 class BeerOff(Screen):     # Power off screen
