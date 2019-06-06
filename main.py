@@ -42,7 +42,7 @@ glob_element = []
 #glob_element.append(elementclass.ElementControlClass(int(glob_config.gpioBoil)))
 
 for tempElement in LIST_ELEMENTS_ID:
-    glob_element.append(elementclass.ElementControlClass(int(glob_config.valElement[tempElement])))
+    glob_element.append(elementclass.ElementControlClass(int(glob_config.valElement[tempElement].gpio)))
 
 
 #
