@@ -19,6 +19,9 @@ class BeerTempProbeOS:
     probeval=0
     probevalstr=""
 
+    calLow=-99
+    calHigh=-99
+
     def __init__(self, n, fld, fil):
         self.name=n
         self.devfolder=fld
@@ -29,7 +32,13 @@ class BeerTempProbeOS:
         lines = f.readlines()
         f.close()
         return lines
-        
+
+    def adjustProbeValue(self,val):
+        if self.calLow==-99 or self.calHigh==-99:
+            return val                              # no calibration data, so return rawval
+        corrVal=(((val-self.calLow)*99.99)/(self.calHigh-self.calLow)) + 0.01   #   Two point calibration formula
+        return corrVal
+
     def updateProbe(self):
         lines=self.readRaw()
         while lines[0].strip()[-3:] != 'YES':
@@ -38,7 +47,7 @@ class BeerTempProbeOS:
         equals_pos = lines[1].find('t=')
         if equals_pos != -1:
             tempstr = lines[1][equals_pos+2:]
-            tempc = float(tempstr) / 1000.0
+            tempc = self.adjustProbeValue(float(tempstr) / 1000.0)
             self.probeval=round(tempc,1)
             self.probevalstr=str(self.probeval)
             

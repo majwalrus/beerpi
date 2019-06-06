@@ -53,6 +53,7 @@ class BeerConfig:
         self.config.set("Sensors","hlt","")
         self.config.set("Sensors","boil","")
 
+        self.config.add_section("Calibration")          # Sensors  value section
         with open(self.configFile,"wb") as config_file: # Now write the default value file
             self.config.write(config_file)
 
