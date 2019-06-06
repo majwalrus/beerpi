@@ -78,21 +78,23 @@ class BeerStatus(Screen):
     hltSetTempLabel = StringProperty()
     boilSetTempLabel = StringProperty()
     tempLabel=ListProperty(["",""])
+    settempLabel=ListProperty(["",""])
 
     def update(self, dt):
         self.piTempLabel = glob_pihealth.piTempStr
         #self.hltTempLabel = glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)
-        self.hltTempLabel = glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[DEF_HLT].sensorName)
+        for elementID in LIST_ELEMENTS_ID:
+            self.tempLabel[elementID] = glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[elementID].sensorName)
 
         #self.boilTempLabel = glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)
-        self.boilTempLabel = glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[DEF_BOIL].sensorName)
+        #self.boilTempLabel = glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[DEF_BOIL].sensorName)
 
         #self.hltSetTempLabel = str(glob_config.valHLTTargetTemp)
         #self.boilSetTempLabel = str(glob_config.valBoilTargetTemp)
         tid=0
-        for tLabel in self.tempLabel:
-            self.tempLabel[tid]=str(glob_config.valElement[tid].targetTemp)
-            tid+=1
+        for elementID in LIST_ELEMENTS_ID:
+            self.settempLabel[elementID]=str(glob_config.valElement[elementID].targetTemp)
+
 
 
         self.setHLTElement(glob_config.boolHLTElementOn)
