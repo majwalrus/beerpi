@@ -198,7 +198,7 @@ class BeerCalibrate(Screen):
 
         def update(self,parent):
             self.checkAssignments()
-            self.labelSensorAssign.text = self.labelStrSensorAssign
+            self.labelSensorAssign.text = str(self.labelStrSensorAssign)
             self.labelSensorIce.text = str(glob_beerProbes.probeList[self.probeNumber].calLow)
             self.labelSensorBoil.text = str(glob_beerProbes.probeList[self.probeNumber].calHigh)
 
