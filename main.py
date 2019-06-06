@@ -148,40 +148,47 @@ class BeerStatus(Screen):
 class BeerCalibrate(Screen):
 
     class SensorRow():
-        labelSensorName=StringProperty()
-        labelSensorAssign=StringProperty()
-        labelSensorIce=StringProperty()
-        labelSensorBoil=StringProperty()
+        labelStrSensorName=StringProperty()
+        labelStrSensorAssign=StringProperty()
+        labelStrSensorIce=StringProperty()
+        labelStrSensorBoil=StringProperty()
+
+
 
         def __init__(self,name,num,parent):
-            self.labelSensorName=name
-            self.labelSensorAssign=""
-            self.labelSensorIce="0.0"
-            self.labelSensorBoil="100.0"
+            self.labelStrSensorName=name
+            self.labelStrSensorAssign=""
+            self.labelStrSensorIce="0.0"
+            self.labelStrSensorBoil="100.0"
             for elementID in LIST_ELEMENTS_ID:
                 if name==glob_config.valElement[elementID].sensorName:
                     self.labelSensorAssign=LIST_ELEMENTS[elementID]
 
-            parent.add_widget(Label(text=self.labelSensorName, top=parent.top + 90 - (num*40),x=parent.x-280))
-            parent.add_widget(Label(text=self.labelSensorAssign, top=parent.top + 90 - (num*40),x=parent.x-150))
-            parent.add_widget(Label(text=self.labelSensorIce, top=parent.top + 90 - (num*40),x=parent.x))
-            parent.add_widget(Label(text=self.labelSensorBoil, top=parent.top + 90 - (num*40),x=parent.x+120))
+            self.labelSensorName = Label(text=self.labelStrSensorName, top=parent.top + 90 - (num*40),x=parent.x-280)
+            parent.add_widget(self.labelSensorName)
+            parent.add_widget(Label(text=self.labelStrSensorAssign, top=parent.top + 90 - (num*40),x=parent.x-150))
+            parent.add_widget(Label(text=self.labelStrSensorIce, top=parent.top + 90 - (num*40),x=parent.x))
+            parent.add_widget(Label(text=self.labelStrSensorBoil, top=parent.top + 90 - (num*40),x=parent.x+120))
 
             parent.add_widget(Button(text="+", top=415 - (num*40), x=parent.x+335, size=(30,30), size_hint=(None,None), on_press=partial(parent.incrementIce,num)))
             parent.add_widget(Button(text="-", top=415 - (num*40), x=parent.x+425, size=(30,30), size_hint=(None,None), on_press=partial(parent.decrementIce,num)))
 
 
         def dumpData(self):
-            strdump="SensorName = %s, SensorAssign = %s, SensorIce = %s, SensorBoil = %s" % (self.labelSensorName,self.labelSensorAssign,self.labelSensorIce,self.labelSensorBoil)
+            strdump="SensorName = %s, SensorAssign = %s, SensorIce = %s, SensorBoil = %s" % (self.labelStrSensorName,self.labelStrSensorAssign,self.labelStrSensorIce,self.labelStrSensorBoil)
             return strdump
 
         def __str__(self):
             return self.dumpData()
 
+        def update(self,parent):
+            pass
+
     listSensorRow = []
 
     def update(self, dt):
-        pass
+        for sensorRow in self.listSensorRow:
+            sensorRow.update(self)
 
     def incrementIce(self,num,*args):
         floatVal=float(self.listSensorRow[num].labelSensorIce)
@@ -209,13 +216,10 @@ class BeerCalibrate(Screen):
         self.add_widget(Label(text="Total Temperature Probes : "+str(glob_beerProbes.countProbes()),top=self.top+190))
 
         num=0
-        for tmp_probe in glob_beerProbes.probeList:     # Updates the array of Kivy labels to have the correct info
+        for tmp_probe in glob_beerProbes.probeList:     # Goes through each probe and creates a new SensorRow class
             logging.info("tmp_probe name: %s" % (tmp_probe.name))
             self.listSensorRow.append(self.SensorRow(tmp_probe.name,num,self))
             logging.info("Sensor Row Class Vals : %s" % (self.listSensorRow[num]))
-
-
-            #self.add_widget(self.arr_LabelProbe[num])  # Now display the labels
             num+=1
 
 
