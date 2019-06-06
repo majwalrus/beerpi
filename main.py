@@ -183,6 +183,9 @@ class BeerCalibrate(Screen):
             parent.add_widget(Button(text="+", top=415 - (num*40), x=parent.x+335, size=(30,30), size_hint=(None,None), on_press=partial(parent.incrementIce,num)))
             parent.add_widget(Button(text="-", top=415 - (num*40), x=parent.x+425, size=(30,30), size_hint=(None,None), on_press=partial(parent.decrementIce,num)))
 
+            parent.add_widget(Button(text="+", top=415 - (num*40), x=parent.x+365, size=(30,30), size_hint=(None,None), on_press=partial(parent.incrementBoil,num)))
+            parent.add_widget(Button(text="-", top=415 - (num*40), x=parent.x+455, size=(30,30), size_hint=(None,None), on_press=partial(parent.decrementBoil,num)))
+
         def checkAssignments(self):
             for elementID in LIST_ELEMENTS_ID:
                 if self.labelStrSensorName == glob_config.valElement[elementID].sensorName:
@@ -217,10 +220,12 @@ class BeerCalibrate(Screen):
         logging.info("Decrementing Ice : %s" % (glob_beerProbes.probeList[num].calLow))
 
     def incrementBoil(self,num,*args):
-        pass
+        glob_beerProbes.probeList[num].calLow=round(glob_beerProbes.probeList[num].calHigh+0.1,1)
+        logging.info("Decrementing Boil : %s" % (glob_beerProbes.probeList[num].calHigh))
 
     def decrementBoil(self,num,*args):
-        pass
+        glob_beerProbes.probeList[num].calLow=round(glob_beerProbes.probeList[num].calHigh-0.1,1)
+        logging.info("Decrementing Boil : %s" % (glob_beerProbes.probeList[num].calHigh))
 
 
     def __init__(self, **kwargs):
