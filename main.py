@@ -122,8 +122,8 @@ class BeerStatus(Screen):
         pass
 
     def toggleBoilElement(self, *args):
-        if glob_config.valElement[DEF_HLT].elementOn:
-                self.setElement(DEF_HLT,False)
+        if glob_config.valElement[DEF_BOIL].elementOn:
+                self.setElement(DEF_BOIL,False)
         else:
             self.setElement(DEF_BOIL,True)
         pass
