@@ -77,9 +77,7 @@ class BeerStatus(Screen):
     boilTempLabel = StringProperty()
     hltSetTempLabel = StringProperty()
     boilSetTempLabel = StringProperty()
-    tempLabel=[]
-    tempLabel.append(StringProperty())
-    tempLabel.append(StringProperty())
+    tempLabel=ListProperty(["",""])
 
     def update(self, dt):
         self.piTempLabel = glob_pihealth.piTempStr
