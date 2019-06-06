@@ -33,8 +33,15 @@ glob_config = configclass.BeerConfig() # must be defined first, as values in her
 
 glob_pihealth = pihealth.PiHealth()
 glob_beerProbes = probeclass.BeerProbesOS()
-glob_hltElement = elementclass.ElementControlClass(int(glob_config.gpioHLT))
-glob_boilElement = elementclass.ElementControlClass(int(glob_config.gpioBoil))
+#glob_hltElement = elementclass.ElementControlClass(int(glob_config.gpioHLT))
+#glob_boilElement = elementclass.ElementControlClass(int(glob_config.gpioBoil))
+
+DEF_HLT=0
+DEF_BOIL=1
+
+glob_element = []
+glob_element.append(elementclass.ElementControlClass(int(glib_config.gpioHLT)))
+glob_element.append(elementclass.ElementControlClass(int(glib_config.gpioBoil)))
 
 #
 # KIVY
@@ -147,9 +154,10 @@ class BeerOff(Screen):     # Power off screen
         self.menu = DefaultRightBar()
         self.add_widget(self.menu)
 
-    def confirmShutdown(self, *args): # function that is called when YES is clicked on shutdown screen
-        glob_hltElement.switchOff()     #   ensure elements are off for safety reasons
-        glob_boilElement.switchOff()
+    def confirmShutdown(self, *args):   # function that is called when YES is clicked on shutdown screen
+
+        for tmpElement in glob_element: #   switch off all elements
+            tmpElement.switchOff()
         from subprocess import call
         call("sudo poweroff", shell=True)   # shutdown the Pi
 
@@ -265,23 +273,20 @@ class SimpleApp(App):   # The app class for the kivy side of the project
 #
 
 def checkElementData(): # This ensures that the element classes have the correct data in case of changes
-    glob_hltElement.setMainPower(glob_config.valHLTMainPower)
-    glob_hltElement.setTaperPower(glob_config.valHLTTaperPower)
-    glob_hltElement.setOverPower(glob_config.valHLTOverPower)
-    glob_boilElement.setMainPower(glob_config.valBoilMainPower)
-    glob_boilElement.setTaperPower(glob_config.valBoilTaperPower)
-    glob_boilElement.setOverPower(glob_config.valBoilOverPower)
 
-    glob_hltElement.setTargetTemp(glob_config.valHLTTargetTemp)
-    glob_hltElement.setTaperTemp(glob_config.valHLTTaperTemp)
 
-    glob_boilElement.setTargetTemp(glob_config.valBoilTargetTemp)
-    glob_boilElement.setTaperTemp(glob_config.valBoilTaperTemp)
+    glob_element[DEF_HLT].setMainPower(glob_config.valHLTMainPower)
+    glob_element[DEF_HLT].setTaperPower(glob_config.valHLTTaperPower)
+    glob_element[DEF_HLT].setOverPower(glob_config.valHLTOverPower)
+    glob_element[DEF_BOIL].setMainPower(glob_config.valBoilMainPower)
+    glob_element[DEF_BOIL].setTaperPower(glob_config.valBoilTaperPower)
+    glob_element[DEF_BOIL].setOverPower(glob_config.valBoilOverPower)
 
-    #print "HLT:\n"
-    #glob_hltElement.dumpData()
-    #print "Boil:\n"
-    #glob_boilElement.dumpData()
+    glob_element[DEF_HLT].setTargetTemp(glob_config.valHLTTargetTemp)
+    glob_element[DEF_HLT].setTaperTemp(glob_config.valHLTTaperTemp)
+
+    glob_element[DEF_BOIL].setTargetTemp(glob_config.valBoilTargetTemp)
+    glob_element[DEF_BOIL].setTaperTemp(glob_config.valBoilTaperTemp)
 
 
 
