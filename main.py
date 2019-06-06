@@ -153,7 +153,7 @@ class BeerCalibrate(Screen):      # # Placeholder, may be used in the future but
         labelSensorIce=StringProperty()
         labelSensorBoil=StringProperty()
 
-        def __init__(name):
+        def __init__(self,name):
 
             pass
 
