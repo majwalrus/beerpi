@@ -166,9 +166,12 @@ class BeerCalibrate(Screen):
 
             self.labelSensorName = Label(text=self.labelStrSensorName, top=parent.top + 90 - (num*40),x=parent.x-280)
             parent.add_widget(self.labelSensorName)
-            parent.add_widget(Label(text=self.labelStrSensorAssign, top=parent.top + 90 - (num*40),x=parent.x-150))
-            parent.add_widget(Label(text=self.labelStrSensorIce, top=parent.top + 90 - (num*40),x=parent.x))
-            parent.add_widget(Label(text=self.labelStrSensorBoil, top=parent.top + 90 - (num*40),x=parent.x+120))
+            self.labelSensorAssign = Label(text=self.labelStrSensorAssign, top=parent.top + 90 - (num*40),x=parent.x-150)
+            parent.add_widget(self.labelSensorAssign)
+            self.labelSensorIce = Label(text=self.labelStrSensorIce, top=parent.top + 90 - (num*40),x=parent.x)
+            parent.add_widget(self.labelSensorIce)
+            self.labelSensorBoil = Label(text=self.labelStrSensorBoil, top=parent.top + 90 - (num*40),x=parent.x+120)
+            parent.add_widget(self.labelSensorBoil)
 
             parent.add_widget(Button(text="+", top=415 - (num*40), x=parent.x+335, size=(30,30), size_hint=(None,None), on_press=partial(parent.incrementIce,num)))
             parent.add_widget(Button(text="-", top=415 - (num*40), x=parent.x+425, size=(30,30), size_hint=(None,None), on_press=partial(parent.decrementIce,num)))
