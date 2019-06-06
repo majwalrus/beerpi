@@ -160,9 +160,8 @@ class BeerCalibrate(Screen):
             self.labelStrSensorAssign=""
             self.labelStrSensorIce="0.0"
             self.labelStrSensorBoil="100.0"
-            for elementID in LIST_ELEMENTS_ID:
-                if name==glob_config.valElement[elementID].sensorName:
-                    self.labelSensorAssign=LIST_ELEMENTS[elementID]
+
+            self.checkAssignments()
 
             self.labelSensorName = Label(text=self.labelStrSensorName, top=parent.top + 90 - (num*40),x=parent.x-280)
             parent.add_widget(self.labelSensorName)
@@ -176,6 +175,11 @@ class BeerCalibrate(Screen):
             parent.add_widget(Button(text="+", top=415 - (num*40), x=parent.x+335, size=(30,30), size_hint=(None,None), on_press=partial(parent.incrementIce,num)))
             parent.add_widget(Button(text="-", top=415 - (num*40), x=parent.x+425, size=(30,30), size_hint=(None,None), on_press=partial(parent.decrementIce,num)))
 
+        def checkAssignments(self):
+            for elementID in LIST_ELEMENTS_ID:
+                if name==glob_config.valElement[elementID].sensorName:
+                    self.labelSensorAssign=LIST_ELEMENTS[elementID]
+
 
         def dumpData(self):
             strdump="SensorName = %s, SensorAssign = %s, SensorIce = %s, SensorBoil = %s" % (self.labelStrSensorName,self.labelStrSensorAssign,self.labelStrSensorIce,self.labelStrSensorBoil)
@@ -185,7 +189,11 @@ class BeerCalibrate(Screen):
             return self.dumpData()
 
         def update(self,parent):
-            pass
+            self.checkAssignments()
+            self.labelSensorAssign.text = self.labelStrSensorAssign
+            self.labelSensorIce.text = self.labelStrSensorIce
+            self.labelSensorBoil.text = self.labelStrSensorBoil
+
 
     listSensorRow = []
 
