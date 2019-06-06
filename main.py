@@ -205,13 +205,13 @@ class BeerSensors(Screen):  # The config screen for the temperature probes, this
             num+=1
 
     def hltAssign(self,num, *args): # function that is called when an HLT select button is pressed
-        glob_config.varElement[DEF_HLT].sensorName=glob_beerProbes.probeList[num].name
+        glob_config.valElement[DEF_HLT].sensorName=glob_beerProbes.probeList[num].name
         glob_config.updateConfigFile()
         pass
 
     def boilAssign(self,num, *args):    # function that is called when a boil select button is pressed
         #glob_config.sensorBoil=glob_beerProbes.probeList[num].name
-        glob_config.varElement[DEF_BOIL].sensorName=glob_beerProbes.probeList[num].name
+        glob_config.valElement[DEF_BOIL].sensorName=glob_beerProbes.probeList[num].name
         glob_config.updateConfigFile()
         pass
 
