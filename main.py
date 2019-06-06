@@ -177,8 +177,8 @@ class BeerCalibrate(Screen):
 
         def checkAssignments(self):
             for elementID in LIST_ELEMENTS_ID:
-                if name==glob_config.valElement[elementID].sensorName:
-                    self.labelSensorAssign=LIST_ELEMENTS[elementID]
+                if self.labelStrSensorName == glob_config.valElement[elementID].sensorName:
+                    self.labelSensorAssign = LIST_ELEMENTS[elementID]
 
 
         def dumpData(self):
