@@ -30,8 +30,8 @@ class ElementControlClass:
 
         pass
 
-    def checkGPIOValid(selfs):
-        if gpio<0:
+    def checkGPIOValid(self):
+        if self.elementGPIO<0:
             print "checkGPIOValid - invalid GPIO assignment"
             return False    #   more detailed checking at a later date
         return True
