@@ -79,7 +79,7 @@ class BeerStatus(Screen):
     boilSetTempLabel = StringProperty()
     tempLabel=ListProperty(["",""])
     settempLabel=ListProperty(["",""])
-    elementIDS=["hltelelementbutton","boilelementbutton"]
+    elementIDS=["hltelementbutton","boilelementbutton"]
 
     def update(self, dt):
         self.piTempLabel = glob_pihealth.piTempStr
@@ -101,12 +101,12 @@ class BeerStatus(Screen):
     def setElement(self,elementID,status):
         if status:
             glob_config.valElement[elementID].elementOn=True
-            self.ids[self.elementIDS[elementID]].text="ELEMENT CONTROL ON"
-            self.ids[self.elementIDS[elementID]].background_color = 0.4, 0.1, 0.1, 1
+            self.ids[ self.elementIDS[elementID] ].text="ELEMENT CONTROL ON"
+            self.ids[ self.elementIDS[elementID] ].background_color = 0.4, 0.1, 0.1, 1
         else:
             glob_config.valElement[elementID].elementOn=False
-            self.ids[self.elementIDS[elementID]].text="ELEMENT CONTROL OFF"
-            self.ids[self.elementIDS[elementID]].background_color = 0.1, 0.1, 0.2, 1
+            self.ids[ self.elementIDS[elementID] ].text="ELEMENT CONTROL OFF"
+            self.ids[ self.elementIDS[elementID] ].background_color = 0.1, 0.1, 0.2, 1
 
 
     def setHLTElement(self,status):
