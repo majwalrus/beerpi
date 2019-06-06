@@ -92,10 +92,8 @@ class BeerStatus(Screen):
 
 
         #   Update the element control buttons
-        self.setHLTElement(glob_config.valElement[DEF_HLT].elementOn)
-        self.setBoilElement(glob_config.valElement[DEF_BOIL].elementOn)
-
-
+        for elementID in LIST_ELEMENTS_ID:
+            self.setElement(elementID,glob_config.valElement[elementID].elementOn)
         pass
 
     def setElement(self,elementID,status):
@@ -108,28 +106,6 @@ class BeerStatus(Screen):
             self.ids[ self.elementIDS[elementID] ].text="ELEMENT CONTROL OFF"
             self.ids[ self.elementIDS[elementID] ].background_color = 0.1, 0.1, 0.2, 1
 
-
-    def setHLTElement(self,status):
-        if status:
-            glob_config.boolHLTElementOn=True
-            self.ids['hltelementbutton'].text="ELEMENT CONTROL ON"
-            self.ids['hltelementbutton'].background_color = 0.3, 0.1, 0.1, 1
-        else:
-            glob_config.boolHLTElementOn=False
-            self.ids['hltelementbutton'].text = "ELEMENT CONTROL OFF"
-            self.ids['hltelementbutton'].background_color = 0.1, 0.1, 0.2, 1
-
-    def setBoilElement(self,status):
-        if status:
-            glob_config.boolBoilElementOn=True
-            self.ids['boilelementbutton'].text="ELEMENT CONTROL ON"
-            self.ids['boilelementbutton'].background_color = 0.3, 0.1, 0.1, 1
-        else:
-            glob_config.boolBoilElementOn=False
-            self.ids['boilelementbutton'].text = "ELEMENT CONTROL OFF"
-            self.ids['boilelementbutton'].background_color = 0.1, 0.1, 0.2, 1
-
-
     def addhlt(self, *args):
         glob_config.valElement[DEF_HLT].targetTemp +=1
         glob_config.valElement[DEF_HLT].taperTemp +=1
@@ -139,7 +115,6 @@ class BeerStatus(Screen):
         glob_config.valElement[DEF_HLT].taperTemp -=1
 
     def toggleHLTElement(self, *args):
-        #if glob_config.boolHLTElementOn:
         if glob_config.valElement[DEF_HLT].elementOn:
             self.setElement(DEF_HLT,False)
         else:
@@ -147,11 +122,10 @@ class BeerStatus(Screen):
         pass
 
     def toggleBoilElement(self, *args):
-        #if glob_config.boolBoilElementOn:
         if glob_config.valElement[DEF_HLT].elementOn:
-                self.setBoilElement(False)
+                self.setElement(DEF_HLT,False)
         else:
-            self.setBoilElement(True)
+            self.setElement(DEF_BOIL,True)
         pass
 
     def __init__(self, **kwargs):
