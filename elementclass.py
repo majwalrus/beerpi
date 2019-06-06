@@ -41,7 +41,8 @@ class ElementControlClass:
         GPIO.output(int(self.elementGPIO), GPIO.HIGH)
 
     def switchOff(self):
-        if not self.checkGPIOValid() return False
+        if not self.checkGPIOValid():
+            return False
         GPIO.output(int(self.elementGPIO), GPIO.LOW)
 
     def setTaperPower(self,pow):
