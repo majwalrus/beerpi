@@ -158,7 +158,7 @@ class BeerCalibrate(Screen):      # # Placeholder, may be used in the future but
             pass
 
         def dumpData(self):
-            strdump="SensorName = %s, SensorAssign = %s, SensorIce = %s, SensorBoil = %s" % (self.labelSensorName,self.labelSensorAssign,self.labelSensorIce,self.labelSensorBoil)
+            strdump="SensorName = %s, SensorAssign = %s, SensorIce = %s, SensorBoil = %s" % (self.labelSensorName.text,self.labelSensorAssign.text,self.labelSensorIce.text,self.labelSensorBoil.text)
             return strdump
 
         def __str__(self):
@@ -174,14 +174,14 @@ class BeerCalibrate(Screen):      # # Placeholder, may be used in the future but
         super(BeerCalibrate,self).__init__(**kwargs)
         self.menu = ConfigRightBar()            # Ensure the config menu is displayed
         self.add_widget(self.menu)
-        self.add_widget(Label(text="Calibrate Sensore",top=self.top+220))
+        self.add_widget(Label(text="Calibrate Sensors",top=self.top+220))
         self.add_widget(Label(text="Total Temperature Probes : "+str(glob_beerProbes.countProbes()),top=self.top+190))
 
         num=0
         for tmp_probe in glob_beerProbes.probeList:     # Updates the array of Kivy labels to have the correct info
             logging.info("tmp_probe name: %s" % (tmp_probe.name))
             self.listSensorRow.append(self.SensorRow(tmp_probe.name))
-            logging.info("Sensor Row Class Vals : %s" % (self.listSensorRow[num]))
+            logging.info("Sensor Row Class Vals : %s" % (self.listSensorRow[num].dumpData))
             #self.tmp_LabelVal=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr
             #self.arr_LabelProbe[num].text=self.tmp_LabelVal
             num+=1
