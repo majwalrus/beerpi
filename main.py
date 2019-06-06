@@ -185,11 +185,13 @@ class BeerCalibrate(Screen):
 
     def incrementIce(self,num,*args):
         floatVal=float(self.listSensorRow[num].labelSensorIce)
-        floatval+=0.1
+        floatVal+=0.1
         self.listSensorRow[num].labelSensorIce=str(floatVal)
 
     def decrementIce(self,num,*args):
-        pass
+        floatVal=float(self.listSensorRow[num].labelSensorIce)
+        floatVal-=0.1
+        self.listSensorRow[num].labelSensorIce=str(floatVal)
 
     def incrementBoil(self,num,*args):
         pass
