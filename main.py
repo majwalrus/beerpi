@@ -1,6 +1,11 @@
 import os
 os.environ['KIVY_GL_BACKEND'] = 'gl'    #   to get around the dreaded segmentation fault
 
+import logging
+logging.basicConfig(filename='beerpi.log',level=logging.DEBUG)
+logging.info("STARTING BEERPI")
+logging.info("===============\n")
+
 
 from kivy.app import App
 from kivy.uix.widget import Widget
@@ -86,9 +91,10 @@ class BeerStatus(Screen):
 
         for elementID in LIST_ELEMENTS_ID:  #   Update actual temperature labels
             self.tempLabel[elementID] = glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[elementID].sensorName)
-
+            logging.info("Temp Label %s updated to %s" % (elementID, glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[elementID].sensorName))
         for elementID in LIST_ELEMENTS_ID:  #   Update target temperature labels
             self.settempLabel[elementID]=str(glob_config.valElement[elementID].targetTemp)
+            logging.info("Temp Label %s updated to %s" % (elementID, glob_config.valElement[elementID].targetTemp))
 
 
         #   Update the element control buttons
@@ -97,6 +103,7 @@ class BeerStatus(Screen):
         pass
 
     def setElement(self,elementID,status):
+        logging.info("Setting Element status ID=%s, status=%s" % (elementID,status) )
         if status:
             glob_config.valElement[elementID].elementOn=True
             self.ids[ self.elementIDS[elementID] ].text="ELEMENT CONTROL ON"
@@ -107,14 +114,17 @@ class BeerStatus(Screen):
             self.ids[ self.elementIDS[elementID] ].background_color = 0.1, 0.1, 0.2, 1
 
     def addhlt(self, *args):
+        logging.info("Incrementing HLT Temperature Settings")
         glob_config.valElement[DEF_HLT].targetTemp +=1
         glob_config.valElement[DEF_HLT].taperTemp +=1
 
     def subhlt(self, *args):
+        logging.info("Decrementing HLT Temperature Settings")
         glob_config.valElement[DEF_HLT].targetTemp -=1
         glob_config.valElement[DEF_HLT].taperTemp -=1
 
     def toggleHLTElement(self, *args):
+        logging.info("Toggling HLT Element")
         if glob_config.valElement[DEF_HLT].elementOn:
             self.setElement(DEF_HLT,False)
         else:
@@ -122,6 +132,7 @@ class BeerStatus(Screen):
         pass
 
     def toggleBoilElement(self, *args):
+        logging.info("Toggling Boil Element")
         if glob_config.valElement[DEF_BOIL].elementOn:
                 self.setElement(DEF_BOIL,False)
         else:

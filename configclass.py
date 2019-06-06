@@ -1,6 +1,9 @@
 import ConfigParser
 import os
 
+import logging
+logging.basicConfig(filename='beerpi.log',level=logging.DEBUG)
+
 from beerpiconstants import *
 
 class ValElement:

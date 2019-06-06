@@ -3,6 +3,8 @@ import glob
 import os
 import RPi.GPIO as GPIO
 
+import logging
+logging.basicConfig(filename='beerpi.log',level=logging.DEBUG)
 from beerpiconstants import *
 
 
@@ -32,7 +34,7 @@ class ElementControlClass:
 
     def checkGPIOValid(self):
         if self.elementGPIO<0:
-            print "checkGPIOValid - invalid GPIO assignment"
+            logging.warning("ERROR: checkGPIOValid - invalid GPIO assignment")
             return False    #   more detailed checking at a later date
         return True
 
