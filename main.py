@@ -2,7 +2,7 @@ import os
 os.environ['KIVY_GL_BACKEND'] = 'gl'    #   to get around the dreaded segmentation fault
 
 import logging
-logging.basicConfig(filename='beerpi.log',level=logging.DEBUG)
+logging.basicConfig(filename='beerpi.log', filemode='w', level=logging.DEBUG)
 logging.info("STARTING BEERPI")
 logging.info("===============\n")
 
@@ -162,8 +162,9 @@ class BeerOff(Screen):     # Power off screen
         self.add_widget(self.menu)
 
     def confirmShutdown(self, *args):   # function that is called when YES is clicked on shutdown screen
-
+        logging.info("Shutdown Called..")
         for tmpElement in glob_element: #   switch off all elements
+            logging.info("Element %s off" % tmpElement)
             tmpElement.switchOff()
         from subprocess import call
         call("sudo poweroff", shell=True)   # shutdown the Pi
@@ -312,10 +313,10 @@ def tempProbeThread():                  # this updates and caches the data from 
 
 def checkProbeValid(probename):
     if glob_beerProbes.returnStrProbeValFromName(probename) == "":
-        print "checkProbeValid - Blank Probe Name"
+        logging.warning("checkProbeValid - Blank Probe Name")
         return False
     if glob_beerProbes.returnStrProbeValFromName(probename) == "false":
-        print "checkProbeValid - False returned from beerprobes"
+        logging.warning("checkProbeValid - False returned from beerprobes")
         return False
     return True
 
@@ -334,18 +335,6 @@ def elementThreadControl():             # This controls the elements, it has 10 
                 else:                                       #   No, make sure switch off
                     glob_element[elementID].switchOff()
 
-        #if glob_config.boolHLTElementOn:            # Is the HLT element control switched on
-        #    if not (glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="" or glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="false"):
-        #        glob_element[DEF_HLT].elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)))
-        #else:                                       # No its not, so make sure the element is off
-        #    glob_element[DEF_HLT].switchOff()
-
-        #if glob_config.boolBoilElementOn:           # Is the Boil element control switched on
-        #    if not (glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)=="" or glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)=="false"):
-        #        glob_element[DEF_BOIL].elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)))
-        #else:                                       # No its not, so make sure the element is off
-        #    glob_element[DEF_BOIL].switchOff()
-
         time.sleep(0.5)
         timer+=1
         if timer>10:
@@ -358,14 +347,18 @@ def elementThreadControl():             # This controls the elements, it has 10 
 if __name__ == '__main__':
     threadTemp = threading.Thread(target=tempProbeThread)
     threadTemp.daemon=True
+    logging.info("Starting Probe thread ...")
     threadTemp.start()
 
     threadHealth = threading.Thread(target=piHealthThread)
     threadHealth.daemon=True
+    logging.info("Starting Health thread ...")
     threadHealth.start()
 
     threadHealth = threading.Thread(target=elementThreadControl)
     threadHealth.daemon=True
+    logging.info("Starting Element thread ...")
     threadHealth.start()
 
+    logging.info("Starting Kivy App...")
     SimpleApp().run()
