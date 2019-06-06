@@ -145,7 +145,7 @@ class BeerStatus(Screen):
         self.add_widget(self.menu)
 
 
-class BeerCalibrate(Screen):      # # Placeholder, may be used in the future but after changes to the status screen maybe not
+class BeerCalibrate(Screen):
 
     class SensorRow:
         labelSensorName=StringProperty()
