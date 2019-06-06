@@ -147,6 +147,18 @@ class BeerStatus(Screen):
 
 class BeerCalibrate(Screen):      # # Placeholder, may be used in the future but after changes to the status screen maybe not
 
+    class SensorRow:
+        labelSensorName=StringProperty()
+        labelSensorAssign=StringProperty()
+        labelSensorIce=StringProperty()
+        labelSensorBoil=StringProperty()
+
+        def __init__(name):
+
+            pass
+
+    listSensorRow = []
+
     def update(self, dt):
         pass
 
@@ -156,6 +168,13 @@ class BeerCalibrate(Screen):      # # Placeholder, may be used in the future but
         self.add_widget(self.menu)
         self.add_widget(Label(text="Calibrate Sensore",top=self.top+220))
         self.add_widget(Label(text="Total Temperature Probes : "+str(glob_beerProbes.countProbes()),top=self.top+190))
+
+        num=0
+        for tmp_probe in glob_beerProbes.probeList:     # Updates the array of Kivy labels to have the correct info
+            self.listSensorRow.append(self.SensorRow(tmp_probe.name))
+            #self.tmp_LabelVal=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr
+            #self.arr_LabelProbe[num].text=self.tmp_LabelVal
+            num+=1
 
 
 class BeerOff(Screen):     # Power off screen
