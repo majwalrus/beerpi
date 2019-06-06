@@ -147,7 +147,7 @@ class BeerStatus(Screen):
 
 class BeerCalibrate(Screen):
 
-    class SensorRow:
+    class SensorRow(BeerCalibrate):
         labelSensorName=StringProperty()
         labelSensorAssign=StringProperty()
         labelSensorIce=StringProperty()
