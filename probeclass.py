@@ -119,18 +119,3 @@ class BeerProbesOS:
             if tmp_probe.name==probename:
                 return tmp_probe.probeval
         return -1
-'''
-# demonstration code
-
-bp = BeerProbesOS()
-
-bp.updateProbes()
-bp.dumpData()
-
-print "\r\n\n"
-
-tst_name=bp.probeList[1].name
-tst_val=bp.readNamedProbe(tst_name)
-
-print (tst_name + " - " + str(tst_val))
-'''

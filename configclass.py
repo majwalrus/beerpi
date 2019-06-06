@@ -41,27 +41,8 @@ class ValElement:
 class BeerConfig:
 
     configFile = './beer.ini'
-    #valHLTTargetTemp=0
-    #valHLTTaperTemp=0
-    #valBoilTargetTemp=0
-    #valBoilTaperTemp=0
-
-    #boolHLTElementOn=False
-    #boolBoilElementOn=False
-
-    #valHLTMainPower=0
-    #valBoilMainPower=0
-    #valHLTTaperPower=0
-    #valBoilTaperPower=0
-    #valHLTOverPower=0
-    #valBoilOverPower=0
 
     valElement = []
-
-    #sensorHLT=""
-    #sensorBoil=""
-    #gpioHLT=""
-    #gpioBoil=""
 
     config = ConfigParser.ConfigParser(allow_no_value=True)
 
@@ -125,32 +106,8 @@ class BeerConfig:
             tGPIO=self.getConfig(tempElement,"gpio","0")
             self.valElement.append(ValElement(tMainPower,tTaperPower,tOverPower,False,tTargetTemp,tTaperTemp,tSensor,tGPIO))
 
-        #self.valHLTTargetTemp=int(self.getConfig("HLT","targettemp","76"))
-        #self.valHLTTaperTemp=int(self.getConfig("HLT","tapertemp","75"))
-        #self.valBoilTargetTemp=int(self.getConfig("Boil","targettemp","101"))
-        #self.valBoilTaperTemp=int(self.getConfig("Boil","tapertemp","98"))
-        #self.sensorBoil=self.getConfig("Sensors","boil","")
-        #self.sensorHLT=self.getConfig("Sensors","hlt","")
-        #self.gpioHLT=self.getConfig("HLT","gpio","6")
-        #self.gpioBoil=self.getConfig("Boil","gpio","5")
-
-        #self.valHLTMainPower = int(self.getConfig("HLT","mainpower","10"))
-        #self.valBoilMainPower = int(self.getConfig("Boil","mainpower","10"))
-        #self.valHLTTaperPower = int(self.getConfig("HLT","taperpower","5"))
-        #self.valBoilTaperPower = int(self.getConfig("Boil","taperpower","6"))
-        #self.valHLTOverPower = int(self.getConfig("HLT","overpower","2"))
-        #self.valBoilOverPower = int(self.getConfig("Boil","overpower","2"))
-
-
         for tempArr in self.valElement:
             print(tempArr)
-
-#        print("\n\rConfig File Dump\n\r")
-#        print(self.valHLTTargetTemp)
-#        print(self.valBoilTargetTemp)
-#        print(self.sensorHLT)
-#        print(self.sensorBoil)
-#        print("\n\rEnd Config File Dump\n\r\n\r")
 
     def updateConfigFile(self):
         self.config.set("Sensors","hlt",self.valElement[DEF_HLT].sensorName)
