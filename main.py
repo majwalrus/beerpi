@@ -82,8 +82,11 @@ class BeerStatus(Screen):
 
     def update(self, dt):
         self.piTempLabel = glob_pihealth.piTempStr
-        self.hltTempLabel = glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)
-        self.boilTempLabel = glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)
+        #self.hltTempLabel = glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)
+        self.hltTempLabel = glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[DEF_HLT])
+
+        #self.boilTempLabel = glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)
+        self.boilTempLabel = glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[DEF_BOIL])
 
         self.hltSetTempLabel = str(glob_config.valHLTTargetTemp)
         self.boilSetTempLabel = str(glob_config.valBoilTargetTemp)
