@@ -29,7 +29,7 @@ class ValElement:
         self.gpio=tgpio
 
     def dumpData(self):
-        return f'mainPower={self.mainPower}, taperPower={self.taperPower}, overPower={self.overPower}, elementOn={self.elementOn}, targetTemp={self.targetTemp}, taperTemp={self.taperTemp}, sensorName={self.sensorName}, gpio={self.gpio}.\n'
+        return f"mainPower={self.mainPower}, taperPower={self.taperPower}, overPower={self.overPower}, elementOn={self.elementOn}, targetTemp={self.targetTemp}, taperTemp={self.taperTemp}, sensorName={self.sensorName}, gpio={self.gpio}.\n"
 
     def __str__(self):
         return self.dumpData()
