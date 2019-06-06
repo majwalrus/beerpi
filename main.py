@@ -40,8 +40,8 @@ glob_beerProbes = probeclass.BeerProbesOS()
 #glob_boilElement = elementclass.ElementControlClass(int(glob_config.gpioBoil))
 
 glob_element = []
-glob_element.append(elementclass.ElementControlClass(int(glib_config.gpioHLT)))
-glob_element.append(elementclass.ElementControlClass(int(glib_config.gpioBoil)))
+glob_element.append(elementclass.ElementControlClass(int(glob_config.gpioHLT)))
+glob_element.append(elementclass.ElementControlClass(int(glob_config.gpioBoil)))
 
 #
 # KIVY
