@@ -197,19 +197,21 @@ class BeerSensors(Screen):  # The config screen for the temperature probes, this
         for tmp_probe in glob_beerProbes.probeList:
             self.arr_LabelAssignHLT[num].text = ""
             self.arr_LabelAssignBoil[num].text = ""
-            if tmp_probe.name==glob_config.sensorHLT:
+            if tmp_probe.name==glob_config.valElement[DEF_HLT].sensorName:
                 self.arr_LabelAssignHLT[num].text="HLT"
-            if tmp_probe.name==glob_config.sensorBoil:
+            if tmp_probe.name==glob_config.valElement[DEF_BOIL].sensorName:
+#            if tmp_probe.name==glob_config.sensorBoil:
                 self.arr_LabelAssignBoil[num].text="Boil"
             num+=1
 
     def hltAssign(self,num, *args): # function that is called when an HLT select button is pressed
-        glob_config.sensorHLT=glob_beerProbes.probeList[num].name
+        glob_config.varElement[DEF_HLT].sensorName=glob_beerProbes.probeList[num].name
         glob_config.updateConfigFile()
         pass
 
     def boilAssign(self,num, *args):    # function that is called when a boil select button is pressed
-        glob_config.sensorBoil=glob_beerProbes.probeList[num].name
+        #glob_config.sensorBoil=glob_beerProbes.probeList[num].name
+        glob_config.varElement[DEF_BOIL].sensorName=glob_beerProbes.probeList[num].name
         glob_config.updateConfigFile()
         pass
 
