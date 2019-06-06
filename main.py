@@ -299,6 +299,15 @@ def tempProbeThread():                  # this updates and caches the data from 
     while True:                         # values which the rest of the project uses.
         glob_beerProbes.updateProbes()
 
+def checkProbeValid(probename):
+    if glob_beerProbes.returnStrProbeValFromName(probename) == "":
+        print "checkProbeValid - Blank Probe Name"
+        return False
+    if glob_beerProbes.returnStrProbeValFromName(probename) == "false":
+        print "checkProbeValid - False returned from beerprobes"
+        return False
+    return True
+
 
 def elementThreadControl():             # This controls the elements, it has 10 cycles of which the SSR controlling
     timer=1                             # the relevant element will be feathered if necessary, so if set at 50%
@@ -308,7 +317,7 @@ def elementThreadControl():             # This controls the elements, it has 10 
         for elementID in LIST_ELEMENTS_ID:                  #   Check each element in turn
             if glob_config.valElement[elementID].elementOn: #   Is the element switch on?
                                                             #   Is the sensor data valid?
-                if not (glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[elementID].sensorName)=="" or glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[elementID].sensorName)=="false"):
+                if not checkProbeValid(glob_config.valElement[elementID].sensorName)
                                                             #   Yes, so send timer info onto element control
                     glob_element[elementID].elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[elementID].sensorName)))
                 else:                                       #   No, make sure switch off
