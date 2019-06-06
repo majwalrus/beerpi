@@ -155,7 +155,9 @@ class BeerCalibrate(Screen):
 
         def __init__(self,name):
             self.labelSensorName=name
-
+            self.labelSensorAssign=""
+            self.labelSensorIce="0.0"
+            self.labelSensorBoil="100.0"
             for elementID in LIST_ELEMENTS_ID:
                 if name==glob_config.valElement[elementID].sensorName:
                     self.labelSensorAssign=LIST_ELEMENTS[elementID]
