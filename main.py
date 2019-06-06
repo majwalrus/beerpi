@@ -156,6 +156,11 @@ class BeerCalibrate(Screen):      # # Placeholder, may be used in the future but
         def __init__(self,name):
             self.labelSensorName=name
 
+            for elementID in LIST_ELEMENTS_ID:
+                if name==glob_config.valElement[elementID].sensorName:
+                    self.labelSensorAssign.text=LIST_ELEMENTS[elementID]
+
+
         def dumpData(self):
             strdump="SensorName = %s, SensorAssign = %s, SensorIce = %s, SensorBoil = %s" % (self.labelSensorName,self.labelSensorAssign,self.labelSensorIce,self.labelSensorBoil)
             return strdump
