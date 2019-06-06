@@ -79,6 +79,7 @@ class BeerStatus(Screen):
     boilSetTempLabel = StringProperty()
     tempLabel=ListProperty(["",""])
     settempLabel=ListProperty(["",""])
+    elementIDS=["hltelelementbutton","boilelementbutton"]
 
     def update(self, dt):
         self.piTempLabel = glob_pihealth.piTempStr
@@ -93,7 +94,20 @@ class BeerStatus(Screen):
         #   Update the element control buttons
         self.setHLTElement(glob_config.valElement[DEF_HLT].elementOn)
         self.setBoilElement(glob_config.valElement[DEF_BOIL].elementOn)
+
+
         pass
+
+    def setElement(self,elementID,status):
+        if status:
+            glob_config.valElement[elementID].elementOn=True
+            self.ids[self.elementIDS[elementID]].text="ELEMENT CONTROL ON"
+            self.ids[self.elementIDS[elementID]].background_color = 0.4, 0.1, 0.1, 1
+        else:
+            glob_config.valElement[elementID].elementOn=False
+            self.ids[self.elementIDS[elementID]].text="ELEMENT CONTROL OFF"
+            self.ids[self.elementIDS[elementID]].background_color = 0.1, 0.1, 0.2, 1
+
 
     def setHLTElement(self,status):
         if status:
@@ -117,27 +131,25 @@ class BeerStatus(Screen):
 
 
     def addhlt(self, *args):
-        #glob_config.valHLTTargetTemp +=1
-        #glob_config.valHLTTaperTemp=glob_config.valHLTTargetTemp-1
         glob_config.valElement[DEF_HLT].targetTemp +=1
         glob_config.valElement[DEF_HLT].taperTemp +=1
 
     def subhlt(self, *args):
-        #glob_config.valHLTTargetTemp +=-1
-        #glob_config.valHLTTaperTemp=glob_config.valHLTTargetTemp-1
         glob_config.valElement[DEF_HLT].targetTemp -=1
         glob_config.valElement[DEF_HLT].taperTemp -=1
 
     def toggleHLTElement(self, *args):
-        if glob_config.boolHLTElementOn:
-            self.setHLTElement(False)
+        #if glob_config.boolHLTElementOn:
+        if glob_config.valElement[DEF_HLT].elementOn:
+            self.setElement(DEF_HLT,False)
         else:
-            self.setHLTElement(True)
+            self.setElement(DEF_HLT,True)
         pass
 
     def toggleBoilElement(self, *args):
-        if glob_config.boolBoilElementOn:
-            self.setBoilElement(False)
+        #if glob_config.boolBoilElementOn:
+        if glob_config.valElement[DEF_HLT].elementOn:
+                self.setBoilElement(False)
         else:
             self.setBoilElement(True)
         pass
