@@ -186,8 +186,7 @@ class BeerCalibrate(Screen):
         def checkAssignments(self):
             for elementID in LIST_ELEMENTS_ID:
                 if self.labelStrSensorName == glob_config.valElement[elementID].sensorName:
-                    self.labelSensorAssign = LIST_ELEMENTS[elementID]
-
+                    self.labelStrSensorAssign = LIST_ELEMENTS[elementID]
 
         def dumpData(self):
             strdump="SensorName = %s, SensorAssign = %s, SensorIce = %s, SensorBoil = %s" % (self.labelStrSensorName,self.labelStrSensorAssign,self.labelStrSensorIce,self.labelStrSensorBoil)
@@ -198,7 +197,7 @@ class BeerCalibrate(Screen):
 
         def update(self,parent):
             self.checkAssignments()
-            self.labelSensorAssign.text = str(self.labelStrSensorAssign)
+            self.labelSensorAssign.text = self.labelStrSensorAssign
             self.labelSensorIce.text = str(glob_beerProbes.probeList[self.probeNumber].calLow)
             self.labelSensorBoil.text = str(glob_beerProbes.probeList[self.probeNumber].calHigh)
 
