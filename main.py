@@ -154,8 +154,7 @@ class BeerCalibrate(Screen):      # # Placeholder, may be used in the future but
         labelSensorBoil=StringProperty()
 
         def __init__(self,name):
-
-            pass
+            self.labelSensorName=name
 
         def dumpData(self):
             strdump="SensorName = %s, SensorAssign = %s, SensorIce = %s, SensorBoil = %s" % (self.labelSensorName.text,self.labelSensorAssign.text,self.labelSensorIce.text,self.labelSensorBoil.text)
@@ -163,7 +162,6 @@ class BeerCalibrate(Screen):      # # Placeholder, may be used in the future but
 
         def __str__(self):
             return self.dumpData()
-            pass
 
     listSensorRow = []
 
