@@ -166,16 +166,9 @@ class BeerCalibrate(Screen):
             parent.add_widget(Label(text=self.labelSensorAssign, top=parent.top + 90 - (num*40),x=parent.x-150))
             parent.add_widget(Label(text=self.labelSensorIce, top=parent.top + 90 - (num*40),x=parent.x))
             parent.add_widget(Label(text=self.labelSensorBoil, top=parent.top + 90 - (num*40),x=parent.x+120))
-            parent.add_widget(Button(text="+", top=415 - (num*40), x=parent.x+350, size=(30,30), size_hint=(None,None), on_press=partial(parent.incrementIce,num)))
-            parent.add_widget(Button(text="-", top=415 - (num*40), x=parent.x+440, size=(30,30), size_hint=(None,None), on_press=partial(parent.decrementIce,num)))
-            # Create the HLT and Boil selection buttons
-            #self.arr_ButtonHLT.append(Button(text="+", top=415 - (num*40), x=self.x+360, size=(65,30), size_hint=(None,None) ))
-            #self.arr_ButtonHLT[num].bind(on_press=partial(self.hltAssign,num))
 
-            #self.arr_ButtonBoil.append(Button(text="Set Boil", top=415 - (num*40), x=self.x+450, size=(65,30), size_hint=(None,None) ))
-            #self.arr_ButtonBoil[num].bind(on_press=partial(self.boilAssign,num))
-            #self.add_widget(self.arr_ButtonHLT[num])
-            #self.add_widget(self.arr_ButtonBoil[num])
+            parent.add_widget(Button(text="+", top=415 - (num*40), x=parent.x+335, size=(30,30), size_hint=(None,None), on_press=partial(parent.incrementIce,num)))
+            parent.add_widget(Button(text="-", top=415 - (num*40), x=parent.x+425, size=(30,30), size_hint=(None,None), on_press=partial(parent.decrementIce,num)))
 
 
         def dumpData(self):
@@ -191,7 +184,9 @@ class BeerCalibrate(Screen):
         pass
 
     def incrementIce(self,num,*args):
-        pass
+        floatVal=float(self.listSensorRow[num].labelSensorIce)
+        floatval+=0.1
+        self.listSensorRow[num].labelSensorIce=str(floatVal)
 
     def decrementIce(self,num,*args):
         pass
