@@ -127,7 +127,7 @@ class BeerConfig:
             tTaperTemp=int(self.getConfig(tempElement,"tapertemp","97"))
             tSensor=self.getConfig("Sensors",tempElement,"")
             tGPIO=self.getConfig(tempElement,"gpio","0")
-            self.valElement.append(tMainPower,tTaperPower,tOverPower,False,tTargetTemp,tTaperTemp,tSensor,tGPIO)
+            self.valElement.append(ValElement(tMainPower,tTaperPower,tOverPower,False,tTargetTemp,tTaperTemp,tSensor,tGPIO))
 
         self.valHLTTargetTemp=int(self.getConfig("HLT","targettemp","76"))
         self.valHLTTaperTemp=int(self.getConfig("HLT","tapertemp","75"))
