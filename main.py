@@ -151,7 +151,7 @@ class BeerCalibrate(Screen):      # # Placeholder, may be used in the future but
         pass
 
     def __init__(self, **kwargs):
-        super(BeerSensors,self).__init__(**kwargs)
+        super(BeerCalibrate,self).__init__(**kwargs)
         self.menu = ConfigRightBar()            # Ensure the config menu is displayed
         self.add_widget(self.menu)
         self.add_widget(Label(text="Calibrate Sensore",top=self.top+220))
