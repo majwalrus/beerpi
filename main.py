@@ -317,7 +317,7 @@ def elementThreadControl():             # This controls the elements, it has 10 
         for elementID in LIST_ELEMENTS_ID:                  #   Check each element in turn
             if glob_config.valElement[elementID].elementOn: #   Is the element switch on?
                                                             #   Is the sensor data valid?
-                if not checkProbeValid(glob_config.valElement[elementID].sensorName)
+                if checkProbeValid(glob_config.valElement[elementID].sensorName):
                                                             #   Yes, so send timer info onto element control
                     glob_element[elementID].elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[elementID].sensorName)))
                 else:                                       #   No, make sure switch off
