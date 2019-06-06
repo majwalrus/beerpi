@@ -19,8 +19,8 @@ class ElementControlClass:
     name = ""
 
     def __init__(self,gpio):
-        if gpio==0:
-            return False
+        #if gpio==0:
+        #    return False
 
         self.elementGPIO=gpio
         GPIO.setmode(GPIO.BCM)
