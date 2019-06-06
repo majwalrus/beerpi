@@ -209,11 +209,11 @@ class BeerCalibrate(Screen):
             sensorRow.update(self)
 
     def incrementIce(self,num,*args):
-        glob_beerProbes.probeList[num].calLow+=0.1
+        glob_beerProbes.probeList[num].calLow=round(glob_beerProbes.probeList[num].calLow+0.1,1)
         logging.info("Decrementing Ice : %s" % (glob_beerProbes.probeList[num].calLow))
 
     def decrementIce(self,num,*args):
-        glob_beerProbes.probeList[num].calLow-=0.1
+        glob_beerProbes.probeList[num].calLow=round(glob_beerProbes.probeList[num].calLow-0.1,1)
         logging.info("Decrementing Ice : %s" % (glob_beerProbes.probeList[num].calLow))
 
     def incrementBoil(self,num,*args):
