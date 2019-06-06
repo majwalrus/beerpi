@@ -1,7 +1,46 @@
 import ConfigParser
 import os
 
+from beerpiconstants import *
+
+class ValElement:
+    mainPower=0
+    taperPower=0
+    overPower=0
+
+    targetTemp=0
+    taperTemp=0
+
+    sensorName=""
+
+    gpio=0
+
+    elementOn=0
+
+
+    def __init__(self,mainpower,taperpower,overpower,elementon,targettemp,tapertemp,sensorname,tgpio):
+        self.mainPower=mainpower
+        self.taperPower=taperpower
+        self.overPower=overpower
+        self.elementOn=elementon
+        self.targetTemp=targettemp
+        self.taperTemp=tapertemp
+        self.sensorName=sensorname
+        self.gpio=tgpio
+
+    def dumpData(self):
+        return f'mainPower={self.mainPower}, taperPower={self.taperPower}, overPower={self.overPower}, elementOn={self.elementOn}, targetTemp={self.targetTemp}, taperTemp={self.taperTemp}, sensorName={self.sensorName}, gpio={self.gpio}.\n'
+
+    def __str__(self):
+        return self.dumpData()
+
+    def __repr__(self):
+        return self.dumpData()
+
+
 class BeerConfig:
+
+    listElement=["HLT","Boil"]
 
     configFile = './beer.ini'
     valHLTTargetTemp=0
@@ -19,6 +58,7 @@ class BeerConfig:
     valHLTOverPower=0
     valBoilOverPower=0
 
+    valElement = []
 
     sensorHLT=""
     sensorBoil=""
@@ -37,21 +77,26 @@ class BeerConfig:
         self.config.set("DEFAULT","mainpower","10")
         self.config.set("DEFAULT","taperpower","6")
         self.config.set("DEFAULT","overpower","0")
+        self.config.set("DEFAULT","targettemp","100")
+        self.config.set("DEFAULT","tapertemp","97")
 
         self.config.add_section("HLT")              # HLT value section
         self.config.set("HLT","targettemp","76")
         self.config.set("HLT","tapertemp","72")
-        self.config.set("HLT","hltgpio","6")
+        self.config.set("HLT","gpio","6")
         self.config.set("HLT","taperpower","5")
 
         self.config.add_section("Boil")             # Boil value section
-        self.config.set("Boil","targettemp","101")
+        self.config.set("Boil","targettemp","100")
         self.config.set("Boil","tapertemp","97")
-        self.config.set("Boil","boilgpio","5")
+        self.config.set("Boil","gpio","5")
 
         self.config.add_section("Sensors")          # Sensors  value section
-        self.config.set("Sensors","hlt","")
-        self.config.set("Sensors","boil","")
+
+        for tempElement in self.listElement:
+            self.config.set("Sensors",tempElement,"")
+
+#        self.config.set("Sensors","boil","")
 
         self.config.add_section("Calibration")          # Sensors  value section
         with open(self.configFile,"wb") as config_file: # Now write the default value file
@@ -72,28 +117,43 @@ class BeerConfig:
 
     def loadConfigFile(self):
         self.config.read(self.configFile)
+
+        for tempElement in self.listElement:
+            tMainPower=int(self.getConfig(tempElement,"mainpower","10"))
+            tTaperPower=int(self.getConfig(tempElement,"taperpower","6"))
+            tOverPower=int(self.getConfig(tempElement,"overpower","2"))
+            tTargetTemp=int(self.getConfig(tempElement,"targettemp"))
+            tTaperTemp=int(self.getConfig(tempElement,"tapertemp"))
+            tSensor=self.getConfig("Sensors",tempElement,"")
+            tGPIO=self.getConfig(tempElement,"gpio")
+            self.valElement.append(tMainPower,tTaperPower,tOverPower,False,tTargetTemp,tTaperTemp,tSensor,tGPIO)
+
         self.valHLTTargetTemp=int(self.getConfig("HLT","targettemp","76"))
         self.valHLTTaperTemp=int(self.getConfig("HLT","tapertemp","75"))
         self.valBoilTargetTemp=int(self.getConfig("Boil","targettemp","101"))
         self.valBoilTaperTemp=int(self.getConfig("Boil","tapertemp","98"))
         self.sensorBoil=self.getConfig("Sensors","boil","")
         self.sensorHLT=self.getConfig("Sensors","hlt","")
-        self.gpioHLT=self.getConfig("HLT","hltgpio","6")
-        self.gpioBoil=self.getConfig("Boil","boilgpio","5")
+        self.gpioHLT=self.getConfig("HLT","gpio","6")
+        self.gpioBoil=self.getConfig("Boil","gpio","5")
 
         self.valHLTMainPower = int(self.getConfig("HLT","mainpower","10"))
         self.valBoilMainPower = int(self.getConfig("Boil","mainpower","10"))
         self.valHLTTaperPower = int(self.getConfig("HLT","taperpower","5"))
         self.valBoilTaperPower = int(self.getConfig("Boil","taperpower","6"))
-        self.valHLTOverPower = int(self.getConfig("HLT","overpower","10"))
-        self.valBoilOverPower = int(self.getConfig("Boil","overpower","10"))
+        self.valHLTOverPower = int(self.getConfig("HLT","overpower","2"))
+        self.valBoilOverPower = int(self.getConfig("Boil","overpower","2"))
 
-        print("\n\rConfig File Dump\n\r")
-        print(self.valHLTTargetTemp)
-        print(self.valBoilTargetTemp)
-        print(self.sensorHLT)
-        print(self.sensorBoil)
-        print("\n\rEnd Config File Dump\n\r\n\r")
+
+        for tempArr in self.valElement:
+            print(tempArr)
+
+#        print("\n\rConfig File Dump\n\r")
+#        print(self.valHLTTargetTemp)
+#        print(self.valBoilTargetTemp)
+#        print(self.sensorHLT)
+#        print(self.sensorBoil)
+#        print("\n\rEnd Config File Dump\n\r\n\r")
 
     def updateConfigFile(self):
         self.config.set("Sensors","hlt",self.sensorHLT)
@@ -102,6 +162,12 @@ class BeerConfig:
         with open(self.configFile,"wb") as config_file:
             self.config.write(config_file)
 
+    def returnConfigVal(self,value,id):
+        if value=="TaperPower":
+            if id==DEF_HLT:
+                return self.valHLTTaperPower
+            if id==DEF_BOIL:
+                return self.val
 
 
 

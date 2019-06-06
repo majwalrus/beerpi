@@ -2,6 +2,8 @@ import time
 import glob
 import os
 
+from beerpiconstants import *
+
 # In this file there were two methods of controlling the temperature probes. There is the original OS method, and
 # an alternative using a custom import library from https://github.com/danjperron/BitBangingDS18B20. Unfortunately
 # the latter although perhaps less tempremental at picking up the probes, has a big CPU overhead when checking values
@@ -9,8 +11,6 @@ import os
 
 # Class BeerTempProbe
 #  This handles an individual probe
-
-
 
 class BeerTempProbeOS:
     name =""

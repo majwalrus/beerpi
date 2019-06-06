@@ -4,6 +4,8 @@
 
 import os
 
+from beerpiconstants import *
+
 class PiHealth:
 
     piTemp=0

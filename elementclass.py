@@ -3,6 +3,9 @@ import glob
 import os
 import RPi.GPIO as GPIO
 
+from beerpiconstants import *
+
+
 class ElementControlClass:
     mainPower = 10  # The intensity of the element when under taperTemp
     taperPower = 6  # Lower intensity to this when over targetTemp but under targetTemp

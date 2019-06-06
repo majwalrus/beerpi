@@ -24,6 +24,9 @@ import pihealth
 import probeclass
 import configclass
 import elementclass
+
+from beerpiconstants import *
+
 #
 # Global Variables
 # ==================
@@ -35,9 +38,6 @@ glob_pihealth = pihealth.PiHealth()
 glob_beerProbes = probeclass.BeerProbesOS()
 #glob_hltElement = elementclass.ElementControlClass(int(glob_config.gpioHLT))
 #glob_boilElement = elementclass.ElementControlClass(int(glob_config.gpioBoil))
-
-DEF_HLT=0
-DEF_BOIL=1
 
 glob_element = []
 glob_element.append(elementclass.ElementControlClass(int(glib_config.gpioHLT)))
@@ -311,16 +311,16 @@ def elementThreadControl():             # This controls the elements, it has 10 
         checkElementData()
         if glob_config.boolHLTElementOn:            # Is the HLT element control switched on
             if not (glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="" or glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="false"):
-                glob_hltElement.elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)))
+                glob_element[DEF_HLT].elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)))
         else:                                       # No its not, so make sure the element is off
-            glob_hltElement.switchOff()
+            glob_element[DEF_HLT].switchOff()
 
         if glob_config.boolBoilElementOn:           # Is the Boil element control switched on
             if not (glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)=="" or glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)=="false"):
-                glob_boilElement.elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)))
+                glob_element[DEF_BOIL].elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)))
         else:                                       # No its not, so make sure the element is off
-            glob_boilElement.switchOff()
-        time.sleep(1)
+            glob_element[DEF_BOIL].switchOff()
+        time.sleep(0.5)
         timer+=1
         if timer>10:
             timer=1

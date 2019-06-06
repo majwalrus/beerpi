@@ -25,7 +25,7 @@ Current Version 0.1a
 
 Version History
 
-0.1a
+0.2a
 
 * probeclass.py completed for managing the temperature probes.
 * pihealth.py added, has temperature monitoring code for making sure the Raspberry Pi does not overheat.
@@ -35,6 +35,8 @@ Version History
 * completed elementclass and added SSR control based on taper and target temperatures
 * added shutdown button and confirmation
 * some tinkering with default settings to allow for thermowell lag
+* added formula for calibration to probeclass (calibration data to be set later)
+* simplified some global variables and added constant values file
 
 TODO:
 
