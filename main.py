@@ -187,6 +187,7 @@ class BeerCalibrate(Screen):
         floatVal=float(self.listSensorRow[num].labelSensorIce)
         floatVal+=0.1
         self.listSensorRow[num].labelSensorIce=str(floatVal)
+        logging.info("Incrementing Ice : %s" % (self.listSensorRow[num].labelSensorIce))
 
     def decrementIce(self,num,*args):
         floatVal=float(self.listSensorRow[num].labelSensorIce)
