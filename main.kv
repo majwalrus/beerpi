@@ -5,8 +5,8 @@ BeerScreenManagement:
 	transition: NoTransition()
 	BeerStatus:
 		id:status
-#	BeerHLT:
-		id:hlt
+	BeerCalibrate:
+		id:calibrate
 	BeerOff:
 		id:poweroff
 	BeerConfig:
@@ -103,7 +103,7 @@ BeerScreenManagement:
 	Button:
 		background_normal: ''
 		background_color: 0.2,0,0,1
-		#on_release: app.root.current='Status'
+		#on_release: app.root.current='Calibrate'
 		font_size: 12
 		size: 60, 118
 		size_hint: None, None
@@ -228,8 +228,8 @@ BeerScreenManagement:
 		    #text: root.hltSetTempLabel
 		    text: root.settempLabel[0]
 
-<BeerHLT>
-	name: 'HLT'
+<BeerCalibrate>
+	name: 'Calibrate'
 
 <BeerOff>
 	name: 'PowerOff'

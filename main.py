@@ -145,10 +145,17 @@ class BeerStatus(Screen):
         self.add_widget(self.menu)
 
 
-class BeerHLT(Screen):      # # Placeholder, may be used in the future but after changes to the status screen maybe not
+class BeerCalibrate(Screen):      # # Placeholder, may be used in the future but after changes to the status screen maybe not
 
     def update(self, dt):
         pass
+
+    def __init__(self, **kwargs):
+        super(BeerSensors,self).__init__(**kwargs)
+        self.menu = ConfigRightBar()            # Ensure the config menu is displayed
+        self.add_widget(self.menu)
+        self.add_widget(Label(text="Calibrate Sensore",top=self.top+220))
+        self.add_widget(Label(text="Total Temperature Probes : "+str(glob_beerProbes.countProbes()),top=self.top+190))
 
 
 class BeerOff(Screen):     # Power off screen
