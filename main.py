@@ -352,6 +352,9 @@ class SimpleApp(App):   # The app class for the kivy side of the project
         sensorscreen = self.screenmanager.get_screen('Sensors')
         sensorscreen.update(dt)
 
+        calibratescreen = self.screenmanager.get_screen('Calibrate')
+        calibratescreen.update(dt)
+
     def build(self):
         Clock.schedule_interval(self.update, 1)
         return self.screenmanager
