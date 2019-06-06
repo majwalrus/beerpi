@@ -36,7 +36,8 @@ class ElementControlClass:
         return True
 
     def switchOn(self):
-        if not self.checkGPIOValid() return False
+        if not self.checkGPIOValid():
+            return False
         GPIO.output(int(self.elementGPIO), GPIO.HIGH)
 
     def switchOff(self):
