@@ -162,7 +162,7 @@ class BeerCalibrate(Screen):
                 if name==glob_config.valElement[elementID].sensorName:
                     self.labelSensorAssign=LIST_ELEMENTS[elementID]
 
-            Label(text=self.labelSensorName, top=parent.top + 90 - (num*40),x=parent.x-250)
+            parent.add_widget(Label(text=self.labelSensorName, top=parent.top + 90 - (num*40),x=parent.x-250))
             #Label(text=self.labelSensorAssign, top=self.top + 90 - (num*40),x=self.x-120)
             #Label(text=self.labelSensorIce, top=self.top + 90 - (num*40),x=self.x)
             #Label(text=self.labelSensorBoil, top=self.top + 90 - (num*40),x=self.x+120)
