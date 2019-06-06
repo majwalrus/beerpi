@@ -148,6 +148,7 @@ class BeerStatus(Screen):
 class BeerCalibrate(Screen):
 
     class SensorRow():
+        probeNumber=0
         labelStrSensorName=StringProperty()
         labelStrSensorAssign=StringProperty()
         labelStrSensorIce=StringProperty()
@@ -158,8 +159,15 @@ class BeerCalibrate(Screen):
         def __init__(self,name,num,parent):
             self.labelStrSensorName=name
             self.labelStrSensorAssign=""
-            self.labelStrSensorIce="0.0"
-            self.labelStrSensorBoil="100.0"
+            self.probeNumber=num
+
+            if glob_beerProbes.probeList[num].calLow==-99:
+                glob_beerProbes.probeList[num].calLow=0.0
+            self.labelStrSensorIce=str(glob_beerProbes.probeList[num].calLow)
+
+            if glob_beerProbes.probeList[num].calHigh==-99:
+                glob_beerProbes.probeList[num].calHigh=100.0
+            self.labelStrSensorBoil=str(glob_beerProbes.probeList[num].calHigh)
 
             self.checkAssignments()
 
@@ -191,8 +199,8 @@ class BeerCalibrate(Screen):
         def update(self,parent):
             self.checkAssignments()
             self.labelSensorAssign.text = self.labelStrSensorAssign
-            self.labelSensorIce.text = self.labelStrSensorIce
-            self.labelSensorBoil.text = self.labelStrSensorBoil
+            self.labelSensorIce.text = str(glob_beerProbes.probeList[self.probeNumber].calLow)
+            self.labelSensorBoil.text = str(glob_beerProbes.probeList[self.probeNumber].calHigh)
 
 
     listSensorRow = []
@@ -202,15 +210,12 @@ class BeerCalibrate(Screen):
             sensorRow.update(self)
 
     def incrementIce(self,num,*args):
-        floatVal=float(self.listSensorRow[num].labelSensorIce)
-        floatVal+=0.1
-        self.listSensorRow[num].labelSensorIce=str(floatVal)
-        logging.info("Incrementing Ice : %s" % (self.listSensorRow[num].labelSensorIce))
+        glob_beerProbes.probeList[num].calLow+=0.1
+        logging.info("Decrementing Ice : %s" % (glob_beerProbes.probeList[num].calLow))
 
     def decrementIce(self,num,*args):
-        floatVal=float(self.listSensorRow[num].labelSensorIce)
-        floatVal-=0.1
-        self.listSensorRow[num].labelSensorIce=str(floatVal)
+        glob_beerProbes.probeList[num].calLow-=0.1
+        logging.info("Decrementing Ice : %s" % (glob_beerProbes.probeList[num].calLow))
 
     def incrementBoil(self,num,*args):
         pass
