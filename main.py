@@ -162,11 +162,12 @@ class BeerCalibrate(Screen):
                 if name==glob_config.valElement[elementID].sensorName:
                     self.labelSensorAssign=LIST_ELEMENTS[elementID]
 
-            parent.add_widget(Label(text=self.labelSensorName, top=parent.top + 90 - (num*40),x=parent.x-250))
-            parent.add_widget(Label(text=self.labelSensorAssign, top=parent.top + 90 - (num*40),x=parent.x-120))
+            parent.add_widget(Label(text=self.labelSensorName, top=parent.top + 90 - (num*40),x=parent.x-280))
+            parent.add_widget(Label(text=self.labelSensorAssign, top=parent.top + 90 - (num*40),x=parent.x-150))
             parent.add_widget(Label(text=self.labelSensorIce, top=parent.top + 90 - (num*40),x=parent.x))
             parent.add_widget(Label(text=self.labelSensorBoil, top=parent.top + 90 - (num*40),x=parent.x+120))
-            parent.add_widget(Button(text="+", top=415 - (num*40), x=parent.x+360, size=(65,30), size_hint=(None,None), on_press=partial(parent.incrementIce,num)))
+            parent.add_widget(Button(text="+", top=415 - (num*40), x=parent.x+280, size=(30,30), size_hint=(None,None), on_press=partial(parent.incrementIce,num)))
+            parent.add_widget(Button(text="-", top=415 - (num*40), x=parent.x+360, size=(30,30), size_hint=(None,None), on_press=partial(parent.decrementIce,num)))
             # Create the HLT and Boil selection buttons
             #self.arr_ButtonHLT.append(Button(text="+", top=415 - (num*40), x=self.x+360, size=(65,30), size_hint=(None,None) ))
             #self.arr_ButtonHLT[num].bind(on_press=partial(self.hltAssign,num))
