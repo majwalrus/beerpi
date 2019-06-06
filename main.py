@@ -36,8 +36,6 @@ glob_config = configclass.BeerConfig() # must be defined first, as values in her
 
 glob_pihealth = pihealth.PiHealth()
 glob_beerProbes = probeclass.BeerProbesOS()
-#glob_hltElement = elementclass.ElementControlClass(int(glob_config.gpioHLT))
-#glob_boilElement = elementclass.ElementControlClass(int(glob_config.gpioBoil))
 
 glob_element = []
 #glob_element.append(elementclass.ElementControlClass(int(glob_config.gpioHLT)))
