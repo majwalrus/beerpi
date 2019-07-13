@@ -431,7 +431,7 @@ def elementThreadControl():             # This controls the elements, it has 10 
                 else:                                       #   No, make sure switch off
                     glob_element[elementID].switchOff()
             else:
-                glob_element[elementID].switchOff()
+                glob_element[elementID].switchOff()         #   Element control off, so make sure set off
 
         time.sleep(0.5)
         timer+=1
