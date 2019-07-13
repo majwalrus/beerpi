@@ -307,7 +307,7 @@ def elementThreadControl():             # This controls the elements, it has 10 
         if glob_config.boolHLTElementOn:            # Is the HLT element control switched on
             if not (glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="" or glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)=="false"):
                 glob_hltElement.elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorHLT)))
-        else:                                       # No its not, so make sure the element is off
+        if glob_config.boolHLTElementOn==False:                                       # No its not, so make sure the element is off
             glob_hltElement.switchOff()
 
         if glob_config.boolBoilElementOn:           # Is the Boil element control switched on
@@ -315,7 +315,7 @@ def elementThreadControl():             # This controls the elements, it has 10 
                 glob_boilElement.elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.sensorBoil)))
         else:                                       # No its not, so make sure the element is off
             glob_boilElement.switchOff()
-        time.sleep(1)
+        time.sleep(0.5)
         timer+=1
         if timer>10:
             timer=1
