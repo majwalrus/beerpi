@@ -68,7 +68,7 @@ class BeerConfig:
 
         self.config.add_section("Boil")             # Boil value section
         self.config.set("Boil","targettemp","100")
-        self.config.set("Boil","tapertemp","97")
+        self.config.set("Boil","tapertemp","94")
         self.config.set("Boil","gpio","5")
 
         self.config.add_section("Sensors")          # Sensors  value section
