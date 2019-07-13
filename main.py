@@ -430,6 +430,8 @@ def elementThreadControl():             # This controls the elements, it has 10 
                     glob_element[elementID].elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[elementID].sensorName)))
                 else:                                       #   No, make sure switch off
                     glob_element[elementID].switchOff()
+            else:
+                glob_element[elementID].switchOff()
 
         time.sleep(0.5)
         timer+=1
