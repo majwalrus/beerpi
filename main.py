@@ -443,20 +443,20 @@ def elementThreadControl():             # This controls the elements, it has 10 
 #  then start the Kivy App.
 
 if __name__ == '__main__':
-    threadTemp = threading.Thread(target=tempProbeThread)
-    threadTemp.daemon=True
-    logging.info("Starting Probe thread ...")
-    threadTemp.start()
+    #threadTemp = threading.Thread(target=tempProbeThread)
+    #threadTemp.daemon=True
+    #logging.info("Starting Probe thread ...")
+    #threadTemp.start()
 
-    threadHealth = threading.Thread(target=piHealthThread)
-    threadHealth.daemon=True
-    logging.info("Starting Health thread ...")
-    threadHealth.start()
+    #threadHealth = threading.Thread(target=piHealthThread)
+    #threadHealth.daemon=True
+    #logging.info("Starting Health thread ...")
+    #threadHealth.start()
 
-    threadHealth = threading.Thread(target=elementThreadControl)
-    threadHealth.daemon=True
-    logging.info("Starting Element thread ...")
-    threadHealth.start()
+    #threadHealth = threading.Thread(target=elementThreadControl)
+    #threadHealth.daemon=True
+    #logging.info("Starting Element thread ...")
+    #threadHealth.start()
 
     logging.info("Starting Kivy App...")
     SimpleApp().run()
