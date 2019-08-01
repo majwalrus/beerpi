@@ -406,7 +406,7 @@ def piHealthThread():
 def tempProbeThread():                  # this updates and caches the data from the temperature probes in the global
     while True:                         # values which the rest of the project uses.
         glob_beerProbes.updateProbes()
-        time.sleep(0.1)
+        time.sleep(0.05)
 
 def checkProbeValid(probename):
     if glob_beerProbes.returnStrProbeValFromName(probename) == "":
@@ -449,15 +449,15 @@ if __name__ == '__main__':
     logging.info("Starting Probe thread ...")
     threadTemp.start()
 
-    #threadHealth = threading.Thread(target=piHealthThread)
-    #threadHealth.daemon=True
-    #logging.info("Starting Health thread ...")
-    #threadHealth.start()
+    threadHealth = threading.Thread(target=piHealthThread)
+    threadHealth.daemon=True
+    logging.info("Starting Health thread ...")
+    threadHealth.start()
 
-    #threadHealth = threading.Thread(target=elementThreadControl)
-    #threadHealth.daemon=True
-    #logging.info("Starting Element thread ...")
-    #threadHealth.start()
+    threadHealth = threading.Thread(target=elementThreadControl)
+    threadHealth.daemon=True
+    logging.info("Starting Element thread ...")
+    threadHealth.start()
 
     logging.info("Starting Kivy App...")
     SimpleApp().run()
