@@ -406,6 +406,7 @@ def piHealthThread():
 def tempProbeThread():                  # this updates and caches the data from the temperature probes in the global
     while True:                         # values which the rest of the project uses.
         glob_beerProbes.updateProbes()
+        time.sleep(0.1)
 
 def checkProbeValid(probename):
     if glob_beerProbes.returnStrProbeValFromName(probename) == "":
