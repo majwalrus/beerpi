@@ -153,7 +153,7 @@ class BeerStatus(Screen):
         self.add_widget(self.menu)
 
     def setPump(self,pumpID,status):
-        logging.info("Setting Element status ID=%s, status=%s" % (elementID,status) )
+        logging.info("Setting Pump status ID=%s, status=%s" % (pumpID,status) )
         if status:
             self.ids[ self.elementIDS[pumpID] ].text="PUMP %s ON"
             self.ids[ self.elementIDS[elementID] ].background_color = 0.4, 0.1, 0.1, 1
