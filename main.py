@@ -446,7 +446,7 @@ def elementThreadControl():             # This controls the elements, it has 10 
         if timer>10:
             timer=1
 
-def energenieThreadControl():             # This controls the energie plug connected to the pump
+def pumpThreadControl():             # This controls the energie plug connected to the pump
     while True:
         time.sleep(0.5)
 
@@ -472,10 +472,10 @@ if __name__ == '__main__':
     logging.info("Starting Element thread ...")
     threadHealth.start()
 
-    threadEnergenie = threading.Thread(target=energenieThreadControl)
-    threadEnergenie.daemon=True
-    logging.info("Starting Energenie thread ....")
-    threadEnergie.start()
+    threadPump = threading.Thread(target=pumpThreadControl)
+    threadPump.daemon=True
+    logging.info("Starting Pump thread ....")
+    threadPump.start()
 
     logging.info("Starting Kivy App...")
     SimpleApp().run()
