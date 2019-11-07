@@ -37,7 +37,7 @@ class pumpClass:
             self.energenieObj.Off()
 
     def togglePump(self):
-        if self.status=1:
+        if self.status==1:
             self.setStatus(0)
         else
             self.setStatus(1)
