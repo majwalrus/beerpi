@@ -108,8 +108,6 @@ class BeerStatus(Screen):
 
         pass
 
-    def setEnergenie(self,energenieID,status):
-
 
     def setElement(self,elementID,status):
         logging.info("Setting Element status ID=%s, status=%s" % (elementID,status) )
