@@ -4,6 +4,8 @@ from gpiozero import Energenie
 class pumpClass:
 
     pumpName = ""
+    pumpEnabled = True
+
     def __init__(self,pumpMethod,plugId,pumpName):
         self.pumpMethod=pumpMethod
         self.plugId=plugId

@@ -151,6 +151,17 @@ class BeerStatus(Screen):
         super(BeerStatus, self).__init__(**kwargs)
         self.menu = DefaultRightBar()
         self.add_widget(self.menu)
+        self.initPump()
+
+    def initPump(self):
+        for tpump in glob_pump:
+            if not tpump.pumpEnabled:
+                continue
+            else:
+                tpump.setStatus(0)
+                self.ids[ self.pumpIDS[pumpID] ].text="%s OFF" % glob_pump[pumpID].pumpName
+                self.ids[ self.pumpIDS[pumpID] ].background_color = 0.1, 0.1, 0.2, 1
+
 
     def setPump(self,pumpID,status):
         logging.info("Setting Pump status ID=%s, status=%s" % (pumpID,status) )
