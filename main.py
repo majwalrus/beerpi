@@ -157,13 +157,13 @@ class BeerStatus(Screen):
         pumpID=0
         for tpump in glob_pump:
             if not tpump.pumpEnabled:
-                pumpID++
+                pumpID+=1
                 continue
             else:
                 tpump.setStatus(0)
                 self.ids[ self.pumpIDS[pumpID] ].text="%s OFF" % tpump.pumpName
                 self.ids[ self.pumpIDS[pumpID] ].background_color = 0.1, 0.1, 0.2, 1
-                pumpID++
+                pumpID+=1
 
 
     def setPump(self,pumpID,status):
