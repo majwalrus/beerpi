@@ -448,7 +448,11 @@ def elementThreadControl():             # This controls the elements, it has 10 
 
 def pumpThreadControl():             # This controls the energie plug connected to the pump
     while True:
-        time.sleep(0.5)
+
+        glob_pump[0].setStatus(1)
+        time.sleep(3)
+        glob_pump[0].setStatus(0)
+        time.sleep(3)
 
 
 #
