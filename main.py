@@ -152,7 +152,8 @@ class BeerStatus(Screen):
         self.add_widget(self.menu)
 
     def togglePump(self, *args):
-        logging.info("Toggling Pump %s" % *args)
+        for arg in args
+            logging.info("Toggling Pump arg %s" % arg)
 
 class BeerCalibrate(Screen):
 
