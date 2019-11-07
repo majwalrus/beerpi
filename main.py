@@ -51,7 +51,7 @@ for tempElement in LIST_ELEMENTS_ID:
     glob_element.append(elementclass.ElementControlClass(int(glob_config.valElement[tempElement].gpio)))
 
 for tempEnergenie in LIST_ENERGENIE_ID:
-    glob_pump.append(pumpclass.pumpClass(PUMP_METHOD_ENERGENIE,tempEnergenie))
+    glob_pump.append(pumpclass.pumpClass(PUMP_METHOD_ENERGENIE,tempEnergenie,"PUMP E%s" % tempEnergenie))
 
 #
 # KIVY
@@ -155,10 +155,10 @@ class BeerStatus(Screen):
     def setPump(self,pumpID,status):
         logging.info("Setting Pump status ID=%s, status=%s" % (pumpID,status) )
         if status:
-            self.ids[ self.pumpIDS[pumpID] ].text="PUMP %s ON" % pumpID
+            self.ids[ self.pumpIDS[pumpID] ].text="%s ON" % glob_pump[pumpID].pumpName
             self.ids[ self.pumpIDS[pumpID] ].background_color = 0.4, 0.1, 0.1, 1
         else:
-            self.ids[ self.pumpIDS[pumpID] ].text="PUMP %s OFF" % pumpID
+            self.ids[ self.pumpIDS[pumpID] ].text="%s OFF" % glob_pump[pumpID].pumpName
             self.ids[ self.pumpIDS[pumpID] ].background_color = 0.1, 0.1, 0.2, 1
 
     def togglePump(self, *args):
