@@ -39,6 +39,6 @@ class pumpClass:
     def togglePump(self):
         if self.status==1:
             self.setStatus(0)
-        else
+        else:
             self.setStatus(1)
 
