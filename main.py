@@ -155,11 +155,11 @@ class BeerStatus(Screen):
     def setPump(self,pumpID,status):
         logging.info("Setting Pump status ID=%s, status=%s" % (pumpID,status) )
         if status:
-            self.ids[ self.elementIDS[pumpID] ].text="PUMP %s ON"
-            self.ids[ self.elementIDS[elementID] ].background_color = 0.4, 0.1, 0.1, 1
+            self.ids[ self.pumpIDS[pumpID] ].text="PUMP %s ON" % pumpID
+            self.ids[ self.pumpIDS[pumpID] ].background_color = 0.4, 0.1, 0.1, 1
         else:
-            self.ids[ self.elementIDS[pumpID] ].text="PUMP %s OFF"
-            self.ids[ self.elementIDS[elementID] ].background_color = 0.1, 0.1, 0.2, 1
+            self.ids[ self.pumpIDS[pumpID] ].text="PUMP %s OFF" % pumpID
+            self.ids[ self.pumpIDS[pumpID] ].background_color = 0.1, 0.1, 0.2, 1
 
     def togglePump(self, *args):
         logging.info("Toggling Pump %s" % args[0])
