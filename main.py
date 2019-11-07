@@ -92,7 +92,13 @@ class BeerStatus(Screen):
     elementIDS=["hltelementbutton","boilelementbutton"]
     pumpIDS=["pump1button","pump2button"]
 
+    firstupdate=True
+
     def update(self, dt):
+        if self.firstupdate:
+            self.initPump()
+            self.firstupdate=False
+
         self.piTempLabel = glob_pihealth.piTempStr
 
         for elementID in LIST_ELEMENTS_ID:  #   Update actual temperature labels
@@ -151,7 +157,6 @@ class BeerStatus(Screen):
         super(BeerStatus, self).__init__(**kwargs)
         self.menu = DefaultRightBar()
         self.add_widget(self.menu)
-        self.initPump()
 
     def initPump(self):
         pumpID=0
