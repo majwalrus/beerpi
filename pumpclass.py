@@ -35,3 +35,10 @@ class pumpClass:
     def safeShutdown(self):
         if self.pumpMethod==PUMP_METHOD_ENERGENIE:
             self.energenieObj.Off()
+
+    def togglePump(self):
+        if self.status=1:
+            self.setStatus(0)
+        else
+            self.setStatus(1)
+
