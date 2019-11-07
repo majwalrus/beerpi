@@ -266,6 +266,9 @@ class BeerOff(Screen):     # Power off screen
         for tmpElement in glob_element: #   switch off all elements
             logging.info("Element %s off" % tmpElement)
             tmpElement.switchOff()
+        for tmpPump in glob_pump:
+            logging.info("Pump %s off" % tmpPump)
+            tmpPump.safeShutdown()
         from subprocess import call
         call("sudo poweroff", shell=True)   # shutdown the Pi
 
@@ -376,29 +379,12 @@ class SimpleApp(App):   # The app class for the kivy side of the project
 #
 
 def checkElementData(): # This ensures that the element classes have the correct data in case of changes
-
-
     for elementID in LIST_ELEMENTS_ID:
         glob_element[elementID].setMainPower(glob_config.valElement[elementID].mainPower)
         glob_element[elementID].setTaperPower(glob_config.valElement[elementID].taperPower)
         glob_element[elementID].setOverPower(glob_config.valElement[elementID].overPower)
         glob_element[elementID].setTargetTemp(glob_config.valElement[elementID].targetTemp)
         glob_element[elementID].setTaperTemp(glob_config.valElement[elementID].taperTemp)
-
-    #glob_element[DEF_HLT].setMainPower(glob_config.valHLTMainPower)
-    #glob_element[DEF_HLT].setTaperPower(glob_config.valHLTTaperPower)
-    #glob_element[DEF_HLT].setOverPower(glob_config.valHLTOverPower)
-    #glob_element[DEF_BOIL].setMainPower(glob_config.valBoilMainPower)
-    #glob_element[DEF_BOIL].setTaperPower(glob_config.valBoilTaperPower)
-    #glob_element[DEF_BOIL].setOverPower(glob_config.valBoilOverPower)
-
-    #glob_element[DEF_HLT].setTargetTemp(glob_config.valHLTTargetTemp)
-    #glob_element[DEF_HLT].setTaperTemp(glob_config.valHLTTaperTemp)
-
-    #glob_element[DEF_BOIL].setTargetTemp(glob_config.valBoilTargetTemp)
-    #glob_element[DEF_BOIL].setTaperTemp(glob_config.valBoilTaperTemp)
-
-
 
 #
 # THREADS
