@@ -203,11 +203,22 @@ BeerScreenManagement:
     	    background_color: 0.1,0.1,0.2,1
     	    #on_release: root.togglePump(0)
     	    font_size: 14
-    	    size: 120,60
+    	    size: 120,70
     	    size_hint: None, None
-    	    center_x: 300
-    	    top: root.top-380
+    	    center_x: 280
+    	    top: root.top-400
     	    text: "PUMP 1 OFF"
+    	    id: pump1button
+    	Button:
+    	    background_normal: ''
+    	    background_color: 0.1,0.1,0.2,1
+    	    #on_release: root.togglePump(0)
+    	    font_size: 14
+    	    size: 120,70
+    	    size_hint: None, None
+    	    center_x: 420
+    	    top: root.top-400
+    	    text: "PUMP 2 OFF"
     	    id: pump1button
 
 		Label:
