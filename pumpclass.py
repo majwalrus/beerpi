@@ -8,6 +8,7 @@ class pumpClass:
         self.pumpMethod=pumpMethod
         self.plugId=plugId
         self.status=0
+        self.pumpName=pumpName
 
         if self.pumpMethod==PUMP_METHOD_ENERGENIE:
             self.energenieObj=Energenie(self.plugId)
