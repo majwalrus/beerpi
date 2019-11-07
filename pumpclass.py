@@ -1,4 +1,5 @@
 from beerpiconstants import *
+from gpiozero import Energenie
 
 class pumpClass:
 
@@ -8,7 +9,7 @@ class pumpClass:
         self.status=0
 
         if self.pumpMethod==PUMP_METHOD_ENERGENIE:
-            self.energenieObj=Energie(self.plugId)
+            self.energenieObj=Energenie(self.plugId)
 
     def sendCommand(self,command):
         if self.pumpMethod==PUMP_METHOD_ENERGENIE:
