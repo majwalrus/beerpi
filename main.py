@@ -18,6 +18,7 @@ from kivy.graphics import *
 from kivy.uix.screenmanager import *
 from kivy.lang import Builder
 from functools import partial
+from gpiozero import Energenie
 
 
 import threading
@@ -29,6 +30,7 @@ import pihealth
 import probeclass
 import configclass
 import elementclass
+import pumpclass
 
 from beerpiconstants import *
 
@@ -43,10 +45,13 @@ glob_pihealth = pihealth.PiHealth()
 glob_beerProbes = probeclass.BeerProbesOS()
 
 glob_element = []
+glob_pump = []
 
 for tempElement in LIST_ELEMENTS_ID:
     glob_element.append(elementclass.ElementControlClass(int(glob_config.valElement[tempElement].gpio)))
 
+for tempEnergenie in LIST_ENERGENIE_ID:
+    glob_pump.append(pumpclass.pumpClass(PUMP_METHOD_ENERGENIE,tempEnergenie))
 
 #
 # KIVY
@@ -100,7 +105,11 @@ class BeerStatus(Screen):
         #   Update the element control buttons
         for elementID in LIST_ELEMENTS_ID:
             self.setElement(elementID,glob_config.valElement[elementID].elementOn)
+
         pass
+
+    def setEnergenie(self,energenieID,status):
+
 
     def setElement(self,elementID,status):
         logging.info("Setting Element status ID=%s, status=%s" % (elementID,status) )
@@ -438,6 +447,12 @@ def elementThreadControl():             # This controls the elements, it has 10 
         timer+=1
         if timer>10:
             timer=1
+
+def energenieThreadControl():             # This controls the energie plug connected to the pump
+    while True:
+        time.sleep(0.5)
+
+
 #
 # MAIN
 #  This is the main startup code. This will start the relevant threads, run the startup config code and
@@ -458,6 +473,11 @@ if __name__ == '__main__':
     threadHealth.daemon=True
     logging.info("Starting Element thread ...")
     threadHealth.start()
+
+    threadEnergenie = threading.Thread(target=energenieThreadControl)
+    threadEnergenie.daemon=True
+    logging.info("Starting Energenie thread ....")
+    threadEnergie.start()
 
     logging.info("Starting Kivy App...")
     SimpleApp().run()
