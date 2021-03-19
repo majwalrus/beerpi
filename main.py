@@ -24,7 +24,7 @@ from gpiozero import Energenie
 import threading
 import time
 import ConfigParser
-
+import signal
 
 import pihealth
 import probeclass
@@ -504,3 +504,4 @@ if __name__ == '__main__':
 
     logging.info("Starting Kivy App...")
     SimpleApp().run()
+

@@ -10,7 +10,7 @@ from beerpiconstants import *
 
 class ElementControlClass:
     mainPower = 10  # The intensity of the element when under taperTemp
-    taperPower = 6  # Lower intensity to this when over targetTemp but under targetTemp
+    taperPower = 7  # Lower intensity to this when over targetTemp but under targetTemp
     overPower = 0   # Intensity of element when over targetTemp
 
     targetTemp = 76

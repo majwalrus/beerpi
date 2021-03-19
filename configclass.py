@@ -1,4 +1,4 @@
-import ConfigParser
+import configparser
 import os
 
 import logging
@@ -44,7 +44,7 @@ class BeerConfig:
 
     valElement = []
 
-    config = ConfigParser.ConfigParser(allow_no_value=True)
+    config = configparser.ConfigParser(allow_no_value=True)
 
     def __init__(self):
         if not os.path.isfile(self.configFile):     # check config file exists
@@ -72,26 +72,40 @@ class BeerConfig:
         self.config.set("Boil","taperpower","7")
         self.config.set("Boil","gpio","5")
 
+        self.config.add_section("RIMS")             # Boil value section
+        self.config.set("RIMS","targettemp","65")
+        self.config.set("RIMS","tapertemp","63")
+        self.config.set("RIMS","taperpower","5")
+        self.config.set("RIMS","gpio","13")
+
+        self.config.add_section("Flow")
+        for tempFlow in LIST_FLOW_ID:
+            self.config.set("Flow",LIST_FLOW[tempFlow]+"gpio",str(LIST_FLOW_GPIO[tempFlow]))
+
         self.config.add_section("Sensors")          # Sensors  value section
 
         for tempElement in LIST_ELEMENTS:
             self.config.set("Sensors",tempElement,"")
 
         self.config.add_section("Calibration")          # Sensors  value section
-        with open(self.configFile,"wb") as config_file: # Now write the default value file
+        with open(self.configFile,"w") as config_file: # Now write the default value file
             self.config.write(config_file)
 
     def getConfig(self,section,value,fallback):
         if not self.config.has_section(section):            # check section exists, this stops exception errors
+            logging.info("Config Section - "+section+" does not exist, creating")
             self.config.add_section(section)                # it doesn't so add it for future reference
             self.config.set(section,value,fallback)         # now add the value and fallback
             return fallback                                 # return fallback
         else:
+            logging.info("Config Section - "+section+" found")
             if not self.config.has_option(section,value):   # check value exists
+                logging.info("Config Value - "+section+":"+value+" not found")
                 self.config.set(section, value, fallback)   # it doesn't so add it and set it to fallback
                 return fallback
             else:
-                return self.config.get(section,value,fallback)  # section exists so attempt to get value, if not fallback
+                logging.info("Config Value - "+section+":"+value+" found")
+                return self.config.get(section,value)  # value exists so attempt to get value, if not fallback
 
 
     def loadConfigFile(self):
@@ -113,6 +127,7 @@ class BeerConfig:
     def updateConfigFile(self):
         self.config.set("Sensors","hlt",self.valElement[DEF_HLT].sensorName)
         self.config.set("Sensors","boil",self.valElement[DEF_BOIL].sensorName)
+        self.config.set("Sensors","rims",self.valElement[DEF_RIMS].sensorName)
 
         with open(self.configFile,"wb") as config_file:
             self.config.write(config_file)
