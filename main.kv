@@ -1,6 +1,8 @@
 #:kivy 1.0.9
 #:import NoTransition kivy.uix.screenmanager.NoTransition
 
+
+
 BeerScreenManagement:
 	transition: NoTransition()
 	BeerStatus:
@@ -11,9 +13,38 @@ BeerScreenManagement:
 		id:poweroff
 	BeerConfig:
 		id:config
-    BeerSensors:
-        id:sensors
+	BeerSensors:
+		id:sensors
 
+<TopActionBar>
+	ActionBar:
+		id: status_actionbar
+		top: root.top
+		size: root.width, 50
+		background_color: 50/255, 50/255, 50/255, 1
+		ActionView:
+			use_seperator: True
+			ActionPrevious:
+				on_release: app.root.current='Status'
+				app_icon: "/home/pi/programming/beerpi/onyx_32px_icon.png"
+				title: "Onyx's Brewery"
+				font_size: 6
+				with_previous: False
+			ActionOverflow:
+			ActionButton:
+				text: "Timers"
+			ActionGroup:
+				text: "System & Settings"
+				mode: 'spinner'
+				ActionButton:
+					text: "Sensors"
+					on_release: app.root.current='Sensors'
+				ActionButton:
+					text: "Main Settings"
+				ActionButton:
+					text: "Shutdown"
+					on_release: app.root.current='PowerOff'
+					background_color:2,0.3,0.3,1
 
 <DefaultRightBar>
 	#canvas:
@@ -127,54 +158,60 @@ BeerScreenManagement:
 		Color:
 			rgba: 0.3,0,0,1
 		Rectangle:
-			pos: 30,self.height-180
-			size: 160,120
+			pos: 30,self.height-210
+			size: 160,90
 		Rectangle:
-			pos: 290,self.height-180
-			size: 160,120
+			pos: 310,self.height-210
+			size: 160,90
+		Rectangle:
+			pos: 590,self.height-210
+			size: 160,90
 		Rectangle:
 			pos: 30,self.height-480
 			size: 80,40
 		Color:
 			rgba: 0,0.3,0,1
+#		Rectangle:
+#			pos: 0,self.height-280
+#			size: 160,90
 		Rectangle:
 			pos: 30,self.height-310
-			size: 160,120
+			size: 160,90
 		Rectangle:
-			pos: 290,self.height-310
-			size: 160,120
+			pos: 590,self.height-310
+			size: 160,90
 	FloatLayout:
-#		Label:
-#			pos: 0,230
-#			text: "STATUS"
-#			font_size: 25
 		Label:
-			pos: -290,200
+			pos: -290,150
 			text: "HLT"
 			font_size: 25
 		Label:
-			pos: -30,200
+			pos: -5,150
 			text: "BOIL"
+			font_size: 25
+		Label:
+			pos: 270,150
+			text: "RIMS"
 			font_size: 25
     	Button:
 	    	background_normal: ''
 		    background_color: 0,0.2,0.2,1
 		    on_release: root.subhlt()
 		    font_size: 15
-		    size: 30, 110
+		    size: 30, 80
 		    size_hint: None, None
 		    center_x: 15
-		    top: root.top - 195
+		    top: root.top - 225
 		    text: "-"
     	Button:
 	    	background_normal: ''
 		    background_color: 0,0.2,0.2,1
 		    on_release: root.addhlt()
 		    font_size: 15
-		    size: 30, 110
+		    size: 30, 80
 		    size_hint: None, None
 		    center_x: 205
-		    top: root.top - 195
+		    top: root.top - 225
 		    text: "+"
     	Button:
 	    	background_normal: ''
@@ -194,10 +231,21 @@ BeerScreenManagement:
 		    font_size: 12
 		    size: 160, 50
 		    size_hint: None, None
-		    center_x: 370
+		    center_x: 390
 		    top: root.top-330
 		    text: "ELEMENT CONTROL OFF"
 		    id: boilelementbutton
+    	Button:
+	    	background_normal: ''
+		    background_color: 0.1,0.1,0.2,1
+		    on_release: root.toggleRIMSElement()
+		    font_size: 12
+		    size: 160, 50
+		    size_hint: None, None
+		    center_x: 670
+		    top: root.top-330
+		    text: "ELEMENT CONTROL OFF"
+		    id: rimselementbutton
     	Button:
     	    background_normal: ''
     	    background_color: 0.1,0.1,0.2,1
@@ -230,22 +278,33 @@ BeerScreenManagement:
 			font_size: 20
 			text: root.piTempLabel
 		Label:
-			pos: -30,125
+			pos: -10,75
 			font_size: 48
 			#text: root.boilTempLabel
 			text: root.tempLabel[1]
 		Label:
-			pos: -290,125
+			pos: -290,75
 			font_size: 48
 			#text: root.hltTempLabel
 			text: root.tempLabel[0]
 		Label:
-		    pos: -30,-10
+			pos: 270,75
+			font_size: 48
+			#text: root.rimsTempLabel
+			text: root.tempLabel[2]
+		Label:
+		    pos: -20,-10
 		    font_size: 48
 		    #text: root.boilSetTempLabel
 		    text: root.settempLabel[1]
+			opacity: 0
 		Label:
-		    pos: -290,-10
+		    pos: 270,-25
+		    font_size: 48
+		    #text: root.rimsSetTempLabel
+		    text: root.settempLabel[2]
+		Label:
+		    pos: -290,-25
 		    font_size: 48
 		    #text: root.hltSetTempLabel
 		    text: root.settempLabel[0]

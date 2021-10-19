@@ -129,7 +129,7 @@ class BeerConfig:
         self.config.set("Sensors","boil",self.valElement[DEF_BOIL].sensorName)
         self.config.set("Sensors","rims",self.valElement[DEF_RIMS].sensorName)
 
-        with open(self.configFile,"wb") as config_file:
+        with open(self.configFile,"w") as config_file:
             self.config.write(config_file)
 
     def returnConfigVal(self,value,id):

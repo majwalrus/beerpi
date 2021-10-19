@@ -1,5 +1,5 @@
 import os
-os.environ['KIVY_GL_BACKEND'] = 'gl'    #   to get around the dreaded segmentation fault
+#os.environ['KIVY_GL_BACKEND'] = 'gl'    #   to get around the dreaded segmentation fault if this is an issue.
 
 import logging
 logging.basicConfig(filename='beerpi.log', filemode='w', level=logging.DEBUG)
@@ -13,6 +13,7 @@ from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.floatlayout import FloatLayout
 from kivy.properties import NumericProperty, ReferenceListProperty, ObjectProperty, StringProperty, ListProperty
+from kivy.event import EventDispatcher
 from kivy.clock import Clock
 from kivy.graphics import *
 from kivy.uix.screenmanager import *
@@ -20,10 +21,12 @@ from kivy.lang import Builder
 from functools import partial
 from gpiozero import Energenie
 
+from kivy.core.window import Window # Switch off mouse cursor.
+Window.show_cursor = False
 
 import threading
 import time
-import ConfigParser
+import configparser
 import signal
 
 import pihealth
@@ -72,6 +75,8 @@ class BeerRightBar:
         func = switcher.get(menuBar, lambda: self.defaultBar)
         func(menuCanvas)
 
+class TopActionBar(Widget):
+    pass
 
 class DefaultRightBar(Widget):
     pass
@@ -80,6 +85,8 @@ class DefaultRightBar(Widget):
 class ConfigRightBar(Widget):
     pass
 
+class BeerMain(FloatLayout):
+    pass
 
 class BeerStatus(Screen):
     piTempLabel = StringProperty()
@@ -87,9 +94,9 @@ class BeerStatus(Screen):
     boilTempLabel = StringProperty()
     hltSetTempLabel = StringProperty()
     boilSetTempLabel = StringProperty()
-    tempLabel=ListProperty(["",""])
-    settempLabel=ListProperty(["",""])
-    elementIDS=["hltelementbutton","boilelementbutton"]
+    tempLabel=ListProperty(["","",""])
+    settempLabel=ListProperty(["","",""])
+    elementIDS=["hltelementbutton","boilelementbutton","rimselementbutton"]
     pumpIDS=["pump1button","pump2button"]
 
     firstupdate=True
@@ -102,7 +109,10 @@ class BeerStatus(Screen):
         self.piTempLabel = glob_pihealth.piTempStr
 
         for elementID in LIST_ELEMENTS_ID:  #   Update actual temperature labels
-            self.tempLabel[elementID] = glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[elementID].sensorName)
+            probeTemp = glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[elementID].sensorName)
+            if probeTemp == "false":
+                probeTemp = "--"
+            self.tempLabel[elementID] = probeTemp
             logging.info("Temp Label %s updated to %s" % (elementID, glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[elementID].sensorName)))
         for elementID in LIST_ELEMENTS_ID:  #   Update target temperature labels
             self.settempLabel[elementID]=str(glob_config.valElement[elementID].targetTemp)
@@ -155,7 +165,7 @@ class BeerStatus(Screen):
 
     def __init__(self, **kwargs):
         super(BeerStatus, self).__init__(**kwargs)
-        self.menu = DefaultRightBar()
+        self.menu = TopActionBar()
         self.add_widget(self.menu)
 
     def initPump(self):
@@ -189,7 +199,7 @@ class BeerStatus(Screen):
 
 class BeerCalibrate(Screen):
 
-    class SensorRow():
+    class SensorRow(EventDispatcher):
         probeNumber=0
         labelStrSensorName=StringProperty()
         labelStrSensorAssign=StringProperty()
@@ -280,6 +290,7 @@ class BeerCalibrate(Screen):
         num=0
         for tmp_probe in glob_beerProbes.probeList:     # Goes through each probe and creates a new SensorRow class
             logging.info("tmp_probe name: %s" % (tmp_probe.name))
+            tempSR=self.SensorRow(tmp_probe.name,num,self)
             self.listSensorRow.append(self.SensorRow(tmp_probe.name,num,self))
             logging.info("Sensor Row Class Vals : %s" % (self.listSensorRow[num]))
             num+=1
@@ -317,7 +328,7 @@ class BeerConfig(Screen):   # Main config screen, very little on it but does hav
 
     def __init__(self, **kwargs):
         super(BeerConfig, self).__init__(**kwargs)
-        self.menu = ConfigRightBar()
+        self.menu = TopActionBar()
         self.add_widget(self.menu)
 
 class BeerSensors(Screen):  # The config screen for the temperature probes, this needs to dynamically create labels and
@@ -361,7 +372,7 @@ class BeerSensors(Screen):  # The config screen for the temperature probes, this
 
     def __init__(self, **kwargs):
         super(BeerSensors,self).__init__(**kwargs)
-        self.menu = ConfigRightBar()            # Ensure the config menu is displayed
+        self.menu = TopActionBar()
         self.add_widget(self.menu)
         self.add_widget(Label(text="Sensor Setup",top=self.top+220))
         self.add_widget(Label(text="Total Temperature Probes : "+str(glob_beerProbes.countProbes()),top=self.top+190))
@@ -406,6 +417,8 @@ class SimpleApp(App):   # The app class for the kivy side of the project
 
     def build(self):
         Clock.schedule_interval(self.update, 1)
+        self.icon='/home/pi/programming/beerpi/onyx_32px_icon.png'
+        logging.info("APP LOGO: %s" %self.get_application_icon())  #logging.info("Temp Label %s updated to %s" % (elementID, glob_config.valElement[elementID].targetTemp))
         return self.screenmanager
 
 

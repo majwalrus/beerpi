@@ -62,8 +62,8 @@ class BeerProbesOS:
     w1_devdir = '/sys/bus/w1/devices/'
 
     def __init__(self):
-        os.system('modprobe w1-gpio')
-        os.system('modprobe w1-therm')
+        os.system('sudo modprobe w1-gpio')
+        os.system('sudo modprobe w1-therm')
 
         w1_devfolders=glob.glob(self.w1_devdir+'28*')
 
