@@ -21,9 +21,15 @@ the dynamically created widgets with main.py.
 
 Also its a good excuse to mess around with a Pi.
 
-Current Version 0.1a
+Current Version 0.3a
 
 Version History
+
+0.3a
+
+* converted to Python 3
+* started to improve the UI
+* added RIMS support
 
 0.2a
 
