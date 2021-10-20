@@ -77,8 +77,12 @@ class BeerRightBar:
 
 class TopActionBar(Widget):
     piTempLabel = StringProperty()
-    def Update(self,dt):
-        self.piTempLabel = glob_pihealth.piTempStr
+
+    def update(self,dt):
+        self.piTempLabel = glob_pihealth.piTempStr #+ " C"
+        self.ids[ "piTempButton" ].text=self.piTempLabel
+        logging.info("ActionButton piTempButton updated to %s" % self.piTempLabel)
+
         pass
 
     pass
@@ -98,7 +102,6 @@ class BeerMain(FloatLayout):
 #
 
 class BeerStatus(Screen):
-    piTempLabel = StringProperty()
     hltTempLabel = StringProperty()
     boilTempLabel = StringProperty()
     hltSetTempLabel = StringProperty()
@@ -118,8 +121,6 @@ class BeerStatus(Screen):
             self.initPump()
             self.firstupdate=False
 
-        self.piTempLabel = glob_pihealth.piTempStr
-
         for elementID in LIST_ELEMENTS_ID:  #   Update actual temperature labels
             probeTemp = glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[elementID].sensorName)
             if probeTemp == "false":
@@ -137,6 +138,7 @@ class BeerStatus(Screen):
                 continue
             self.setElement(elementID,glob_config.valElement[elementID].elementOn)
 
+        self.menu.update(dt)
         pass
 
 
@@ -429,10 +431,12 @@ class SimpleApp(App):   # The app class for the kivy side of the project
         calibratescreen = self.screenmanager.get_screen('Calibrate')
         calibratescreen.update(dt)
 
+        #topactionbar = self.wid
+
     def build(self):
         Clock.schedule_interval(self.update, 1)
         self.icon='/home/pi/programming/beerpi/onyx_32px_icon.png'
-        logging.info("APP LOGO: %s" %self.get_application_icon())  #logging.info("Temp Label %s updated to %s" % (elementID, glob_config.valElement[elementID].targetTemp))
+        logging.info("APP LOGO: %s" %self.get_application_icon()) 
         return self.screenmanager
 
 

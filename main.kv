@@ -170,11 +170,11 @@ BeerScreenManagement:
 			pos: 310,self.height-210
 			size: 160,90
 		Rectangle:
-			pos: 590,self.height-210
-			size: 160,90
+			pos: 550,self.height-210
+			size: 100,90
 		Rectangle:
-			pos: 30,self.height-480
-			size: 80,40
+			pos: 660,self.height-210
+			size: 100,90
 		Color:
 			rgba: 0,0.3,0,1
 #		Rectangle:
@@ -257,10 +257,10 @@ BeerScreenManagement:
     	    background_color: 0.1,0.1,0.2,1
     	    on_release: root.togglePump(0)
     	    font_size: 14
-    	    size: 120,70
+    	    size: 120,60
     	    size_hint: None, None
-    	    center_x: 280
-    	    top: root.top-400
+    	    center_x: 60
+    	    top: root.top-422
     	    text: "PUMP 1 OFF"
     	    id: pump1button
     	Button:
@@ -268,21 +268,13 @@ BeerScreenManagement:
     	    background_color: 0.1,0.1,0.2,1
     	    on_release: root.togglePump(1)
     	    font_size: 14
-    	    size: 120,70
+    	    size: 120,60
     	    size_hint: None, None
-    	    center_x: 420
-    	    top: root.top-400
+    	    center_x: 220
+    	    top: root.top-422
     	    text: "PUMP 2 OFF"
     	    id: pump2button
 
-		Label:
-			pos: -330,-190
-			font_size: 16
-			text: "Pi Temp"
-		Label:
-			pos: -330,-230
-			font_size: 20
-			text: root.piTempLabel
 		Label:
 			pos: -10,75
 			font_size: 48
