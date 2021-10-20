@@ -1,0 +1,3 @@
+# ignore log and ini files
+*.log
+*.ini
