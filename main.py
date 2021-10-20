@@ -51,7 +51,7 @@ glob_element = []
 glob_pump = []
 
 for tempElement in LIST_ELEMENTS_ID:
-    glob_element.append(elementclass.ElementControlClass(int(glob_config.valElement[tempElement].gpio)))
+    glob_element.append(elementclass.ElementControlClass(int(glob_config.valElement[tempElement].gpio),bool(LIST_ELEMENTS_AUTOCONTROL[tempElement])))
 
 for tempEnergenie in LIST_ENERGENIE_ID:
     glob_pump.append(pumpclass.pumpClass(PUMP_METHOD_ENERGENIE,tempEnergenie,"PUMP E%s" % tempEnergenie))
@@ -76,6 +76,11 @@ class BeerRightBar:
         func(menuCanvas)
 
 class TopActionBar(Widget):
+    piTempLabel = StringProperty()
+    def Update(self,dt):
+        self.piTempLabel = glob_pihealth.piTempStr
+        pass
+
     pass
 
 class DefaultRightBar(Widget):
@@ -88,16 +93,23 @@ class ConfigRightBar(Widget):
 class BeerMain(FloatLayout):
     pass
 
+#
+#   Main Status Screen
+#
+
 class BeerStatus(Screen):
     piTempLabel = StringProperty()
     hltTempLabel = StringProperty()
     boilTempLabel = StringProperty()
     hltSetTempLabel = StringProperty()
     boilSetTempLabel = StringProperty()
-    tempLabel=ListProperty(["","",""])
-    settempLabel=ListProperty(["","",""])
-    elementIDS=["hltelementbutton","boilelementbutton","rimselementbutton"]
-    pumpIDS=["pump1button","pump2button"]
+    mashoutSetTempLabel = StringProperty()
+    rimsoutSetTempLabel = StringProperty()
+
+    tempLabel=ListProperty(["","","",""])
+    settempLabel=ListProperty(["","","",""])
+    elementIDS=["hltelementbutton","boilelementbutton","rimselementbutton"]     # list of the IDS for the element control buttons
+    pumpIDS=["pump1button","pump2button"]                                       # list of the IDS for the pump control buttons
 
     firstupdate=True
 
@@ -121,6 +133,8 @@ class BeerStatus(Screen):
 
         #   Update the element control buttons
         for elementID in LIST_ELEMENTS_ID:
+            if not glob_element[elementID].autoControlElement:
+                continue
             self.setElement(elementID,glob_config.valElement[elementID].elementOn)
 
         pass

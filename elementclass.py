@@ -17,13 +17,15 @@ class ElementControlClass:
     taperTemp = 75
 
     elementGPIO = 0
+    autoControlElement = False
 
     name = ""
 
-    def __init__(self,gpio):
+    def __init__(self,gpio,controlElement):
         #if gpio==0:
         #    return False
-
+        
+        self.autoControlElement=controlElement
         self.elementGPIO=gpio
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
@@ -39,11 +41,15 @@ class ElementControlClass:
         return True
 
     def switchOn(self):
+        if not self.autoControlElement:
+            return False
         if not self.checkGPIOValid():
             return False
         GPIO.output(int(self.elementGPIO), GPIO.HIGH)
 
     def switchOff(self):
+        if not self.autoControlElement:
+            return False
         if not self.checkGPIOValid():
             return False
         GPIO.output(int(self.elementGPIO), GPIO.LOW)
@@ -89,6 +95,8 @@ class ElementControlClass:
         return True
 
     def elementControl(self,time,temp):
+        if not self.autoControlElement:
+            return False
         power=self.returnPower(temp)
         elementstate=self.returnPowerState(time,power)
         if elementstate:
@@ -98,6 +106,8 @@ class ElementControlClass:
 
 
     def returnPower(self,temp):
+        if not self.autoControlElement:
+            return 0
         if temp<self.targetTemp and temp<self.taperTemp:
             return self.mainPower
         if temp>self.targetTemp:

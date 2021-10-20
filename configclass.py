@@ -72,11 +72,18 @@ class BeerConfig:
         self.config.set("Boil","taperpower","7")
         self.config.set("Boil","gpio","5")
 
-        self.config.add_section("RIMS")             # Boil value section
+        self.config.add_section("RIMS")             # RIMS value section
         self.config.set("RIMS","targettemp","65")
         self.config.set("RIMS","tapertemp","63")
         self.config.set("RIMS","taperpower","5")
         self.config.set("RIMS","gpio","13")
+
+        self.config.add_section("Mash")             # Mash value section, dummy for monitoring only
+        self.config.set("Mash","targettemp","65")
+        self.config.set("Mash","tapertemp","63")
+        self.config.set("Mash","taperpower","5")
+        self.config.set("Mash","gpio","0")
+
 
         self.config.add_section("Flow")
         for tempFlow in LIST_FLOW_ID:
@@ -128,6 +135,7 @@ class BeerConfig:
         self.config.set("Sensors","hlt",self.valElement[DEF_HLT].sensorName)
         self.config.set("Sensors","boil",self.valElement[DEF_BOIL].sensorName)
         self.config.set("Sensors","rims",self.valElement[DEF_RIMS].sensorName)
+        self.config.set("Sensors","mash",self.valElement[DEF_MASH].sensorName)
 
         with open(self.configFile,"w") as config_file:
             self.config.write(config_file)
