@@ -30,8 +30,12 @@ BeerScreenManagement:
 				title: "Onyx's Brewery"
 				font_size: 6
 				with_previous: False
-			Label:
-				text: root.piTempLabel
+			ActionButton:
+				icon: "./thermometer-squared-32px.png"
+			ActionButton:
+				id: piTempButton
+				text: "--"
+
 			ActionOverflow:
 			ActionButton:
 				text: "Timers"
