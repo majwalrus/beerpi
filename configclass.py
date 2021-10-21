@@ -1,4 +1,4 @@
-import configparser
+from kivy.config import ConfigParser
 import os
 
 import logging
@@ -44,16 +44,18 @@ class BeerConfig:
 
     valElement = []
 
-    config = configparser.ConfigParser(allow_no_value=True)
+    config = ConfigParser(allow_no_value=True)
 
     def __init__(self):
         if not os.path.isfile(self.configFile):     # check config file exists
             self.createDefaultFile()                # it doesn't, so write the default file and continue
-            logging.warning("No config file found. Created default settings.")
+            logging.warning("No config file found. Created using default settings.")
         self.loadConfigFile()                       # now read the config file
         logging.info("Config File Loaded")
 
     def createDefaultFile(self):
+        self.config.read(self.configFile)
+
         self.config.set("DEFAULT","mainpower","10")
         self.config.set("DEFAULT","taperpower","6")
         self.config.set("DEFAULT","overpower","0")
@@ -61,28 +63,16 @@ class BeerConfig:
         self.config.set("DEFAULT","tapertemp","97")
 
         self.config.add_section("HLT")              # HLT value section
-        self.config.set("HLT","targettemp","76")
-        self.config.set("HLT","tapertemp","72")
-        self.config.set("HLT","gpio","6")
-        self.config.set("HLT","taperpower","5")
-
+        self.config.setall("HLT",{'targettemp':'76', 'tapertemp':'72', 'taperpower':'5', 'gpio':'6'})
+        
         self.config.add_section("Boil")             # Boil value section
-        self.config.set("Boil","targettemp","100")
-        self.config.set("Boil","tapertemp","94")
-        self.config.set("Boil","taperpower","7")
-        self.config.set("Boil","gpio","5")
+        self.config.setall("Boil",{'targettemp':'100', 'tapertemp':'96', 'taperpower':'7', 'gpio':'5'})
 
         self.config.add_section("RIMS")             # RIMS value section
-        self.config.set("RIMS","targettemp","65")
-        self.config.set("RIMS","tapertemp","63")
-        self.config.set("RIMS","taperpower","5")
-        self.config.set("RIMS","gpio","13")
+        self.config.setall("RIMS",{'targettemp':'65', 'tapertemp':'63', 'taperpower':'5', 'gpio':'13', 'enabled':'auto'})
 
         self.config.add_section("Mash")             # Mash value section, dummy for monitoring only
-        self.config.set("Mash","targettemp","65")
-        self.config.set("Mash","tapertemp","63")
-        self.config.set("Mash","taperpower","5")
-        self.config.set("Mash","gpio","0")
+        self.config.setall("Mash",{'targettemp':'0', 'tapertemp':'0', 'taperpower':'0', 'gpio':'0'})
 
 
         self.config.add_section("Flow")
@@ -94,9 +84,9 @@ class BeerConfig:
         for tempElement in LIST_ELEMENTS:
             self.config.set("Sensors",tempElement,"")
 
-        self.config.add_section("Calibration")          # Sensors  value section
-        with open(self.configFile,"w") as config_file: # Now write the default value file
-            self.config.write(config_file)
+        self.config.add_section("Calibration")      # Sensors calibration section (TODO)
+
+        self.config.write()                         # Now write the default value file
 
     def getConfig(self,section,value,fallback):
         if not self.config.has_section(section):            # check section exists, this stops exception errors
@@ -132,13 +122,18 @@ class BeerConfig:
             print(tempArr)
 
     def updateConfigFile(self):
+        self.config.read(self.configFile)   # Read original file 
+                                            # (quirk of using kivy, as write uses the last read file, this in case we ever have more than
+                                            # one configuration file at a later date.
+
+        # Update sensor settings in configparser
         self.config.set("Sensors","hlt",self.valElement[DEF_HLT].sensorName)
         self.config.set("Sensors","boil",self.valElement[DEF_BOIL].sensorName)
         self.config.set("Sensors","rims",self.valElement[DEF_RIMS].sensorName)
         self.config.set("Sensors","mash",self.valElement[DEF_MASH].sensorName)
 
-        with open(self.configFile,"w") as config_file:
-            self.config.write(config_file)
+        # Now write the new file
+        self.config.write()
 
     def returnConfigVal(self,value,id):
         if value=="TaperPower":

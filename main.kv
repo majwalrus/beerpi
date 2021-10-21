@@ -21,7 +21,7 @@ BeerScreenManagement:
 		id: status_actionbar
 		top: root.top
 		size: root.width, 50
-		background_color: 50/255, 50/255, 50/255, 1
+		background_color: 70/255, 70/255, 70/255, 1
 		ActionView:
 			use_seperator: True
 			ActionPrevious:
@@ -47,6 +47,8 @@ BeerScreenManagement:
 					on_release: app.root.current='Sensors'
 				ActionButton:
 					text: "Main Settings"
+					on_release: app.open_settings()
+					#on_release: app.root.current='Config'
 				ActionButton:
 					text: "Shutdown"
 					on_release: app.root.current='PowerOff'
@@ -54,11 +56,7 @@ BeerScreenManagement:
 
 <DefaultRightBar>
 	#canvas:
-	#	Color:
-	#		rgba: 0,0,0.2,1
-	#	Rectangle:
-	#		pos: self.width-60,0
-	#		size: 60,self.height
+
 	Button:
 		background_normal: ''
 		background_color: 0,0,0.2,1
@@ -69,16 +67,7 @@ BeerScreenManagement:
 		center_x: root.width-30
 		top: root.top
 		text: "MAIN"
-#	Button:
-#		background_normal: ''
-#		background_color: 0.2,0.2,0,1
-#		#on_release: app.root.current='Config'
-#		font_size: 15
-#		size: 60, 118
-#		size_hint: None, None
-#		center_x: root.width-30
-#		top: root.top - 120
-#		text: "HLT"
+
 	Button:
 		background_normal: ''
 		background_color: 0.2,0,0,1
@@ -171,10 +160,10 @@ BeerScreenManagement:
 			size: 160,90
 		Rectangle:
 			pos: 550,self.height-210
-			size: 100,90
+			size: 110,90
 		Rectangle:
-			pos: 660,self.height-210
-			size: 100,90
+			pos: 670,self.height-210
+			size: 110,90
 		Color:
 			rgba: 0,0.3,0,1
 #		Rectangle:
@@ -184,21 +173,38 @@ BeerScreenManagement:
 			pos: 30,self.height-310
 			size: 160,90
 		Rectangle:
-			pos: 590,self.height-310
+			pos: 590,self.height-380
 			size: 160,90
+		Color:
+			rgba: 0,0,0.3,1
+		Rectangle:
+			pos: 590,self.height-280
+			size: 160,60
 	FloatLayout:
 		Label:
-			pos: -290,150
+			pos: -290,160
 			text: "HLT"
 			font_size: 25
 		Label:
-			pos: -5,150
+			pos: -5,160
 			text: "BOIL"
 			font_size: 25
 		Label:
-			pos: 270,150
+			pos: 265,160
 			text: "RIMS"
 			font_size: 25
+		Label:
+			pos: 205,130
+			text: "Mash Out"
+			font_size: 16
+		Label:
+			pos: 325,130
+			text: "Mash Return"
+			font_size: 16
+		Label:
+			pos: 167,-10
+			text: "Flow\nRate"
+			font_size: 16
     	Button:
 	    	background_normal: ''
 		    background_color: 0,0.2,0.2,1
@@ -249,7 +255,7 @@ BeerScreenManagement:
 		    size: 160, 50
 		    size_hint: None, None
 		    center_x: 670
-		    top: root.top-330
+		    top: root.top-390
 		    text: "ELEMENT CONTROL OFF"
 		    id: rimselementbutton
     	Button:
@@ -286,10 +292,15 @@ BeerScreenManagement:
 			#text: root.hltTempLabel
 			text: root.tempLabel[0]
 		Label:
-			pos: 270,75
+			pos: 205,75
 			font_size: 48
 			#text: root.rimsTempLabel
 			text: root.tempLabel[2]
+		Label:
+			pos: 325,75
+			font_size: 48
+			#text: root.mashTempLabel
+			text: root.tempLabel[3]
 		Label:
 		    pos: -20,-10
 		    font_size: 48
@@ -297,7 +308,7 @@ BeerScreenManagement:
 		    text: root.settempLabel[1]
 			opacity: 0
 		Label:
-		    pos: 270,-25
+		    pos: 270,-95
 		    font_size: 48
 		    #text: root.rimsSetTempLabel
 		    text: root.settempLabel[2]

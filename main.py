@@ -26,7 +26,7 @@ Window.show_cursor = False
 
 import threading
 import time
-import configparser
+from kivy.config import ConfigParser
 import signal
 
 import pihealth
@@ -41,6 +41,7 @@ from beerpiconstants import *
 # Global Variables
 # ==================
 # Used as globals as less overheads and in will be updated by using multiple threads.
+#
 
 glob_config = configclass.BeerConfig() # must be defined first, as values in here used in other declarations.
 
@@ -179,6 +180,14 @@ class BeerStatus(Screen):
             self.setElement(DEF_BOIL,True)
         pass
 
+    def toggleRIMSElement(self, *args):
+        logging.info("Toggling RIMS Element")
+        if glob_config.valElement[DEF_RIMS].elementOn:
+                self.setElement(DEF_RIMS,False)
+        else:
+            self.setElement(DEF_RIMS,True)
+        pass
+
     def __init__(self, **kwargs):
         super(BeerStatus, self).__init__(**kwargs)
         self.menu = TopActionBar()
@@ -212,6 +221,9 @@ class BeerStatus(Screen):
         self.setPump(args[0],glob_pump[args[0]].getStatus())
 
 
+#
+#   Sensor Calibration Screen (TODO)
+#
 
 class BeerCalibrate(Screen):
 
@@ -336,8 +348,7 @@ class BeerOff(Screen):     # Power off screen
 
         pass
 
-
-class BeerConfig(Screen):   # Main config screen, very little on it but does have the config menu to the right
+class BeerConfig(Screen):   # No longer used
 
     def update(self, dt):
         pass
@@ -352,8 +363,12 @@ class BeerSensors(Screen):  # The config screen for the temperature probes, this
     arr_LabelProbe=[]
     arr_LabelAssignHLT=[]
     arr_LabelAssignBoil=[]
+    arr_LabelAssignRIMS=[]
+    arr_LabelAssignMash=[]
     arr_ButtonHLT=[]
     arr_ButtonBoil=[]
+    arr_ButtonRIMS=[]
+    arr_ButtonMash=[]
     tmp_LabelVal=StringProperty()
     tmp_Label=Label()
     tmp_Button=Button()
@@ -370,10 +385,16 @@ class BeerSensors(Screen):  # The config screen for the temperature probes, this
         for tmp_probe in glob_beerProbes.probeList:
             self.arr_LabelAssignHLT[num].text = ""
             self.arr_LabelAssignBoil[num].text = ""
+            self.arr_LabelAssignRIMS[num].text = ""
+            self.arr_LabelAssignMash[num].text = ""
             if tmp_probe.name==glob_config.valElement[DEF_HLT].sensorName:
                 self.arr_LabelAssignHLT[num].text="HLT"
             if tmp_probe.name==glob_config.valElement[DEF_BOIL].sensorName:
                 self.arr_LabelAssignBoil[num].text="Boil"
+            if tmp_probe.name==glob_config.valElement[DEF_RIMS].sensorName:
+                self.arr_LabelAssignRIMS[num].text="Mash Out"
+            if tmp_probe.name==glob_config.valElement[DEF_MASH].sensorName:
+                self.arr_LabelAssignMash[num].text="Mash Ret"
             num+=1
 
     def hltAssign(self,num, *args): # function that is called when an HLT select button is pressed
@@ -386,40 +407,112 @@ class BeerSensors(Screen):  # The config screen for the temperature probes, this
         glob_config.updateConfigFile()
         pass
 
+    def rimsAssign(self,num, *args):    # function that is called when a boil select button is pressed
+        glob_config.valElement[DEF_RIMS].sensorName=glob_beerProbes.probeList[num].name
+        glob_config.updateConfigFile()
+        pass
+
+    def mashAssign(self,num, *args):    # function that is called when a boil select button is pressed
+        glob_config.valElement[DEF_MASH].sensorName=glob_beerProbes.probeList[num].name
+        glob_config.updateConfigFile()
+        pass
+
     def __init__(self, **kwargs):
         super(BeerSensors,self).__init__(**kwargs)
         self.menu = TopActionBar()
         self.add_widget(self.menu)
-        self.add_widget(Label(text="Sensor Setup",top=self.top+220))
-        self.add_widget(Label(text="Total Temperature Probes : "+str(glob_beerProbes.countProbes()),top=self.top+190))
+        self.add_widget(Label(text="Sensor Setup",top=self.top+185))
+        self.add_widget(Label(text="Total Temperature Probes : "+str(glob_beerProbes.countProbes()),top=self.top+170))
 
 
         num=0
         for tmp_probe in glob_beerProbes.probeList:     # Create an array of labels for all the probes found
-            self.arr_LabelProbe.append(Label(text=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr+" INIT", top=self.top + 90 - (num*40),x=self.x-250))
-            self.arr_LabelAssignHLT.append(Label(text="None INIT", top=self.top + 90 - (num*40),x=self.x-120))
-            self.arr_LabelAssignBoil.append(Label(text="None INIT", top=self.top + 90 - (num*40),x=self.x-80))
+            self.arr_LabelProbe.append(Label(text=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr+" INIT", top=self.top + 90 - (num*40),x=self.x-310))
+            self.arr_LabelAssignHLT.append(Label(text="None INIT", top=self.top + 90 - (num*40),x=self.x-190))
+            self.arr_LabelAssignBoil.append(Label(text="None INIT", top=self.top + 90 - (num*40),x=self.x-150))
+            self.arr_LabelAssignRIMS.append(Label(text="None INIT", top=self.top + 90 - (num*40),x=self.x-90))
+            self.arr_LabelAssignMash.append(Label(text="None INIT", top=self.top + 90 - (num*40),x=self.x-10))
 
             self.add_widget(self.arr_LabelProbe[num])   # Now display the labels
             self.add_widget(self.arr_LabelAssignHLT[num])
             self.add_widget(self.arr_LabelAssignBoil[num])
+            self.add_widget(self.arr_LabelAssignRIMS[num])
+            self.add_widget(self.arr_LabelAssignMash[num])
 
             # Create the HLT and Boil selection buttons
-            self.arr_ButtonHLT.append(Button(text="Set HLT", top=415 - (num*40), x=self.x+360, size=(65,30), size_hint=(None,None) ))
+            self.arr_ButtonHLT.append(Button(text="Set HLT", top=415 - (num*40), x=self.x+430, size=(75,30), size_hint=(None,None) ))
             self.arr_ButtonHLT[num].bind(on_press=partial(self.hltAssign,num))
-            self.arr_ButtonBoil.append(Button(text="Set Boil", top=415 - (num*40), x=self.x+450, size=(65,30), size_hint=(None,None) ))
+            self.arr_ButtonBoil.append(Button(text="Set Boil", top=415 - (num*40), x=self.x+510, size=(75,30), size_hint=(None,None) ))
             self.arr_ButtonBoil[num].bind(on_press=partial(self.boilAssign,num))
+            self.arr_ButtonRIMS.append(Button(text="Set Mash Out", top=415 - (num*40), x=self.x+590, size=(95,30), size_hint=(None,None) ))
+            self.arr_ButtonRIMS[num].bind(on_press=partial(self.rimsAssign,num))
+            self.arr_ButtonMash.append(Button(text="Set Mash Ret", top=415 - (num*40), x=self.x+690, size=(95,30), size_hint=(None,None) ))
+            self.arr_ButtonMash[num].bind(on_press=partial(self.mashAssign,num))
             self.add_widget(self.arr_ButtonHLT[num])
             self.add_widget(self.arr_ButtonBoil[num])
+            self.add_widget(self.arr_ButtonRIMS[num])
+            self.add_widget(self.arr_ButtonMash[num])
             num+=1
-
 
 class BeerScreenManagement(ScreenManager):
     pass
 
-
 class SimpleApp(App):   # The app class for the kivy side of the project
     screenmanager = Builder.load_file("main.kv")
+    
+    configjson = '''
+    [   
+        {
+            "type"      :   "title",
+            "title"     :   "HLT"
+        },
+        {
+            "type"      :   "numeric",
+            "title"     :   "Taper Temperature",
+            "desc"      :   "At what temperature should the software start to taper the element power. This starts before the target temperature to reduce overshoots.",
+            "section"   :   "HLT",
+            "key"       :   "tapertemp"
+        },
+{
+            "type"      :   "numeric",
+            "title"     :   "Tapered Power",
+            "desc"      :   "Percentage power to use when taper temperature hit.",
+            "section"   :   "HLT",
+            "key"       :   "taperpower"
+        },
+        {
+            "type"  :   "title",
+            "title" :   "Boil"
+        },
+        {
+            "type"      :   "numeric",
+            "title"     :   "Taper Temperature",
+            "desc"      :   "At what temperature should the software start to taper the element power. This starts before the boil starts to reduce the risk of a boil over.",
+            "section"   :   "Boil",
+            "key"       :   "tapertemp"
+        },
+        {
+            "type"      :   "numeric",
+            "title"     :   "Tapered Power",
+            "desc"      :   "Percentage power to use when taper temperature hit and throughout the boil.",
+            "section"   :   "Boil",
+            "key"       :   "taperpower"
+        },
+        {
+            "type" : "title",
+            "title" : "RIMS"
+        },
+        {
+            "type" : "bool",
+            "title" : "Enable RIMS",
+            "desc" : "Enable RIMS subsystem within software",
+            "section" : "RIMS",
+            "key" : "enabled",
+            "values" : ["0","auto"]
+        }
+        
+    ]
+    '''
 
     def update(self, dt):   # Update, and make sure passes on to the various Kivy screens so they get updated.
         statusscreen = self.screenmanager.get_screen('Status')
@@ -438,6 +531,9 @@ class SimpleApp(App):   # The app class for the kivy side of the project
         self.icon='/home/pi/programming/beerpi/onyx_32px_icon.png'
         logging.info("APP LOGO: %s" %self.get_application_icon()) 
         return self.screenmanager
+
+    def build_settings(self,settings):
+        settings.add_json_panel('Settings',glob_config.config, data=self.configjson)
 
 
 #
