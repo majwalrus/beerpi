@@ -31,6 +31,18 @@ class ValElement:
         strdump="mainPower=%s, taperPower=%s, overPower=%s, elementOn=%s, targetTemp=%s, taperTemp=%s, sensorName=%s, gpio=%s.\n"  % (self.mainPower,self.taperPower,self.overPower,self.elementOn,self.targetTemp,self.taperTemp,self.sensorName,self.gpio)
         return strdump
 
+    def incTaperPower(self):
+        self.taperPower+=1
+        if self.taperPower>100:
+            self.taperPower=100
+        return True
+
+    def decTaperPower(self):
+        self.taperPower-=1
+        if self.taperPower<0:
+            self.taperPower=0
+        return True
+
     def __str__(self):
         return self.dumpData()
 

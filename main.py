@@ -12,6 +12,7 @@ from kivy.uix.widget import Widget
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.progressbar import ProgressBar
 from kivy.properties import NumericProperty, ReferenceListProperty, ObjectProperty, StringProperty, ListProperty
 from kivy.event import EventDispatcher
 from kivy.clock import Clock
@@ -109,7 +110,8 @@ class BeerStatus(Screen):
     boilSetTempLabel = StringProperty()
     mashoutSetTempLabel = StringProperty()
     rimsoutSetTempLabel = StringProperty()
-
+    pidValue = NumericProperty()
+    pidLabel = StringProperty()
     tempLabel=ListProperty(["","","",""])
     settempLabel=ListProperty(["","","",""])
     elementIDS=["hltelementbutton","boilelementbutton","rimselementbutton"]     # list of the IDS for the element control buttons
@@ -122,6 +124,8 @@ class BeerStatus(Screen):
             self.initPump()
             self.firstupdate=False
 
+        self.pidValue = glob_element[DEF_BOIL].taperPower
+        self.pidLabel = str(glob_element[DEF_BOIL].taperPower) + " %"
         for elementID in LIST_ELEMENTS_ID:  #   Update actual temperature labels
             probeTemp = glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[elementID].sensorName)
             if probeTemp == "false":
@@ -163,6 +167,14 @@ class BeerStatus(Screen):
         logging.info("Decrementing HLT Temperature Settings")
         glob_config.valElement[DEF_HLT].targetTemp -=1
         glob_config.valElement[DEF_HLT].taperTemp -=1
+
+    def addboil(self, *args):
+        logging.info("Incrementing Boil PID Settings")
+        glob_config.valElement[DEF_BOIL].incTaperPower()
+
+    def subboil(self, *args):
+        logging.info("Decrementing Boil PID Settings")
+        glob_config.valElement[DEF_BOIL].decTaperPower()
 
     def toggleHLTElement(self, *args):
         logging.info("Toggling HLT Element")
@@ -464,43 +476,43 @@ class SimpleApp(App):   # The app class for the kivy side of the project
     [   
         {
             "type"      :   "title",
-            "title"     :   "HLT"
+            "title"     :   "Hot Liquor Tank (HLT) Settings"
         },
         {
             "type"      :   "numeric",
             "title"     :   "Taper Temperature",
-            "desc"      :   "At what temperature should the software start to taper the element power. This starts before the target temperature to reduce overshoots.",
+            "desc"      :   "Default temperature the software starts to taper the element power. This starts before the target temperature to reduce overshoots.",
             "section"   :   "HLT",
             "key"       :   "tapertemp"
         },
-{
+        {
             "type"      :   "numeric",
             "title"     :   "Tapered Power",
-            "desc"      :   "Percentage power to use when taper temperature hit.",
+            "desc"      :   "Default percentage power to use when taper temperature hit.",
             "section"   :   "HLT",
             "key"       :   "taperpower"
         },
         {
             "type"  :   "title",
-            "title" :   "Boil"
+            "title" :   "Boil Settings"
         },
         {
             "type"      :   "numeric",
             "title"     :   "Taper Temperature",
-            "desc"      :   "At what temperature should the software start to taper the element power. This starts before the boil starts to reduce the risk of a boil over.",
+            "desc"      :   "Default temperature the software starts to taper the element power. This starts before the boil starts to reduce the risk of a boil over.",
             "section"   :   "Boil",
             "key"       :   "tapertemp"
         },
         {
             "type"      :   "numeric",
             "title"     :   "Tapered Power",
-            "desc"      :   "Percentage power to use when taper temperature hit and throughout the boil.",
+            "desc"      :   "Default percentage power to use when taper temperature hit and throughout the boil.",
             "section"   :   "Boil",
             "key"       :   "taperpower"
         },
         {
             "type" : "title",
-            "title" : "RIMS"
+            "title" : "Recirculation Infusion Mash System (RIMS) Settings"
         },
         {
             "type" : "bool",

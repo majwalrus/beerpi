@@ -236,7 +236,43 @@ BeerScreenManagement:
 		    top: root.top-330
 		    text: "ELEMENT CONTROL OFF"
 		    id: hltelementbutton
+		Label:
+			pos: -10,0
+			text: "PID"
+			font_size: 16
+		Label:
+			pos: -10,-40
+			text: root.pidLabel
+			font_size: 16
+		ProgressBar:
+			id: pidBar
+			value: root.pidValue
+			min: 0
+			max: 100
+			pos: 340,-20
+			#size: 80,20
+			size_hint_x:0.12
     	Button:
+	    	background_normal: ''
+		    background_color: 0,0.2,0.2,1
+		    on_release: root.subboil()
+		    font_size: 15
+		    size: 25, 80
+		    size_hint: None, None
+		    center_x: 321
+		    top: root.top - 225
+		    text: "-"
+    	Button:
+	    	background_normal: ''
+		    background_color: 0,0.2,0.2,1
+		    on_release: root.addboil()
+		    font_size: 15
+		    size: 25, 80
+		    size_hint: None, None
+		    center_x: 457
+		    top: root.top - 225
+		    text: "+"
+		Button:
 	    	background_normal: ''
 		    background_color: 0.1,0.1,0.2,1
 		    on_release: root.toggleBoilElement()
@@ -292,13 +328,13 @@ BeerScreenManagement:
 			#text: root.hltTempLabel
 			text: root.tempLabel[0]
 		Label:
-			pos: 205,75
-			font_size: 48
+			pos: 205,78
+			font_size: 40
 			#text: root.rimsTempLabel
 			text: root.tempLabel[2]
 		Label:
-			pos: 325,75
-			font_size: 48
+			pos: 325,78
+			font_size: 40
 			#text: root.mashTempLabel
 			text: root.tempLabel[3]
 		Label:

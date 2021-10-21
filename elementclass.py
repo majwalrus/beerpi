@@ -20,6 +20,7 @@ class ElementControlClass:
 
     elementGPIO = 0
     autoControlElement = False
+    isRIMS = False
 
     name = ""
 
@@ -111,6 +112,9 @@ class ElementControlClass:
     def elementControl(self,time,temp):
         if not self.autoControlElement:
             return False
+        if self.isRIMS:
+            self.elementRIMSControl(time,temp)
+            return
         power=self.returnPower(temp)
         elementstate=self.returnPowerState(time,power)
         if elementstate:
@@ -147,3 +151,10 @@ class ElementControlClass:
         print ("Over Power: "+str(self.overPower)+"\n")
         print ("Target Temp: "+str(self.targetTemp)+"\n")
         print ("Taper Temp: "+str(self.taperTemp)+"\n")
+    
+    def setRIMS(self,isRIMS):
+        self.isRIMS = isRIMS
+        return True
+
+    def elementRIMSControl(self,time,temp):
+        return
