@@ -56,20 +56,20 @@ class BeerConfig:
     def createDefaultFile(self):
         self.config.read(self.configFile)
 
-        self.config.set("DEFAULT","mainpower","10")
-        self.config.set("DEFAULT","taperpower","6")
+        self.config.set("DEFAULT","mainpower","100")
+        self.config.set("DEFAULT","taperpower","60")
         self.config.set("DEFAULT","overpower","0")
         self.config.set("DEFAULT","targettemp","100")
         self.config.set("DEFAULT","tapertemp","97")
 
         self.config.add_section("HLT")              # HLT value section
-        self.config.setall("HLT",{'targettemp':'76', 'tapertemp':'72', 'taperpower':'5', 'gpio':'6'})
+        self.config.setall("HLT",{'targettemp':'76', 'tapertemp':'72', 'taperpower':'50', 'gpio':'6'})
         
         self.config.add_section("Boil")             # Boil value section
-        self.config.setall("Boil",{'targettemp':'100', 'tapertemp':'96', 'taperpower':'7', 'gpio':'5'})
+        self.config.setall("Boil",{'targettemp':'100', 'tapertemp':'96', 'taperpower':'70', 'gpio':'5'})
 
         self.config.add_section("RIMS")             # RIMS value section
-        self.config.setall("RIMS",{'targettemp':'65', 'tapertemp':'63', 'taperpower':'5', 'gpio':'13', 'enabled':'auto'})
+        self.config.setall("RIMS",{'targettemp':'65', 'tapertemp':'63', 'taperpower':'50', 'gpio':'13', 'enabled':'auto'})
 
         self.config.add_section("Mash")             # Mash value section, dummy for monitoring only
         self.config.setall("Mash",{'targettemp':'0', 'tapertemp':'0', 'taperpower':'0', 'gpio':'0'})

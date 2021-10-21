@@ -9,12 +9,14 @@ from beerpiconstants import *
 
 
 class ElementControlClass:
-    mainPower = 10  # The intensity of the element when under taperTemp
-    taperPower = 7  # Lower intensity to this when over targetTemp but under targetTemp
+    mainPower = 100  # The intensity of the element when under taperTemp
+    taperPower = 70  # Lower intensity to this when over targetTemp but under targetTemp
     overPower = 0   # Intensity of element when over targetTemp
 
     targetTemp = 76
     taperTemp = 75
+    
+    totalcycles = 100   #   For PID calculations
 
     elementGPIO = 0
     autoControlElement = False
@@ -40,6 +42,18 @@ class ElementControlClass:
             return False    #   more detailed checking at a later date
         return True
 
+    def powerRatios(self,power):    #   power = percentage power to apply
+        tOn = (power*self.totalcycles) / 100
+        tOff = ((100-power) * self.totalcycles) / 100
+        if tOff>tOn:
+            rOn = 1
+            rOff = tOff/tOn
+        else:
+            rOn = tOn/tOff
+            rOff = 1
+        return {"tOn":tOn, "tOff":tOff, "rOn":rOn, "rOff":rOff}
+
+
     def switchOn(self):
         if not self.autoControlElement:
             return False
@@ -55,7 +69,7 @@ class ElementControlClass:
         GPIO.output(int(self.elementGPIO), GPIO.LOW)
 
     def setTaperPower(self,pow):
-        if pow>10:
+        if pow>100:
             return False
         if pow<0:
             return False
@@ -63,7 +77,7 @@ class ElementControlClass:
         return True
 
     def setOverPower(self,pow):
-        if pow>10:
+        if pow>100:
             return False
         if pow<0:
             return False
@@ -71,7 +85,7 @@ class ElementControlClass:
         return True
 
     def setMainPower(self,pow):
-        if pow>10:
+        if pow>100:
             return False
         if pow<0:
             return False
@@ -116,29 +130,13 @@ class ElementControlClass:
             return self.taperPower
         return 0
 
-    def returnPowerState(self,time,pow):                #   there are simpler ways to code this, but this provides
-        if pow>10 or time>10 or pow<1 or time<1:        #   the smoothest power curve I could think off currently.
+    def returnPowerState(self,time,pow):                            #   Calculate the PID power state
+        if pow>100 or time>(self.totalcycles-1) or pow<1 or time<0: #   
             return False
-        if pow>0 and time==1:   # if cycle 1 and if power is more than 1 then element must be on
-            return True
-        if pow==10:             # if power is at max then element must be on
-            return True
-
-        if pow==2 and (time==6):
-            return True
-        if pow==3 and (time==5 or time==8):
-            return True
-        if pow==4 and (time==4 or time==6 or time==9):
-            return True
-        if pow==5 and (time==3 or time==5 or time==7 or time==9):
-            return True
-        if pow==6 and not (time==2 or time==5 or time==7 or time==10):
-            return True
-        if pow==7 and not (time==4 or time==7 or time==10):
-            return True
-        if pow==8 and not (time==5 or time==10):
-            return True
-        if pow==9 and not time==10:
+        pRatios = self.powerRatios(pow)
+        print (pRatios)
+        modTime = time % (pRatios['rOn']+pRatios['rOff'])
+        if modTime<pRatios['rOn']:
             return True
         return False
 

@@ -573,9 +573,9 @@ def checkProbeValid(probename):
     return True
 
 
-def elementThreadControl():             # This controls the elements, it has 10 cycles of which the SSR controlling
-    timer=1                             # the relevant element will be feathered if necessary, so if set at 50%
-    while True:                         # it will be switched off and on every second.
+def elementThreadControl():             # This controls the elements, it has 100 cycles of which the SSR controlling
+    timer=0                             # the relevant element will be feathered if necessary, so if set at 50%
+    while True:                         # it will be switched off and on once every second.
         checkElementData()
 
         for elementID in LIST_ELEMENTS_ID:                  #   Check each element in turn
@@ -591,8 +591,8 @@ def elementThreadControl():             # This controls the elements, it has 10 
 
         time.sleep(0.5)
         timer+=1
-        if timer>10:
-            timer=1
+        if timer>99:
+            timer=0
 
 def pumpThreadControl():             # This controls the energie plug connected to the pump
     while True:
