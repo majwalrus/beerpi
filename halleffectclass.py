@@ -16,16 +16,16 @@ class HallEffectClass:
     threadRunning=False
     lasttime=0
     clicksperlitre=560      # this will depend on the hall effect monitor used. Might need to declare in constructor.
-    clickcount=5
-    flowrate=0
+    flowrate=0              # Litres per second
     totalclicks=0
 
     def killThread(self):
         self.threadRunning=False
 
-    def startThread(self):
+    def startThreads(self):
         self.threadRunning=True
         self.threadSensor.start()
+        self.threadVolume.start()
 
     def calculateFlow(self,count):
         currenttime=datetime.datetime.now()
@@ -36,7 +36,7 @@ class HallEffectClass:
 
     def returnFlowRate(self):
         if self.threadRunning:
-            return self.flowrate
+            return round(self.flowrate/60,2)
         else:
             return False
     
@@ -56,28 +56,51 @@ class HallEffectClass:
         self.totalclicks=0
         return
 
-    def __init__(self,gpio):
+    def __init__(self,gpio,autostart):
         self.sensorgpio=gpio
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(gpio,GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        self.threadSensor = threading.Thread(target=self.sensorThreadFunction)
+
+        # Create the two references for the threads. Importantly these are not started here, they are stated with startThreads
+        self.threadSensor = threading.Thread(target=self.sensorThreadClicks)
         self.threadSensor.daemon=True
+
+        self.threadVolume = threading.Thread(target=self.sensorThreadVolume)
+        self.threadVolume.daemon=True
+
+        if autostart:
+            self.startThreads()
+            
         pass
     
-    def sensorThreadFunction(self):
-        self.lasttime=datetime.datetime.now()
-
-        while self.threadRunning:
-            logging.info("sensorThread - GPIO "+str(self.sensorgpio)+" Running")
-            count=0
-            while (count<self.clickcount):      # Does a certain number of loops before calculating flow rate. Note clicks always updated.
+    def sensorThreadClicks(self):                       # This thread monitors for the GPIO to be triggered by each "click" of the hall effect
+        self.lasttime=datetime.datetime.now()           # sensor. It then increments the clickcount used by other functions
+        try:
+            logging.info("sensorThreadClicks - GPIO "+str(self.sensorgpio)+" Running")
+            minicount=0
+            while self.threadRunning:
                 GPIO.wait_for_edge(self.sensorgpio, GPIO.FALLING)
-                count+=1
                 self.totalclicks+=1
-            flow=self.calculateFlow(count)
-            self.flowrate=flow
-            logging.info("sensorThread - "+str(self.sensorgpio)+", "+str(flow*60)+" L/m "+str(self.totalclicks)+" total clicks")
+                minicount+=1
+                if minicount>100:
+                    logging.info("sensorThreadClicks - GPIO "+str(self.sensorgpio)+" Running")
+                    minicount=0
 
-        logging.info("sensorThread - GPIO "+str(self.sensorgpio)+" Stopped")
-        
+        except RuntimeError:
+            logging.info("sensorThreadClicks - GPIO "+str(self.sensorgpio)+" Runtime Error")
+
+        logging.info("sensorThreadClicks - GPIO "+str(self.sensorgpio)+" Stopped")
+
+    def sensorThreadVolume(self):                       # This thread calculates the current flow rate, it updates the value once a second.
+        logging.info("sensorThreadVolume - GPIO "+str(self.sensorgpio)+" Running")
+        while self.threadRunning:
+            previouscount=self.totalclicks
+            time.sleep(0.5)
+            clicksdone=self.totalclicks-previouscount
+            if clicksdone<0:            # This catches negative numbers in case clicks were reset since the volume was last calculated
+                clicksdone=0
+            self.flowrate=self.calculateFlow(clicksdone)
+            logging.info("sensorThreadVolume - "+str(self.sensorgpio)+", "+str(self.flowrate)+" L/m "+str(self.totalclicks)+" total clicks")
+        logging.info("sensorThreadVolume - GPIO "+str(self.sensorgpio)+" Running")
+
 

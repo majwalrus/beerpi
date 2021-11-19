@@ -30,39 +30,24 @@ import time
 from kivy.config import ConfigParser
 import signal
 
-import pihealth
-import probeclass
-import configclass
-import elementclass
-import pumpclass
+import globalclass
 
 from beerpiconstants import *
 
 #
 # Global Variables
 # ==================
-# Used as globals as less overheads and in will be updated by using multiple threads.
+# Used as globals as less overheads and in will be updated by using multiple threads. This has now been lumped into one class
+# for future functionality.
 #
 
-glob_config = configclass.BeerConfig() # must be defined first, as values in here used in other declarations.
-
-glob_pihealth = pihealth.PiHealth()
-glob_beerProbes = probeclass.BeerProbesOS()
-
-glob_element = []
-glob_pump = []
-
-for tempElement in LIST_ELEMENTS_ID:
-    glob_element.append(elementclass.ElementControlClass(int(glob_config.valElement[tempElement].gpio),bool(LIST_ELEMENTS_AUTOCONTROL[tempElement])))
-
-for tempEnergenie in LIST_ENERGENIE_ID:
-    glob_pump.append(pumpclass.pumpClass(PUMP_METHOD_ENERGENIE,tempEnergenie,"PUMP E%s" % tempEnergenie))
+globalobj = globalclass.GlobalClass()
 
 #
 # KIVY
 #
 
-class BeerRightBar:
+class BeerRightBar:                     #   Deprecated, left in for now
     def defaultBar(self, menuCanvas):
         pass
 
@@ -81,7 +66,7 @@ class TopActionBar(Widget):
     piTempLabel = StringProperty()
 
     def update(self,dt):
-        self.piTempLabel = glob_pihealth.piTempStr #+ " C"
+        self.piTempLabel = globalobj.pihealth.piTempStr #+ " C"
         self.ids[ "piTempButton" ].text=self.piTempLabel
         logging.info("ActionButton piTempButton updated to %s" % self.piTempLabel)
 
@@ -116,7 +101,7 @@ class BeerStatus(Screen):
     settempLabel=ListProperty(["","","",""])
     elementIDS=["hltelementbutton","boilelementbutton","rimselementbutton"]     # list of the IDS for the element control buttons
     pumpIDS=["pump1button","pump2button"]                                       # list of the IDS for the pump control buttons
-
+    flowLabel=ListProperty(["",""])
     firstupdate=True
 
     def update(self, dt):
@@ -124,24 +109,30 @@ class BeerStatus(Screen):
             self.initPump()
             self.firstupdate=False
 
-        self.pidValue = glob_element[DEF_BOIL].taperPower
-        self.pidLabel = str(glob_element[DEF_BOIL].taperPower) + " %"
+        self.pidValue = globalobj.element[DEF_BOIL].taperPower
+        self.pidLabel = str(globalobj.element[DEF_BOIL].taperPower) + " %"
         for elementID in LIST_ELEMENTS_ID:  #   Update actual temperature labels
-            probeTemp = glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[elementID].sensorName)
+            probeTemp = globalobj.beerprobes.returnStrProbeValFromName(globalobj.config.valElement[elementID].sensorName)
             if probeTemp == "false":
                 probeTemp = "--"
             self.tempLabel[elementID] = probeTemp
-            logging.info("Temp Label %s updated to %s" % (elementID, glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[elementID].sensorName)))
+            logging.info("Temp Label %s updated to %s" % (elementID, globalobj.beerprobes.returnStrProbeValFromName(globalobj.config.valElement[elementID].sensorName)))
         for elementID in LIST_ELEMENTS_ID:  #   Update target temperature labels
-            self.settempLabel[elementID]=str(glob_config.valElement[elementID].targetTemp)
-            logging.info("Temp Label %s updated to %s" % (elementID, glob_config.valElement[elementID].targetTemp))
+            self.settempLabel[elementID]=str(globalobj.config.valElement[elementID].targetTemp)
+            logging.info("Temp Label %s updated to %s" % (elementID, globalobj.config.valElement[elementID].targetTemp))
 
 
         #   Update the element control buttons
         for elementID in LIST_ELEMENTS_ID:
-            if not glob_element[elementID].autoControlElement:
+            if not globalobj.element[elementID].autoControlElement:
                 continue
-            self.setElement(elementID,glob_config.valElement[elementID].elementOn)
+            self.setElement(elementID,globalobj.config.valElement[elementID].elementOn)
+
+        #   Update flow labels
+        for flowID in LIST_FLOW_ID:
+            flowrate=round(globalobj.flow[flowID].returnFlowRate(),2)
+            self.flowLabel[flowID]=str(flowrate)
+            logging.info("Flow Label %s updated to %s" % (flowID, flowrate))
 
         self.menu.update(dt)
         pass
@@ -150,35 +141,43 @@ class BeerStatus(Screen):
     def setElement(self,elementID,status):
         logging.info("Setting Element status ID=%s, status=%s" % (elementID,status) )
         if status:
-            glob_config.valElement[elementID].elementOn=True
+            globalobj.config.valElement[elementID].elementOn=True
             self.ids[ self.elementIDS[elementID] ].text="ELEMENT CONTROL ON"
             self.ids[ self.elementIDS[elementID] ].background_color = 0.4, 0.1, 0.1, 1
         else:
-            glob_config.valElement[elementID].elementOn=False
+            globalobj.config.valElement[elementID].elementOn=False
             self.ids[ self.elementIDS[elementID] ].text="ELEMENT CONTROL OFF"
             self.ids[ self.elementIDS[elementID] ].background_color = 0.1, 0.1, 0.2, 1
 
     def addhlt(self, *args):
         logging.info("Incrementing HLT Temperature Settings")
-        glob_config.valElement[DEF_HLT].targetTemp +=1
-        glob_config.valElement[DEF_HLT].taperTemp +=1
+        globalobj.config.valElement[DEF_HLT].targetTemp +=1
+        globalobj.config.valElement[DEF_HLT].taperTemp +=1
 
     def subhlt(self, *args):
         logging.info("Decrementing HLT Temperature Settings")
-        glob_config.valElement[DEF_HLT].targetTemp -=1
-        glob_config.valElement[DEF_HLT].taperTemp -=1
+        globalobj.config.valElement[DEF_HLT].targetTemp -=1
+        globalobj.config.valElement[DEF_HLT].taperTemp -=1
 
     def addboil(self, *args):
         logging.info("Incrementing Boil PID Settings")
-        glob_config.valElement[DEF_BOIL].incTaperPower()
+        globalobj.config.valElement[DEF_BOIL].incTaperPower()
 
     def subboil(self, *args):
         logging.info("Decrementing Boil PID Settings")
-        glob_config.valElement[DEF_BOIL].decTaperPower()
+        globalobj.config.valElement[DEF_BOIL].decTaperPower()
+
+    def addrims(self, *args):
+        logging.info("Incrementing RIMS target temperature")
+        globalobj.config.valElement[DEF_RIMS].targetTemp+=1
+
+    def subrims(self, *args):
+        logging.info("Decrementing RIMS target temperature")
+        globalobj.config.valElement[DEF_RIMS].targetTemp-=1
 
     def toggleHLTElement(self, *args):
         logging.info("Toggling HLT Element")
-        if glob_config.valElement[DEF_HLT].elementOn:
+        if globalobj.config.valElement[DEF_HLT].elementOn:
             self.setElement(DEF_HLT,False)
         else:
             self.setElement(DEF_HLT,True)
@@ -186,7 +185,7 @@ class BeerStatus(Screen):
 
     def toggleBoilElement(self, *args):
         logging.info("Toggling Boil Element")
-        if glob_config.valElement[DEF_BOIL].elementOn:
+        if globalobj.config.valElement[DEF_BOIL].elementOn:
                 self.setElement(DEF_BOIL,False)
         else:
             self.setElement(DEF_BOIL,True)
@@ -194,7 +193,7 @@ class BeerStatus(Screen):
 
     def toggleRIMSElement(self, *args):
         logging.info("Toggling RIMS Element")
-        if glob_config.valElement[DEF_RIMS].elementOn:
+        if globalobj.config.valElement[DEF_RIMS].elementOn:
                 self.setElement(DEF_RIMS,False)
         else:
             self.setElement(DEF_RIMS,True)
@@ -207,7 +206,7 @@ class BeerStatus(Screen):
 
     def initPump(self):
         pumpID=0
-        for tpump in glob_pump:
+        for tpump in globalobj.pump:
             if not tpump.pumpEnabled:
                 pumpID+=1
                 continue
@@ -221,16 +220,16 @@ class BeerStatus(Screen):
     def setPump(self,pumpID,status):
         logging.info("Setting Pump status ID=%s, status=%s" % (pumpID,status) )
         if status:
-            self.ids[ self.pumpIDS[pumpID] ].text="%s ON" % glob_pump[pumpID].pumpName
+            self.ids[ self.pumpIDS[pumpID] ].text="%s ON" % globalobj.pump[pumpID].pumpName
             self.ids[ self.pumpIDS[pumpID] ].background_color = 0.4, 0.1, 0.1, 1
         else:
-            self.ids[ self.pumpIDS[pumpID] ].text="%s OFF" % glob_pump[pumpID].pumpName
+            self.ids[ self.pumpIDS[pumpID] ].text="%s OFF" % globalobj.pump[pumpID].pumpName
             self.ids[ self.pumpIDS[pumpID] ].background_color = 0.1, 0.1, 0.2, 1
 
     def togglePump(self, *args):
         logging.info("Toggling Pump %s" % args[0])
-        glob_pump[args[0]].togglePump()
-        self.setPump(args[0],glob_pump[args[0]].getStatus())
+        globalobj.pump[args[0]].togglePump()
+        self.setPump(args[0],globalobj.pump[args[0]].getStatus())
 
 
 #
@@ -253,13 +252,13 @@ class BeerCalibrate(Screen):
             self.labelStrSensorAssign=""
             self.probeNumber=num
 
-            if glob_beerProbes.probeList[num].calLow==-99:
-                glob_beerProbes.probeList[num].calLow=0.0
-            self.labelStrSensorIce=str(glob_beerProbes.probeList[num].calLow)
+            if globalobj.beerprobes.probeList[num].calLow==-99:
+                globalobj.beerprobes.probeList[num].calLow=0.0
+            self.labelStrSensorIce=str(globalobj.beerprobes.probeList[num].calLow)
 
-            if glob_beerProbes.probeList[num].calHigh==-99:
-                glob_beerProbes.probeList[num].calHigh=100.0
-            self.labelStrSensorBoil=str(glob_beerProbes.probeList[num].calHigh)
+            if globalobj.beerprobes.probeList[num].calHigh==-99:
+                globalobj.beerprobes.probeList[num].calHigh=100.0
+            self.labelStrSensorBoil=str(globalobj.beerprobes.probeList[num].calHigh)
 
             self.checkAssignments()
 
@@ -280,7 +279,7 @@ class BeerCalibrate(Screen):
 
         def checkAssignments(self):
             for elementID in LIST_ELEMENTS_ID:
-                if self.labelStrSensorName == glob_config.valElement[elementID].sensorName:
+                if self.labelStrSensorName == globalobj.config.valElement[elementID].sensorName:
                     self.labelStrSensorAssign = LIST_ELEMENTS[elementID]
 
         def dumpData(self):
@@ -293,8 +292,8 @@ class BeerCalibrate(Screen):
         def update(self,parent):
             self.checkAssignments()
             self.labelSensorAssign.text = self.labelStrSensorAssign
-            self.labelSensorIce.text = str(glob_beerProbes.probeList[self.probeNumber].calLow)
-            self.labelSensorBoil.text = str(glob_beerProbes.probeList[self.probeNumber].calHigh)
+            self.labelSensorIce.text = str(globalobj.beerprobes.probeList[self.probeNumber].calLow)
+            self.labelSensorBoil.text = str(globalobj.beerprobes.probeList[self.probeNumber].calHigh)
 
 
     listSensorRow = []
@@ -304,20 +303,20 @@ class BeerCalibrate(Screen):
             sensorRow.update(self)
 
     def incrementIce(self,num,*args):
-        glob_beerProbes.probeList[num].calLow=round(glob_beerProbes.probeList[num].calLow+0.1,1)
-        logging.info("Decrementing Ice : %s" % (glob_beerProbes.probeList[num].calLow))
+        globalobj.beerprobes.probeList[num].calLow=round(globalobj.beerprobes.probeList[num].calLow+0.1,1)
+        logging.info("Decrementing Ice : %s" % (globalobj.beerprobes.probeList[num].calLow))
 
     def decrementIce(self,num,*args):
-        glob_beerProbes.probeList[num].calLow=round(glob_beerProbes.probeList[num].calLow-0.1,1)
-        logging.info("Decrementing Ice : %s" % (glob_beerProbes.probeList[num].calLow))
+        globalobj.beerprobes.probeList[num].calLow=round(globalobj.beerprobes.probeList[num].calLow-0.1,1)
+        logging.info("Decrementing Ice : %s" % (globalobj.beerprobes.probeList[num].calLow))
 
     def incrementBoil(self,num,*args):
-        glob_beerProbes.probeList[num].calHigh=round(glob_beerProbes.probeList[num].calHigh+0.1,1)
-        logging.info("Decrementing Boil : %s" % (glob_beerProbes.probeList[num].calHigh))
+        globalobj.beerprobes.probeList[num].calHigh=round(globalobj.beerprobes.probeList[num].calHigh+0.1,1)
+        logging.info("Decrementing Boil : %s" % (globalobj.beerprobes.probeList[num].calHigh))
 
     def decrementBoil(self,num,*args):
-        glob_beerProbes.probeList[num].calHigh=round(glob_beerProbes.probeList[num].calHigh-0.1,1)
-        logging.info("Decrementing Boil : %s" % (glob_beerProbes.probeList[num].calHigh))
+        globalobj.beerprobes.probeList[num].calHigh=round(globalobj.beerprobes.probeList[num].calHigh-0.1,1)
+        logging.info("Decrementing Boil : %s" % (globalobj.beerprobes.probeList[num].calHigh))
 
 
     def __init__(self, **kwargs):
@@ -325,10 +324,10 @@ class BeerCalibrate(Screen):
         self.menu = ConfigRightBar()            # Ensure the config menu is displayed
         self.add_widget(self.menu)
         self.add_widget(Label(text="Calibrate Sensors",top=self.top+220))
-        self.add_widget(Label(text="Total Temperature Probes : "+str(glob_beerProbes.countProbes()),top=self.top+190))
+        self.add_widget(Label(text="Total Temperature Probes : "+str(globalobj.beerprobes.countProbes()),top=self.top+190))
 
         num=0
-        for tmp_probe in glob_beerProbes.probeList:     # Goes through each probe and creates a new SensorRow class
+        for tmp_probe in globalobj.beerprobes.probeList:     # Goes through each probe and creates a new SensorRow class
             logging.info("tmp_probe name: %s" % (tmp_probe.name))
             tempSR=self.SensorRow(tmp_probe.name,num,self)
             self.listSensorRow.append(self.SensorRow(tmp_probe.name,num,self))
@@ -349,10 +348,10 @@ class BeerOff(Screen):     # Power off screen
 
     def confirmShutdown(self, *args):   # function that is called when YES is clicked on shutdown screen
         logging.info("Shutdown Called..")
-        for tmpElement in glob_element: #   switch off all elements
+        for tmpElement in globalobj.element: #   switch off all elements
             logging.info("Element %s off" % tmpElement)
             tmpElement.switchOff()
-        for tmpPump in glob_pump:
+        for tmpPump in globalobj.pump:
             logging.info("Pump %s off" % tmpPump)
             tmpPump.safeShutdown()
         from subprocess import call
@@ -389,44 +388,44 @@ class BeerSensors(Screen):  # The config screen for the temperature probes, this
     def update(self,dt):
 
         num=0
-        for tmp_probe in glob_beerProbes.probeList:     # Updates the array of Kivy labels to have the correct info
+        for tmp_probe in globalobj.beerprobes.probeList:     # Updates the array of Kivy labels to have the correct info
             self.tmp_LabelVal=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr
             self.arr_LabelProbe[num].text=self.tmp_LabelVal
             num+=1
         num=0
-        for tmp_probe in glob_beerProbes.probeList:
+        for tmp_probe in globalobj.beerprobes.probeList:
             self.arr_LabelAssignHLT[num].text = ""
             self.arr_LabelAssignBoil[num].text = ""
             self.arr_LabelAssignRIMS[num].text = ""
             self.arr_LabelAssignMash[num].text = ""
-            if tmp_probe.name==glob_config.valElement[DEF_HLT].sensorName:
+            if tmp_probe.name==globalobj.config.valElement[DEF_HLT].sensorName:
                 self.arr_LabelAssignHLT[num].text="HLT"
-            if tmp_probe.name==glob_config.valElement[DEF_BOIL].sensorName:
+            if tmp_probe.name==globalobj.config.valElement[DEF_BOIL].sensorName:
                 self.arr_LabelAssignBoil[num].text="Boil"
-            if tmp_probe.name==glob_config.valElement[DEF_RIMS].sensorName:
+            if tmp_probe.name==globalobj.config.valElement[DEF_RIMS].sensorName:
                 self.arr_LabelAssignRIMS[num].text="Mash Out"
-            if tmp_probe.name==glob_config.valElement[DEF_MASH].sensorName:
+            if tmp_probe.name==globalobj.config.valElement[DEF_MASH].sensorName:
                 self.arr_LabelAssignMash[num].text="Mash Ret"
             num+=1
 
     def hltAssign(self,num, *args): # function that is called when an HLT select button is pressed
-        glob_config.valElement[DEF_HLT].sensorName=glob_beerProbes.probeList[num].name
-        glob_config.updateConfigFile()
+        globalobj.config.valElement[DEF_HLT].sensorName=globalobj.beerprobes.probeList[num].name
+        globalobj.config.updateConfigFile()
         pass
 
     def boilAssign(self,num, *args):    # function that is called when a boil select button is pressed
-        glob_config.valElement[DEF_BOIL].sensorName=glob_beerProbes.probeList[num].name
-        glob_config.updateConfigFile()
+        globalobj.config.valElement[DEF_BOIL].sensorName=globalobj.beerprobes.probeList[num].name
+        globalobj.config.updateConfigFile()
         pass
 
     def rimsAssign(self,num, *args):    # function that is called when a boil select button is pressed
-        glob_config.valElement[DEF_RIMS].sensorName=glob_beerProbes.probeList[num].name
-        glob_config.updateConfigFile()
+        globalobj.config.valElement[DEF_RIMS].sensorName=globalobj.beerprobes.probeList[num].name
+        globalobj.config.updateConfigFile()
         pass
 
     def mashAssign(self,num, *args):    # function that is called when a boil select button is pressed
-        glob_config.valElement[DEF_MASH].sensorName=glob_beerProbes.probeList[num].name
-        glob_config.updateConfigFile()
+        globalobj.config.valElement[DEF_MASH].sensorName=globalobj.beerprobes.probeList[num].name
+        globalobj.config.updateConfigFile()
         pass
 
     def __init__(self, **kwargs):
@@ -434,11 +433,11 @@ class BeerSensors(Screen):  # The config screen for the temperature probes, this
         self.menu = TopActionBar()
         self.add_widget(self.menu)
         self.add_widget(Label(text="Sensor Setup",top=self.top+185))
-        self.add_widget(Label(text="Total Temperature Probes : "+str(glob_beerProbes.countProbes()),top=self.top+170))
+        self.add_widget(Label(text="Total Temperature Probes : "+str(globalobj.beerprobes.countProbes()),top=self.top+170))
 
 
         num=0
-        for tmp_probe in glob_beerProbes.probeList:     # Create an array of labels for all the probes found
+        for tmp_probe in globalobj.beerprobes.probeList:     # Create an array of labels for all the probes found
             self.arr_LabelProbe.append(Label(text=str(tmp_probe.name)+" T: "+tmp_probe.probevalstr+" INIT", top=self.top + 90 - (num*40),x=self.x-310))
             self.arr_LabelAssignHLT.append(Label(text="None INIT", top=self.top + 90 - (num*40),x=self.x-190))
             self.arr_LabelAssignBoil.append(Label(text="None INIT", top=self.top + 90 - (num*40),x=self.x-150))
@@ -521,7 +520,23 @@ class SimpleApp(App):   # The app class for the kivy side of the project
             "section" : "RIMS",
             "key" : "enabled",
             "values" : ["0","auto"]
+        },
+        {
+            "type"      :   "numeric",
+            "title"     :   "Target Temperature",
+            "desc"      :   "Default setting for the system to aim for in the mash.",
+            "section"   :   "RIMS",
+            "key"       :   "targettemp"
+        },
+                {
+            "type"      :   "numeric",
+            "title"     :   "Max Temperature",
+            "desc"      :   "Default setting for the system to ensure the mash is never heated more than this amount over the target temperature.",
+            "section"   :   "RIMS",
+            "key"       :   "maxtemp"
         }
+
+
         
     ]
     '''
@@ -545,7 +560,7 @@ class SimpleApp(App):   # The app class for the kivy side of the project
         return self.screenmanager
 
     def build_settings(self,settings):
-        settings.add_json_panel('Settings',glob_config.config, data=self.configjson)
+        settings.add_json_panel('Settings',globalobj.config.config, data=self.configjson)
 
 
 #
@@ -554,11 +569,12 @@ class SimpleApp(App):   # The app class for the kivy side of the project
 
 def checkElementData(): # This ensures that the element classes have the correct data in case of changes
     for elementID in LIST_ELEMENTS_ID:
-        glob_element[elementID].setMainPower(glob_config.valElement[elementID].mainPower)
-        glob_element[elementID].setTaperPower(glob_config.valElement[elementID].taperPower)
-        glob_element[elementID].setOverPower(glob_config.valElement[elementID].overPower)
-        glob_element[elementID].setTargetTemp(glob_config.valElement[elementID].targetTemp)
-        glob_element[elementID].setTaperTemp(glob_config.valElement[elementID].taperTemp)
+        globalobj.element[elementID].setMainPower(globalobj.config.valElement[elementID].mainPower)
+        globalobj.element[elementID].setTaperPower(globalobj.config.valElement[elementID].taperPower)
+        globalobj.element[elementID].setOverPower(globalobj.config.valElement[elementID].overPower)
+        globalobj.element[elementID].setTargetTemp(globalobj.config.valElement[elementID].targetTemp)
+        globalobj.element[elementID].setTaperTemp(globalobj.config.valElement[elementID].taperTemp)
+        globalobj.element[elementID].setMaxTemp(globalobj.config.valElement[elementID].maxTemp)
 
 #
 # THREADS
@@ -568,18 +584,18 @@ def checkElementData(): # This ensures that the element classes have the correct
 def piHealthThread():
     while True:
         time.sleep(5)                   # this observes the temperature of the Pi and may monitor CPU usage
-        glob_pihealth.getPiTemp()       # in the future, and indeed may even control a cooling fan.
+        globalobj.pihealth.getPiTemp()       # in the future, and indeed may even control a cooling fan.
 
 def tempProbeThread():                  # this updates and caches the data from the temperature probes in the global
     while True:                         # values which the rest of the project uses.
-        glob_beerProbes.updateProbes()
+        globalobj.beerprobes.updateProbes()
         time.sleep(0.05)
 
 def checkProbeValid(probename):
-    if glob_beerProbes.returnStrProbeValFromName(probename) == "":
+    if globalobj.beerprobes.returnStrProbeValFromName(probename) == "":
         logging.warning("checkProbeValid - Blank Probe Name")
         return False
-    if glob_beerProbes.returnStrProbeValFromName(probename) == "false":
+    if globalobj.beerprobes.returnStrProbeValFromName(probename) == "false":
         logging.warning("checkProbeValid - False returned from beerprobes")
         return False
     return True
@@ -591,27 +607,37 @@ def elementThreadControl():             # This controls the elements, it has 100
         checkElementData()
 
         for elementID in LIST_ELEMENTS_ID:                  #   Check each element in turn
-            if glob_config.valElement[elementID].elementOn: #   Is the element switch on?
+            if globalobj.config.valElement[elementID].elementOn: #   Is the element switch on?
                                                             #   Is the sensor data valid?
-                if checkProbeValid(glob_config.valElement[elementID].sensorName):
+                if checkProbeValid(globalobj.config.valElement[elementID].sensorName):
                                                             #   Yes, so send timer info onto element control
-                    glob_element[elementID].elementControl(timer,float(glob_beerProbes.returnStrProbeValFromName(glob_config.valElement[elementID].sensorName)))
+                    
+                    if globalobj.element[elementID].isRIMS: #   If element is a RIMS element then set the current flowrate
+                        logging.info("elementThreadControl - setting RIMS flow rate to %s" % (globalobj.flow[DEF_RIMSFLOW].returnFlowRate()))
+                        globalobj.element[elementID].setRIMSFlowRate(globalobj.flow[DEF_RIMSFLOW].returnFlowRate())
+                        probeTemp = globalobj.beerprobes.returnStrProbeValFromName(globalobj.config.valElement[DEF_MASH].sensorName)
+                        logging.info("elementThreadControl - setting RIMS mashout temp to %s" % (probeTemp))
+                        globalobj.element[elementID].setRIMSMashOut(probeTemp)
+
+
+
+                    globalobj.element[elementID].elementControl(timer,float(globalobj.beerprobes.returnStrProbeValFromName(globalobj.config.valElement[elementID].sensorName)))
                 else:                                       #   No, make sure switch off
-                    glob_element[elementID].switchOff()
+                    globalobj.element[elementID].switchOff()
             else:
-                glob_element[elementID].switchOff()         #   Element control off, so make sure set off
+                globalobj.element[elementID].switchOff()         #   Element control off, so make sure set off
 
         time.sleep(0.5)
         timer+=1
         if timer>99:
             timer=0
 
-def pumpThreadControl():             # This controls the energie plug connected to the pump
+def pumpThreadControl():             # This controls the energie plugs connected to the pumps. PLACEHOLDER IN CASE UPGRADING THE CONTROL BOARD
     while True:
 
-        #glob_pump[0].setStatus(1)
+        #globalobj.pump[0].setStatus(1)
         time.sleep(3)
-        #glob_pump[0].setStatus(0)
+        #globalobj.pump[0].setStatus(0)
         time.sleep(3)
 
 

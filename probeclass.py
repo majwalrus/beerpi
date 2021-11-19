@@ -65,11 +65,18 @@ class BeerProbesOS:
         os.system('sudo modprobe w1-gpio')
         os.system('sudo modprobe w1-therm')
 
-        w1_devfolders=glob.glob(self.w1_devdir+'28*')
+        self.w1_devfolders=glob.glob(self.w1_devdir+'28*')
+        self.createProbes()
 
-        for w1_dev in w1_devfolders:
+    def createProbes(self):
+        for w1_dev in self.w1_devfolders:
             tmp_probe = BeerTempProbeOS(w1_dev[len(self.w1_devdir):],w1_dev,w1_dev+'/w1_slave')
             self.probeList.append(tmp_probe)
+
+    def resetProbes(self):
+        self.probeList.clear()
+        self.createProbes()
+
 
     def countProbes(self):
         tx=0

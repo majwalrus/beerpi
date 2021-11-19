@@ -6,6 +6,12 @@ logging.basicConfig(filename='beerpi.log',level=logging.DEBUG)
 
 from beerpiconstants import *
 
+class ValFlow:
+    gpio=0
+
+    def __init__(self,gpio):
+        self.gpio=gpio
+
 class ValElement:
     mainPower=0
     taperPower=0
@@ -15,8 +21,9 @@ class ValElement:
     sensorName=""
     gpio=0
     elementOn=0
+    maxTemp=0
 
-    def __init__(self,mainpower,taperpower,overpower,elementon,targettemp,tapertemp,sensorname,tgpio):
+    def __init__(self,mainpower,taperpower,overpower,elementon,targettemp,tapertemp,maxtemp,sensorname,tgpio):
         self.mainPower=mainpower
         self.taperPower=taperpower
         self.overPower=overpower
@@ -24,6 +31,7 @@ class ValElement:
         self.targetTemp=targettemp
         self.taperTemp=tapertemp
         self.sensorName=sensorname
+        self.maxTemp=maxtemp
         self.gpio=tgpio
         logging.info("ValElement created - %s" % self.dumpData())
 
@@ -55,6 +63,7 @@ class BeerConfig:
     configFile = './beer.ini'
 
     valElement = []
+    valFlow = []
 
     config = ConfigParser(allow_no_value=True)
 
@@ -68,11 +77,7 @@ class BeerConfig:
     def createDefaultFile(self):
         self.config.read(self.configFile)
 
-        self.config.set("DEFAULT","mainpower","100")
-        self.config.set("DEFAULT","taperpower","60")
-        self.config.set("DEFAULT","overpower","0")
-        self.config.set("DEFAULT","targettemp","100")
-        self.config.set("DEFAULT","tapertemp","97")
+        self.config.setall("DEFAULT", {'mainpower':'100', 'taperpower':'60', 'overpower':'0', 'targettemp':'100', 'tapertemp':'97', 'maxtemp':'2'})
 
         self.config.add_section("HLT")              # HLT value section
         self.config.setall("HLT",{'targettemp':'76', 'tapertemp':'72', 'taperpower':'50', 'gpio':'6'})
@@ -81,15 +86,15 @@ class BeerConfig:
         self.config.setall("Boil",{'targettemp':'100', 'tapertemp':'96', 'taperpower':'70', 'gpio':'5'})
 
         self.config.add_section("RIMS")             # RIMS value section
-        self.config.setall("RIMS",{'targettemp':'65', 'tapertemp':'63', 'taperpower':'50', 'gpio':'13', 'enabled':'auto'})
+        self.config.setall("RIMS",{'targettemp':'65', 'tapertemp':'67', 'taperpower':'0', 'gpio':'13', 'enabled':'auto', 'maxtemp':'2'})
 
         self.config.add_section("Mash")             # Mash value section, dummy for monitoring only
         self.config.setall("Mash",{'targettemp':'0', 'tapertemp':'0', 'taperpower':'0', 'gpio':'0'})
 
 
         self.config.add_section("Flow")
-        for tempFlow in LIST_FLOW_ID:
-            self.config.set("Flow",LIST_FLOW[tempFlow]+"gpio",str(LIST_FLOW_GPIO[tempFlow]))
+        for tempFlowID in LIST_FLOW_ID:
+            self.config.set("Flow",LIST_FLOW[tempFlowID],str(LIST_FLOW_GPIO[tempFlowID]))
 
         self.config.add_section("Sensors")          # Sensors  value section
 
@@ -126,9 +131,13 @@ class BeerConfig:
             tOverPower=int(self.getConfig(tempElement,"overpower","2"))
             tTargetTemp=int(self.getConfig(tempElement,"targettemp","100"))
             tTaperTemp=int(self.getConfig(tempElement,"tapertemp","97"))
+            tMaxTemp=int(self.getConfig(tempElement,"maxtemp","2"))
             tSensor=self.getConfig("Sensors",tempElement,"")
             tGPIO=self.getConfig(tempElement,"gpio","0")
-            self.valElement.append(ValElement(tMainPower,tTaperPower,tOverPower,False,tTargetTemp,tTaperTemp,tSensor,tGPIO))
+            self.valElement.append(ValElement(tMainPower,tTaperPower,tOverPower,False,tTargetTemp,tTaperTemp,tMaxTemp,tSensor,tGPIO))
+
+        for tempFlow in LIST_FLOW:
+            self.valFlow.append(ValFlow(int(self.getConfig("Flow",tempFlow,"0"))))
 
         for tempArr in self.valElement:
             print(tempArr)

@@ -3,3 +3,4 @@
 *.ini
 testelementclass.py
 testhalleffect.py
+testgpio.py

@@ -43,7 +43,7 @@ BeerScreenManagement:
 				text: "System & Settings"
 				mode: 'spinner'
 				ActionButton:
-					text: "Sensors"
+					text: "Temp Sensors"
 					on_release: app.root.current='Sensors'
 				ActionButton:
 					text: "Main Settings"
@@ -272,6 +272,26 @@ BeerScreenManagement:
 		    center_x: 457
 		    top: root.top - 225
 		    text: "+"
+    	Button:
+	    	background_normal: ''
+		    background_color: 0,0.2,0.2,1
+		    on_release: root.subrims()
+		    font_size: 15
+		    size: 25, 80
+		    size_hint: None, None
+		    center_x: 578
+		    top: root.top - 295
+		    text: "-"
+    	Button:
+	    	background_normal: ''
+		    background_color: 0,0.2,0.2,1
+		    on_release: root.addrims()
+		    font_size: 15
+		    size: 25, 80
+		    size_hint: None, None
+		    center_x: 762
+		    top: root.top - 295
+		    text: "+"
 		Button:
 	    	background_normal: ''
 		    background_color: 0.1,0.1,0.2,1
@@ -320,23 +340,23 @@ BeerScreenManagement:
 		Label:
 			pos: -10,75
 			font_size: 48
-			#text: root.boilTempLabel
 			text: root.tempLabel[1]
 		Label:
 			pos: -290,75
 			font_size: 48
-			#text: root.hltTempLabel
 			text: root.tempLabel[0]
 		Label:
 			pos: 205,78
 			font_size: 40
-			#text: root.rimsTempLabel
 			text: root.tempLabel[2]
 		Label:
 			pos: 325,78
 			font_size: 40
-			#text: root.mashTempLabel
 			text: root.tempLabel[3]
+		Label:
+			pos: 265, -10
+			font_size: 30
+			text: root.flowLabel[0]
 		Label:
 		    pos: -20,-10
 		    font_size: 48

@@ -16,12 +16,12 @@ from beerpiconstants import *
 
 glob_config = configclass.BeerConfig() # must be defined first, as values in here used in other declarations.
 
-halltest = halleffectclass.HallEffectClass(19)
+halltest = halleffectclass.HallEffectClass(26,True)
 
 
 def main():
     try:
-        halltest.startThread()
+        #halltest.startThreads()
         logging.info("Program Started ...")
         while True:
             time.sleep(0.5)
