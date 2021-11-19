@@ -48,8 +48,8 @@ TODO:
 
 * SOFTWARE calibrate temperature probes to ensure accurate temperatures recorded
 * SOFTWARE record temperature calibration and load on startup
-* SOFTWARE allow for manipulation of taper temperatures on boil and HLT
 
 POSSIBLE FUTURE EXPANSIONS:
 
-* add further probe and SSR for controlling RIMS system
+* Timers
+* Volume monitors when adding to the mash tun / kettle
