@@ -15,8 +15,10 @@ class HallEffectClass:
     sensorgpio=0;
     threadRunning=False
     lasttime=0
-    clicksperlitre=560      # this will depend on the hall effect monitor used. Might need to declare in constructor.
-    flowrate=0              # Litres per second
+    currenttime=0
+    clicksperlitre=450      # this will depend on the hall effect monitor used. Might need to declare in constructor.
+    qvalue=7.5		        # used in calculations, flow meter specific
+    flowrate=0              # Litres per minute
     totalclicks=0
 
     def killThread(self):
@@ -28,15 +30,19 @@ class HallEffectClass:
         self.threadVolume.start()
 
     def calculateFlow(self,count):
-        currenttime=datetime.datetime.now()
-        delta=currenttime-self.lasttime
-        lasttime=currenttime
-        litresperminute=((1000000/delta.microseconds)/self.clicksperlitre)*count*60
-        return litresperminute
+        if count==0:
+            return 0
+        delta=self.currenttime-self.lasttime
+        self.lasttime=self.currenttime
+        #litresperminute=((1000000/delta.microseconds)/self.clicksperlitre)*count*60
+        frequency=(1000000/(delta.microseconds/count))
+        water=frequency/self.qvalue
+        logging.info("HallEffectClass - calculateFlow - params count:"+str(count)+" delta:"+str(delta.microseconds)+" - calculations frequency:"+str(frequency)+" litresperminute:"+str(water))
+        return water
 
     def returnFlowRate(self):
         if self.threadRunning:
-            return round(self.flowrate/60,2)
+            return round(self.flowrate/60,2)    #   Returns Litres per SECOND
         else:
             return False
     
@@ -96,6 +102,7 @@ class HallEffectClass:
         while self.threadRunning:
             previouscount=self.totalclicks
             time.sleep(0.5)
+            self.currenttime=datetime.datetime.now()
             clicksdone=self.totalclicks-previouscount
             if clicksdone<0:            # This catches negative numbers in case clicks were reset since the volume was last calculated
                 clicksdone=0

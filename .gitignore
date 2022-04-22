@@ -1,6 +1,7 @@
 # ignore log and ini files
 *.log
 *.ini
+*.pyc
 testelementclass.py
 testhalleffect.py
 testgpio.py
